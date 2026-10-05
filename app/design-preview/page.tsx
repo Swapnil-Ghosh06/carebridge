@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Design Preview page (owner: Swapin)
  * ─────────────────────────────────────────────────────────
@@ -11,17 +13,19 @@
  * NOT included in production navigation — dev/review only.
  */
 
-import type { Metadata } from "next";
+import * as React from "react";
 import { Activity, Heart, Footprints, Pill, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader, CardBody, CardFooter } from "@/components/ui/Card";
 import { RiskBadge } from "@/components/ui/RiskBadge";
 import { StatTile } from "@/components/ui/StatTile";
-
-export const metadata: Metadata = {
-  title: "Design Preview — CareBridge",
-  description: "Internal design system eyeball test. Not for production.",
-};
+import { PatientRow } from "@/components/ui/PatientRow";
+import { ReasonList } from "@/components/ui/ReasonList";
+import { MedicineCard } from "@/components/ui/MedicineCard";
+import { AlertItem } from "@/components/ui/AlertItem";
+import { TrendChart } from "@/components/ui/TrendChart";
+import { Toast } from "@/components/ui/Toast";
+import { Illustration } from "@/components/ui/Illustration";
 
 /* ── Small section wrapper ──────────────────────────────────── */
 function Section({
@@ -455,10 +459,239 @@ export default function DesignPreviewPage() {
         </Card>
       </Section>
 
+      {/* ── 8. PatientRow (Doctor Portal) ────────────────────── */}
+      <Section title="8. PatientRow (Doctor Portal List)">
+        <div className="space-y-3">
+          <PatientRow
+            id="p1"
+            name="Ramesh Sharma"
+            age={68}
+            topReason="Missed 3 consecutive Metformin doses"
+            riskBand="red"
+            riskScore={78}
+            lastSeen="10m ago"
+            isSelected={true}
+          />
+          <PatientRow
+            id="p2"
+            name="Kamala Devi"
+            age={72}
+            topReason="Systolic BP trending upward (+15% in 4 days)"
+            riskBand="amber"
+            riskScore={52}
+            lastSeen="1h ago"
+          />
+          <PatientRow
+            id="p3"
+            name="Anand Kulkarni"
+            age={64}
+            topReason="All vitals in range; 100% adherence"
+            riskBand="green"
+            riskScore={18}
+            lastSeen="3h ago"
+          />
+        </div>
+      </Section>
+
+      {/* ── 9. ReasonList (Why Flagged Panel) ────────────────── */}
+      <Section title="9. ReasonList (Why Flagged Panel)">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card className="p-5">
+            <h3 className="font-display font-bold text-base text-[var(--ink-900)] mb-3">
+              Active Flags for Ramesh Sharma
+            </h3>
+            <ReasonList
+              reasons={[
+                {
+                  ruleId: "med_missed_consecutive",
+                  text: "Missed 3 consecutive doses of Metformin 500mg",
+                  weight: 35,
+                },
+                {
+                  ruleId: "bp_spike",
+                  text: "Systolic BP 155 mmHg (above threshold 140 mmHg)",
+                  weight: 25,
+                },
+                {
+                  ruleId: "steps_drop",
+                  text: "Daily steps dropped 45% below 14-day rolling average",
+                  weight: 18,
+                },
+              ]}
+            />
+          </Card>
+
+          <Card className="p-5">
+            <h3 className="font-display font-bold text-base text-[var(--ink-900)] mb-3">
+              Active Flags for Anand Kulkarni
+            </h3>
+            <ReasonList reasons={[]} />
+          </Card>
+        </div>
+      </Section>
+
+      {/* ── 10. MedicineCard (Patient Portal) ────────────────── */}
+      <Section title="10. MedicineCard (Patient Schedule & Logging)">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <MedicineCard
+            name="Metformin"
+            dose="500 mg"
+            time="08:00 AM"
+            instructions="After breakfast"
+            status="pending"
+          />
+          <MedicineCard
+            name="Amlodipine"
+            dose="5 mg"
+            time="08:00 AM"
+            instructions="With water"
+            status="taken"
+            takenAt="08:14 AM"
+          />
+          <MedicineCard
+            name="Atorvastatin"
+            dose="10 mg"
+            time="09:00 PM"
+            instructions="Before bed"
+            status="missed"
+          />
+        </div>
+      </Section>
+
+      {/* ── 11. AlertItem (Feed & Notifications) ─────────────── */}
+      <Section title="11. AlertItem (Notifications & Escalation Ladder)">
+        <div className="space-y-3">
+          <AlertItem
+            level="urgent"
+            patientName="Ramesh Sharma"
+            message="Urgent escalation: 3 missed doses + elevated BP (155/95). Clinic outreach initiated."
+            time="12m ago"
+            actionLabel="Review Patient"
+          />
+          <AlertItem
+            level="doctor"
+            patientName="Kamala Devi"
+            message="Blood pressure spike detected over 3 consecutive readings."
+            time="45m ago"
+            actionLabel="Open Chart"
+          />
+          <AlertItem
+            level="family"
+            message="Priya Sharma (Daughter) was notified regarding missed afternoon dose."
+            time="2h ago"
+          />
+          <AlertItem
+            level="reminder"
+            message="Evening dose reminder scheduled for 09:00 PM."
+            time="3h ago"
+            acknowledged={true}
+          />
+        </div>
+      </Section>
+
+      {/* ── 12. TrendChart (Vitals) ───────────────────────────── */}
+      <Section title="12. TrendChart (Recharts Line & Threshold Band)">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <TrendChart
+            title="Blood Pressure Trend (14-day)"
+            subtitle="Systolic (teal) / Diastolic (indigo) vs 140 mmHg clinical threshold"
+            dataKey="systolic"
+            dataLabel="Systolic"
+            secondaryDataKey="diastolic"
+            secondaryDataLabel="Diastolic"
+            unit="mmHg"
+            threshold={{ max: 140, min: 110, label: "Threshold 140" }}
+            data={[
+              { date: "Oct 01", systolic: 124, diastolic: 80 },
+              { date: "Oct 02", systolic: 128, diastolic: 82 },
+              { date: "Oct 03", systolic: 130, diastolic: 84 },
+              { date: "Oct 04", systolic: 135, diastolic: 86 },
+              { date: "Oct 05", systolic: 142, diastolic: 90 },
+              { date: "Oct 06", systolic: 148, diastolic: 92 },
+              { date: "Oct 07", systolic: 155, diastolic: 95 },
+            ]}
+          />
+
+          <TrendChart
+            title="Daily Steps Activity"
+            subtitle="Daily step count trend"
+            dataKey="steps"
+            dataLabel="Steps"
+            unit="steps"
+            strokeColor="#4B3FB8"
+            data={[
+              { date: "Oct 01", steps: 6800 },
+              { date: "Oct 02", steps: 7100 },
+              { date: "Oct 03", steps: 6400 },
+              { date: "Oct 04", steps: 5900 },
+              { date: "Oct 05", steps: 4200 },
+              { date: "Oct 06", steps: 3100 },
+              { date: "Oct 07", steps: 2200 },
+            ]}
+          />
+        </div>
+      </Section>
+
+      {/* ── 13. Toast ────────────────────────────────────────── */}
+      <Section title="13. Toast Notifications">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Toast
+            type="success"
+            title="Medicine Logged"
+            message="Metformin 500mg recorded as taken at 08:14 AM."
+          />
+          <Toast
+            type="info"
+            title="Teleconsult Scheduled"
+            message="Dr. Meera Rao booked a slot with Ramesh for 4:30 PM."
+          />
+          <Toast
+            type="warning"
+            title="Missed Dose Warning"
+            message="Afternoon Amlodipine is 45 minutes overdue."
+          />
+          <Toast
+            type="error"
+            title="Sync Connection Failed"
+            message="Could not reach vitals monitor. Retrying in 5s."
+          />
+        </div>
+      </Section>
+
+      {/* ── 14. Original Illustrations ──────────────────────── */}
+      <Section title="14. Original Illustrations (Offset Color Blobs + Navy Line Art)">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Card className="p-6 flex flex-col items-center text-center">
+            <h4 className="font-display font-bold text-lg text-[var(--ink-900)] mb-2">
+              (a) Patient & Companion
+            </h4>
+            <p className="font-body text-xs text-[var(--ink-500)] mb-4">
+              Elderly patient logging health on phone with loyal dog companion
+            </p>
+            <div className="w-full max-w-[340px]">
+              <Illustration name="elderly-phone" />
+            </div>
+          </Card>
+
+          <Card className="p-6 flex flex-col items-center text-center">
+            <h4 className="font-display font-bold text-lg text-[var(--ink-900)] mb-2">
+              (b) Doctor with Tablet
+            </h4>
+            <p className="font-body text-xs text-[var(--ink-500)] mb-4">
+              Doctor reviewing real-time patient charts and vitals on tablet
+            </p>
+            <div className="w-full max-w-[340px]">
+              <Illustration name="doctor-tablet" />
+            </div>
+          </Card>
+        </div>
+      </Section>
+
       {/* ── Footer ───────────────────────────────────────────── */}
       <footer className="text-center font-body text-xs text-[var(--ink-300)] py-8">
-        CareBridge Design Preview · Swapin · Phase 0 · Simulated data
+        CareBridge Design Preview · Swapin · Phase 1 · Simulated data
       </footer>
     </main>
   );
 }
+

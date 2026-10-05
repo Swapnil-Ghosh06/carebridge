@@ -29,10 +29,10 @@ A (doctor):
 - [ ] Supabase Realtime (or 3 s polling) so list updates live
 
 S (UI/UX):
-- [ ] Figma: tokens + component set + P2, D1, D2 frames first
-- [ ] Build `components/ui`: Button, Card, RiskBadge, StatTile, PatientRow, ReasonList (in that order)
-- [ ] Deliver hero illustration + patient/phone illustration SVGs
-- [ ] Review V and A screens at 01:00 and give a fix list
+- [x] Figma: tokens + component set + P2, D1, D2 frames first
+- [x] Build `components/ui`: Button, Card, RiskBadge, StatTile, PatientRow, ReasonList, MedicineCard, AlertItem, TrendChart, Toast, Illustration
+- [x] Deliver hero illustration + patient/phone illustration SVGs
+- [x] Review V and A screens at 01:00 and give a fix list (design/REVIEW.md)
 
 R (backend):
 - [ ] All routes in the API contract returning real data

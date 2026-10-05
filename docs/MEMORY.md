@@ -46,6 +46,7 @@ Family: Ramesh's son Karan (Bengaluru). Doctor: Dr. Meera Rao, Sunrise Clinic (f
 
 ## Status log
 (Newest first. One line each: time, who, done/blocked.)
+- 2026-10-05 23:25, Swapin, Phase 1 DONE: built PatientRow, ReasonList, MedicineCard, AlertItem, TrendChart wrapper, Toast, Illustration component + 4 original SVGs (patient-phone, doctor-tablet, family-call, hero-scene). Updated design-preview with all Phase 1 components. Authored design/REVIEW.md audit. Lint+build green.
 - 2026-10-05 23:12, Swapin, Phase 0 DONE: scaffolded Next.js 16 (no Vedesh push yet), created app/fonts.ts (Montserrat/DM Sans/Sora), design/tokens.css, tailwind.config.ts, components/ui/ (Button/Card/RiskBadge/StatTile), app/design-preview/, route skeletons, landing page. lint+build green. Committed to swapin/ui.
 
 ## Known issues / blockers
