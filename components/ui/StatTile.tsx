@@ -1,5 +1,5 @@
 /**
- * StatTile component (owner: Swapin)
+ * StatTile component (owner: Swapnil)
  * ─────────────────────────────────────────────────────────
  * Displays a health metric tile: big Sora number, DM Sans label,
  * optional unit, optional trend arrow.
@@ -9,9 +9,9 @@
  * Rules:
  *  - Stat number: Sora 700 (font-data)
  *  - Label: DM Sans 500 (font-body)
- *  - Trend arrow: only up/down/neutral — no risk colours
- *  - Trend colouring: brand-teal for positive, ink-500 for neutral,
- *    ink-700 for negative (risk colours reserved for RiskBadge only)
+ *  - Trend arrow: only up/down/neutral — no risk colors
+ *  - Trend coloring: brand-teal for positive, ink-500 for neutral,
+ *    ink-700 for negative (risk colors reserved for RiskBadge only)
  *  - No hardcoded patient data — props only
  */
 
@@ -34,10 +34,9 @@ export interface StatTileProps {
   trendLabel?: string;
   trendText?: string;
   target?: string;
-  variant?: string;
   /**
    * Whether the "up" trend is positive (e.g. steps = good when up)
-   * or negative (e.g. BP = bad when up). Affects icon colour.
+   * or negative (e.g. BP = bad when up). Affects icon color.
    * Defaults to true (up is positive).
    */
   upIsGood?: boolean;
@@ -61,7 +60,7 @@ const valueSize = {
 
 const labelSize = {
   sm: "text-[11px] sm:text-xs",
-  md: "text-xs sm:text-sm",
+  md: "text-xs sm:text-[13px]",
   lg: "text-sm sm:text-base",
 };
 
@@ -74,7 +73,6 @@ export const StatTile: React.FC<StatTileProps> = ({
   trendLabel,
   trendText,
   target,
-  variant,
   upIsGood = true,
   icon,
   size = "md",
@@ -84,14 +82,14 @@ export const StatTile: React.FC<StatTileProps> = ({
   const activeTrendLabel = trendText || trendLabel;
   const displayUnit = unit || subValue;
 
-  // Trend colour logic — uses brand/ink tokens, never risk tokens
+  // Trend color logic — uses brand/ink tokens, never risk tokens
   const trendColor =
     trend === "neutral"
       ? "text-[var(--ink-500)]"
       : trend === "up"
       ? upIsGood
-        ? "text-[var(--brand-teal)]"
-        : "text-[var(--ink-700)]"
+      ? "text-[var(--brand-teal)]"
+      : "text-[var(--ink-700)]"
       : upIsGood
       ? "text-[var(--ink-700)]"
       : "text-[var(--brand-teal)]";
@@ -125,7 +123,7 @@ export const StatTile: React.FC<StatTileProps> = ({
               {icon}
             </span>
           )}
-          <span className="font-display font-bold text-xs sm:text-[13px] text-[var(--ink-800)] truncate leading-tight tracking-tight">
+          <span className={["font-display font-bold text-[var(--ink-800)] truncate leading-tight tracking-tight", labelSize[size]].join(" ")}>
             {label}
           </span>
         </div>
