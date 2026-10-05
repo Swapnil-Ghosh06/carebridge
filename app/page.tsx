@@ -738,7 +738,7 @@ export default function LandingPage() {
           {/* Card 1: Patient Voice App (#1) */}
           <Link
             href="/patient"
-            className="group block bg-[#FEE159] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
+            className="group bg-[#FEE159] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -771,7 +771,7 @@ export default function LandingPage() {
           {/* Card 2: Doctor Clinical Cockpit (#2) */}
           <Link
             href="/doctor"
-            className="group block bg-[#EDE9FE] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
+            className="group bg-[#EDE9FE] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -804,7 +804,7 @@ export default function LandingPage() {
           {/* Card 3: Family Escalation Circle (#3) */}
           <Link
             href="/family"
-            className="group block bg-[#BAE6FD] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
+            className="group bg-[#BAE6FD] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -837,7 +837,7 @@ export default function LandingPage() {
           {/* Card 4: Hospital Admin ROI (#4) */}
           <Link
             href="/admin"
-            className="group block bg-[#D4F77C] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
+            className="group bg-[#D4F77C] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
