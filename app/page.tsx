@@ -46,6 +46,7 @@ import {
   DoodleStar,
   DoodleUnderline,
   DoodleHeart,
+  DaisyMonaLisaCollage,
 } from "@/components/ui/Doodles";
 
 export default function LandingPage() {
@@ -248,98 +249,94 @@ export default function LandingPage() {
           </Link>
         </div>
 
-        {/* ─── THE FAN DECK / SCRAPBOOK CAROUSEL (FAITHFUL TO DAISY HERO) ─── */}
-        <div className="relative w-full max-w-[1100px] mx-auto pt-4 pb-12 select-none">
+        {/* ─── THE AUTHENTIC FAN DECK / SCRAPBOOK CAROUSEL (DAISY HERO CLONE) ─── */}
+        <div className="relative w-full max-w-[1140px] mx-auto pt-6 pb-12 select-none">
           {/* Floating Rotated Sticky Notes */}
-          <div className="absolute -top-3 left-4 sm:left-12 z-30 transform -rotate-6">
-            <div className="sticky-tag bg-[#FEE159] text-ink-900 text-xs shadow-[3px_3px_0px_#121214]">
-              <span>🗣️ Hindi Voice: &quot;Maine dawai le li&quot;</span>
+          <div className="absolute -top-4 left-2 sm:left-10 z-40 transform -rotate-6">
+            <div className="sticky-tag bg-[#FEE159] text-ink-900 text-xs shadow-[3px_3px_0px_#121214] border-2 border-ink-900 px-3 py-1.5 rounded-xl">
+              <span>📌 &quot;Help me log my morning diabetes dose&quot;</span>
             </div>
           </div>
 
-          <div className="absolute -top-6 right-6 sm:right-16 z-30 transform rotate-6">
-            <div className="sticky-tag bg-[#FF5C98] text-ink-900 text-xs shadow-[3px_3px_0px_#121214]">
-              <span>⚡ BP Spike Alert: 155/95 mmHg</span>
+          <div className="absolute -bottom-2 right-2 sm:right-12 z-40 transform rotate-4">
+            <div className="sticky-tag bg-[#FF5C98] text-ink-900 text-xs shadow-[3px_3px_0px_#121214] border-2 border-ink-900 px-3 py-1.5 rounded-xl font-bold">
+              <span>⚡ &quot;Help me analyze Ramesh's BP spike&quot;</span>
             </div>
           </div>
 
-          {/* Overlapping Fan of 5 Tilted Polaroid Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-0 items-center justify-center">
-            {/* Card 1: Patient Voice Log Polaroid (Tilted Left -4deg) */}
-            <div className="lg:transform lg:-rotate-6 lg:translate-y-3 z-10 transition-transform duration-300 hover:rotate-0 hover:z-40 hover:scale-105">
-              <div className="bg-white border-2 border-ink-900 rounded-2xl p-4 shadow-[4px_4px_0px_#121214] text-left">
-                <div className="w-full h-32 rounded-xl bg-[#FEE159]/20 border border-ink-900 flex flex-col items-center justify-center p-3 text-center mb-3 relative overflow-hidden">
-                  <span className="font-mono text-[10px] font-bold text-ink-500 uppercase tracking-widest">
-                    PATIENT • RAMESH (68y)
+          {/* Overlapping Fan of 5 Tilted Polaroid Cards with -space-x */}
+          <div className="flex flex-row items-center justify-center -space-x-6 sm:-space-x-12 px-4 py-6 overflow-visible">
+            {/* Card 1: Senior Voice Log Polaroid (Tilted Left -6deg) */}
+            <div className="w-52 sm:w-60 shrink-0 transform -rotate-8 translate-y-3 z-10 transition-all duration-300 hover:rotate-0 hover:z-50 hover:scale-105">
+              <div className="bg-white border-2 border-ink-900 rounded-2xl p-3.5 pb-5 shadow-[4px_4px_0px_#121214] text-left">
+                <div className="w-full h-40 rounded-xl bg-[#FEE159]/25 border-2 border-ink-900 flex flex-col items-center justify-center p-3 text-center mb-3 relative overflow-hidden">
+                  <span className="font-mono text-[9px] font-bold text-ink-600 uppercase tracking-widest bg-white px-2 py-0.5 rounded border border-ink-900 mb-1">
+                    RAMESH K. (68y)
                   </span>
-                  <div className="w-12 h-12 rounded-full border-2 border-ink-900 bg-white flex items-center justify-center my-1.5 shadow-[2px_2px_0px_#121214]">
+                  <div className="w-12 h-12 rounded-full border-2 border-ink-900 bg-white flex items-center justify-center my-1 shadow-[2px_2px_0px_#121214]">
                     <Mic className="w-6 h-6 text-[#FF5C98]" />
                   </div>
                   <p className="font-serif italic text-xs text-ink-900 font-bold">
                     &quot;Maine subah ki dawai le li&quot;
                   </p>
                 </div>
-                <div className="space-y-1">
+                {/* Tilted Sticky Note on Card */}
+                <div className="transform rotate-3 -mt-6 mb-2 mx-1">
+                  <div className="bg-[#D4F77C] border border-ink-900 px-2 py-1 rounded text-[10px] font-mono font-bold shadow-[2px_2px_0px_#121214]">
+                    Hindi Voice: Metformin 500mg ✓
+                  </div>
+                </div>
+                <div className="space-y-0.5 text-left pt-1">
                   <div className="flex items-center justify-between text-[11px] font-mono font-bold">
-                    <span>Metformin 500mg</span>
-                    <span className="text-emerald-700">✓ LOGGED</span>
+                    <span>Adherence Streak</span>
+                    <span className="text-emerald-700">14 Days</span>
                   </div>
                   <p className="text-[10px] font-sans text-ink-500">
-                    Voice intent parsed in 0.8s
+                    Intent confirmed in 0.8s
                   </p>
-                </div>
-                <div className="mt-3 pt-2 border-t border-ink-300 flex justify-between items-center text-[10px] font-mono text-ink-700">
-                  <span>Hindi (hi-IN)</span>
-                  <span className="font-bold text-[#FF5C98]">Streak: 14d</span>
                 </div>
               </div>
             </div>
 
-            {/* Card 2: Book of Clinical Rules (Tilted Left -2.5deg) */}
-            <div className="lg:transform lg:-rotate-3 lg:-translate-y-1 z-20 transition-transform duration-300 hover:rotate-0 hover:z-40 hover:scale-105">
-              <div className="bg-ink-900 text-white border-2 border-ink-900 rounded-2xl p-4 shadow-[4px_4px_0px_#121214] text-left">
-                <div className="w-full h-32 rounded-xl bg-ink-800 border border-white/20 flex flex-col items-center justify-center p-3 mb-3 relative">
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-[#D4F77C]">
+            {/* Card 2: Book of Clinical Rules (Tilted Left -3deg) */}
+            <div className="w-52 sm:w-60 shrink-0 transform -rotate-3 -translate-y-2 z-20 transition-all duration-300 hover:rotate-0 hover:z-50 hover:scale-105">
+              <div className="bg-ink-900 text-white border-2 border-ink-900 rounded-2xl p-3.5 pb-5 shadow-[4px_4px_0px_#121214] text-left">
+                <div className="w-full h-40 rounded-xl bg-ink-800 border border-white/30 flex flex-col items-center justify-center p-3 mb-3 relative">
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-[#D4F77C] font-bold">
                     CLINICAL HEURISTICS
                   </span>
-                  <h3 className="font-serif font-black text-2xl text-white tracking-tight my-1">
+                  <h3 className="font-serif font-black text-2xl text-white tracking-tight my-1 text-center">
                     Book of Rules
                   </h3>
+                  <div className="my-1 text-2xl text-[#FEE159]">⚕</div>
                   <span className="font-mono text-[10px] text-ink-300">
-                    8 Explainable Checks
+                    8 Deterministic Rules
                   </span>
-                  <div className="absolute bottom-1 right-2 text-xs opacity-60">
-                    ⚕
-                  </div>
                 </div>
-                <div className="space-y-1 text-xs">
-                  <p className="font-mono font-bold text-[#D4F77C]">
-                    Rule #1: BP Surge (&gt;15%)
+                <div className="space-y-0.5 text-xs">
+                  <p className="font-mono font-bold text-[#D4F77C] text-[11px]">
+                    ● Rule #1: BP Delta (&gt;15%)
                   </p>
                   <p className="font-mono text-[10px] text-ink-300">
-                    Rule #4: Adherence Drop
+                    ● Rule #4: Adherence Gap
                   </p>
-                </div>
-                <div className="mt-3 pt-2 border-t border-white/20 flex justify-between items-center text-[10px] font-mono text-ink-300">
-                  <span>Zero Hallucination</span>
-                  <span className="text-[#D4F77C] font-bold">100% Explainable</span>
                 </div>
               </div>
             </div>
 
-            {/* Card 3: "Let It Flow" Daisy Floral Poster (Center Upright, Elevated) */}
-            <div className="lg:transform lg:scale-105 lg:-translate-y-4 z-30 transition-transform duration-300 hover:scale-110 hover:z-40">
-              <div className="bg-[#FAF8F5] border-2 border-ink-900 rounded-2xl p-4 shadow-[5px_5px_0px_#121214] text-left">
-                <div className="w-full h-36 rounded-xl bg-[#EDE9FE] border-2 border-ink-900 flex flex-col items-center justify-center p-3 text-center mb-3 relative overflow-hidden">
-                  <span className="font-serif italic font-bold text-lg text-ink-900">
-                    Let It Flow
+            {/* Card 3: "Let It Flow" Daisy Floral Poster (Center Straight, Elevated) */}
+            <div className="w-56 sm:w-64 shrink-0 transform scale-105 -translate-y-5 z-30 transition-all duration-300 hover:scale-110 hover:z-50">
+              <div className="bg-[#FAF8F5] border-2 border-ink-900 rounded-2xl p-4 pb-6 shadow-[6px_6px_0px_#121214] text-left">
+                <div className="w-full h-44 rounded-xl bg-[#EDE9FE] border-2 border-ink-900 flex flex-col items-center justify-center p-3 text-center mb-3 relative overflow-hidden">
+                  <span className="font-serif italic font-bold text-xl text-ink-900">
+                    Let it Flow
                   </span>
                   {/* Daisy Flower Doodle */}
-                  <div className="my-1.5 animate-pulse">
-                    <DoodleDaisy size={40} color="#121214" centerColor="#FEE159" />
+                  <div className="my-2 animate-pulse" style={{ animationDuration: "4s" }}>
+                    <DoodleDaisy size={46} color="#121214" centerColor="#FEE159" />
                   </div>
-                  <span className="font-mono text-[10px] font-bold uppercase text-ink-700 bg-white px-2 py-0.5 rounded-full border border-ink-900">
-                    Daily Vital Harmony
+                  <span className="font-mono text-[10px] font-bold uppercase text-ink-800 bg-white px-2.5 py-0.5 rounded-full border border-ink-900">
+                    Continuous Care Loop
                   </span>
                 </div>
                 <div className="space-y-1">
@@ -352,75 +349,65 @@ export default function LandingPage() {
                     <span className="text-ink-900">108 mg/dL</span>
                   </div>
                 </div>
-                <div className="mt-3 pt-2 border-t border-ink-300 flex justify-between items-center text-[10px] font-mono text-ink-600">
-                  <span>Dr. Meera Rao</span>
-                  <span className="bg-[#D4F77C] px-1.5 py-0.5 rounded border border-ink-900 text-ink-900 font-bold">
-                    STABLE
-                  </span>
-                </div>
               </div>
             </div>
 
-            {/* Card 4: Doctor AI Pre-Consult Brief (Tilted Right +2.5deg) */}
-            <div className="lg:transform lg:rotate-3 lg:-translate-y-1 z-20 transition-transform duration-300 hover:rotate-0 hover:z-40 hover:scale-105">
-              <div className="bg-white border-2 border-ink-900 rounded-2xl p-4 shadow-[4px_4px_0px_#121214] text-left">
-                <div className="w-full h-32 rounded-xl bg-[#D4F77C]/20 border border-ink-900 flex flex-col justify-between p-3 mb-3 relative">
+            {/* Card 4: Doctor AI Pre-Consult Brief (Tilted Right +3deg) */}
+            <div className="w-52 sm:w-60 shrink-0 transform rotate-3 -translate-y-2 z-20 transition-all duration-300 hover:rotate-0 hover:z-50 hover:scale-105">
+              <div className="bg-white border-2 border-ink-900 rounded-2xl p-3.5 pb-5 shadow-[4px_4px_0px_#121214] text-left">
+                <div className="w-full h-40 rounded-xl bg-[#D4F77C]/25 border-2 border-ink-900 flex flex-col justify-between p-3 mb-3 relative">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[9px] uppercase tracking-wider font-bold text-ink-700">
-                      PRE-CONSULT BRIEF
+                    <span className="font-mono text-[9px] uppercase tracking-wider font-bold text-ink-700 bg-white px-2 py-0.5 rounded border border-ink-900">
+                      AI BRIEF
                     </span>
-                    <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-emerald-600" />
                   </div>
                   <div>
                     <h4 className="font-serif font-black text-sm text-ink-900 leading-tight">
-                      15s Longitudinal Clinical Synthesis
+                      15s Pre-Consult Synthesis
                     </h4>
-                    <p className="font-sans text-[10px] text-ink-600 mt-1">
-                      14-day history ready before patient walks in.
+                    <p className="font-sans text-[10px] text-ink-700 mt-1">
+                      14-day history summarized before consult.
                     </p>
                   </div>
                   <div className="flex items-center gap-1 font-mono text-[9px] font-bold text-ink-800">
                     <Sparkles className="w-3 h-3 text-[#FF5C98]" />
-                    <span>Instant Synthesis</span>
+                    <span>Doctor Cockpit</span>
                   </div>
                 </div>
-                <div className="space-y-1 text-[11px] font-mono">
+                <div className="space-y-0.5 text-[11px] font-mono">
                   <div className="flex justify-between">
                     <span className="text-ink-600">Review time:</span>
-                    <span className="font-bold text-ink-900">&lt; 15 seconds</span>
+                    <span className="font-bold text-ink-900">&lt; 15 sec</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-ink-600">FHIR R4:</span>
                     <span className="font-bold text-emerald-700">Compliant</span>
                   </div>
                 </div>
-                <div className="mt-3 pt-2 border-t border-ink-300 flex justify-between items-center text-[10px] font-mono text-ink-700">
-                  <span>Dr. Cockpit</span>
-                  <span className="text-indigo-600 font-bold">1-Click Export</span>
-                </div>
               </div>
             </div>
 
-            {/* Card 5: Family WhatsApp Escalation & Hospital ROI (Tilted Right +5deg) */}
-            <div className="lg:transform lg:rotate-6 lg:translate-y-3 z-10 transition-transform duration-300 hover:rotate-0 hover:z-40 hover:scale-105">
-              <div className="bg-white border-2 border-ink-900 rounded-2xl p-4 shadow-[4px_4px_0px_#121214] text-left">
-                <div className="w-full h-32 rounded-xl bg-[#FF5C98]/15 border border-ink-900 flex flex-col justify-between p-3 mb-3 relative overflow-hidden">
+            {/* Card 5: Family WhatsApp Escalation & Hospital ROI (Tilted Right +7deg) */}
+            <div className="w-52 sm:w-60 shrink-0 transform rotate-8 translate-y-3 z-10 transition-all duration-300 hover:rotate-0 hover:z-50 hover:scale-105">
+              <div className="bg-white border-2 border-ink-900 rounded-2xl p-3.5 pb-5 shadow-[4px_4px_0px_#121214] text-left">
+                <div className="w-full h-40 rounded-xl bg-[#FF5C98]/20 border-2 border-ink-900 flex flex-col justify-between p-3 mb-3 relative overflow-hidden">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[9px] font-bold uppercase text-ink-700">
-                      FAMILY CARE CIRCLE
+                    <span className="font-mono text-[9px] font-bold uppercase text-ink-700 bg-white px-1.5 py-0.5 rounded border border-ink-900">
+                      FAMILY CIRCLE
                     </span>
-                    <span className="text-[10px]">🟢</span>
+                    <span className="text-[10px]">💬</span>
                   </div>
-                  <div className="bg-white/90 p-2 rounded-lg border border-ink-900 text-[10px] font-mono leading-tight">
-                    <span className="font-bold text-emerald-800">WhatsApp Nudge:</span>
-                    <p className="text-ink-700 mt-0.5">&quot;Uncle skipped Metformin dose. Gentle reminder sent.&quot;</p>
+                  <div className="bg-white p-2 rounded-lg border border-ink-900 text-[10px] font-mono leading-tight shadow-sm">
+                    <span className="font-bold text-emerald-800">WhatsApp Alert:</span>
+                    <p className="text-ink-700 mt-0.5">&quot;Uncle skipped dose. Nudge sent.&quot;</p>
                   </div>
                   <div className="font-mono text-[9px] text-ink-600 flex items-center justify-between">
                     <span>3-Stage Ladder</span>
-                    <span className="font-bold text-emerald-700">Auto-Resolved</span>
+                    <span className="font-bold text-emerald-700">Protected</span>
                   </div>
                 </div>
-                <div className="space-y-1 text-[11px] font-mono">
+                <div className="space-y-0.5 text-[11px] font-mono">
                   <div className="flex justify-between">
                     <span className="text-ink-600">Readmissions:</span>
                     <span className="font-bold text-emerald-700">-34% Averted</span>
@@ -430,17 +417,13 @@ export default function LandingPage() {
                     <span className="font-bold text-ink-900">&lt; 8 mins</span>
                   </div>
                 </div>
-                <div className="mt-3 pt-2 border-t border-ink-300 flex justify-between items-center text-[10px] font-mono text-ink-700">
-                  <span>Caregivers in Loop</span>
-                  <span className="font-bold text-ink-900">100% Peace</span>
-                </div>
               </div>
             </div>
           </div>
 
           {/* Bottom Sticky Note Pill */}
           <div className="mt-8 flex justify-center">
-            <div className="sticky-tag bg-[#D4F77C] text-ink-900 text-xs shadow-[3px_3px_0px_#121214] transform -rotate-1">
+            <div className="sticky-tag bg-[#D4F77C] text-ink-900 text-xs shadow-[3px_3px_0px_#121214] border-2 border-ink-900 px-4 py-1.5 rounded-full transform -rotate-1">
               <span>★ 1,240 Monitored Patients Across Bangalore & Mumbai • CRCE Hackathon 2026</span>
             </div>
           </div>
@@ -449,18 +432,15 @@ export default function LandingPage() {
 
       {/* ─────────────────────────────────────────────────────────────
           3. SECTION 2: "TRANSFORM CHAOS INTO CREATIVITY / CLINICAL CLARITY"
-             (FAITHFUL TO DAISY'S 2ND SECTION + CLAUD WHIMSICAL COLLAGE)
+             (DAISY SCREENSHOT 4 EXACT MATCH: MONA LISA WITH EXPOSED BRAIN COLLAGE)
       ───────────────────────────────────────────────────────────── */}
       <section id="problem" className="max-w-[1240px] mx-auto w-full px-6 sm:px-12 py-16">
-        <div className="bg-white/80 border-2 border-ink-900 rounded-3xl p-8 sm:p-14 shadow-[6px_6px_0px_#121214] relative overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="bg-white border-2 border-ink-900 rounded-3xl p-8 sm:p-14 shadow-[6px_6px_0px_#121214] relative overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left Column: Heading and 4 Monospace Interactive Feature Pills */}
             <div className="lg:col-span-6 space-y-6">
               <div>
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-500 bg-[#EDE9FE] px-3 py-1 rounded-full border border-ink-900">
-                  The CareBridge Breakthrough
-                </span>
-                <h2 className="font-serif font-black text-3xl sm:text-5xl text-ink-900 tracking-tight mt-3 leading-tight">
+                <h2 className="font-serif font-black text-3xl sm:text-5xl text-ink-900 tracking-tight leading-tight">
                   Transform chaos into clinical clarity
                 </h2>
                 <p className="font-mono text-xs sm:text-sm text-ink-600 mt-2">
@@ -479,7 +459,7 @@ export default function LandingPage() {
                       className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-ink-900 transition-all font-mono text-xs sm:text-sm leading-relaxed flex items-start gap-3.5 cursor-pointer ${
                         isActive
                           ? `${feat.color} shadow-[4px_4px_0px_#121214] -translate-y-0.5`
-                          : "bg-white hover:bg-[#FBF9F4] shadow-[2px_2px_0px_#121214]"
+                          : "bg-white hover:bg-[#FAF8F5] shadow-[2px_2px_0px_#121214]"
                       }`}
                     >
                       <span className="w-6 h-6 rounded-full border-2 border-ink-900 bg-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
@@ -504,75 +484,34 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Right Column: Surrealist Medical Art Collage (Inspired by Mona Lisa + Claud) */}
+            {/* Right Column: Exact Mona Lisa Surrealist Art Collage from Daisy Screenshot 4 */}
             <div className="lg:col-span-6 flex flex-col items-center justify-center relative">
-              <div className="relative w-full max-w-[440px] bg-[#FAF8F5] border-2 border-ink-900 rounded-3xl p-6 sm:p-8 shadow-[5px_5px_0px_#121214]">
-                {/* Floating Claud Cloud Mascot at top right */}
-                <div className="absolute -top-6 -right-4 z-20 transform rotate-6 animate-bounce" style={{ animationDuration: "3s" }}>
-                  <DoodleClaudCloud width={80} height={52} stroke="#121214" />
-                </div>
+              <div className="w-full max-w-[460px] mx-auto relative">
+                {/* The Masterpiece Mona Lisa Exposed Brain Collage */}
+                <DaisyMonaLisaCollage className="w-full h-auto" />
 
-                {/* Floating Pink Sphere / Pill Badge */}
-                <div className="absolute -top-3 left-6 z-20">
-                  <div className="w-8 h-8 rounded-full bg-[#FF5C98] border-2 border-ink-900 shadow-[2px_2px_0px_#121214] flex items-center justify-center font-bold text-xs text-white">
-                    ❤
-                  </div>
-                </div>
-
-                {/* Central Art Container: Anatomical Heart & Neural Brain Collage */}
-                <div className="w-full bg-white border-2 border-ink-900 rounded-2xl p-6 relative overflow-hidden text-center mb-6">
-                  {/* Subtle Graph lines inside card */}
-                  <div className="absolute inset-0 bg-grid-paper opacity-50 pointer-events-none" />
-
-                  {/* Collage Elements */}
-                  <div className="relative z-10 flex flex-col items-center">
-                    {/* Classical Heart & Stethoscope Graphic */}
-                    <div className="w-24 h-24 rounded-full bg-[#FEE159]/30 border-2 border-ink-900 flex items-center justify-center shadow-[3px_3px_0px_#121214] mb-3">
-                      <Heart className="w-12 h-12 text-[#FF5C98] fill-[#FF5C98]" />
+                {/* Floating Telemetry Feedback Card Below Collage */}
+                <div className="mt-4 bg-[#FBF9F4] border-2 border-ink-900 rounded-2xl p-4 text-left shadow-[3px_3px_0px_#121214]">
+                  <div className="flex items-center justify-between pb-2 border-b-2 border-ink-900 mb-2">
+                    <div className="flex items-center gap-2">
+                      <DoodleDaisy size={16} />
+                      <span className="font-mono text-xs font-bold text-ink-900">
+                        {features[activeFeature].tag} • Telemetry
+                      </span>
                     </div>
-
-                    <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink-600 bg-[#EDE9FE] px-2.5 py-0.5 rounded-full border border-ink-900 mb-1">
-                      {features[activeFeature].tag}
-                    </span>
-
-                    <h4 className="font-serif font-black text-2xl text-ink-900">
+                    <span className="font-serif font-black text-sm text-ink-900">
                       {features[activeFeature].stat}
-                    </h4>
-                    <p className="font-mono text-xs text-ink-500 font-bold">
-                      {features[activeFeature].statLabel}
-                    </p>
-                  </div>
-
-                  {/* Floating Hand-Drawn Scribble Stickers */}
-                  <div className="absolute bottom-2 left-3 transform -rotate-12">
-                    <span className="font-mono text-[10px] bg-[#D4F77C] px-2 py-0.5 rounded border border-ink-900 font-bold">
-                      Rule-Tested
-                    </span>
-                  </div>
-                  <div className="absolute bottom-2 right-3 transform rotate-12">
-                    <span className="font-mono text-[10px] bg-[#FEE159] px-2 py-0.5 rounded border border-ink-900 font-bold">
-                      No AI Slop
-                    </span>
-                  </div>
-                </div>
-
-                {/* Live Dynamic Context Panel based on selected feature */}
-                <div className="bg-[#FBF9F4] border-2 border-ink-900 rounded-xl p-4 text-left">
-                  <div className="flex items-center gap-2 mb-2 pb-2 border-b border-ink-300">
-                    <DoodleDaisy size={16} />
-                    <span className="font-mono text-xs font-bold text-ink-900">
-                      Live Telemetry Stream
                     </span>
                   </div>
                   <p className="font-mono text-xs text-ink-700 leading-relaxed">
                     {activeFeature === 0 &&
-                      "Synthesis Output: 'Ramesh K., 68. 2 missed Metformin doses in 72h + 14% systolic BP surge. Recommended check: antihypertensive compliance.'"}
+                      "Synthesis: 'Ramesh K., 68. 2 missed Metformin doses in 72h + 14% systolic BP surge. Recommended check: antihypertensive compliance.'"}
                     {activeFeature === 1 &&
-                      "Heuristic Fire: [RULE_BP_ELEVATION] triggered (+18 mmHg). Weight: 35 pts. [RULE_MED_ADHERENCE] triggered (-29%). Combined Score: 84 / 100 (RED)."}
+                      "Heuristic Fire: [RULE_BP_ELEVATION] triggered (+18 mmHg). Weight: 35 pts. Combined Score: 84 / 100 (RED). Zero AI Hallucination."}
                     {activeFeature === 2 &&
-                      "Audio Transcript (Hindi): 'Maine subah ki dawai le li' -> Recognized: { medicine: 'Metformin 500mg', dose: 'Morning', status: 'TAKEN' }."}
+                      "Audio Transcript (Hindi): 'Maine subah ki dawai le li' -> Recognized: { medicine: 'Metformin 500mg', status: 'TAKEN' } in 0.8s."}
                     {activeFeature === 3 &&
-                      "Escalation Dispatch: Stage 1 (Voice alert) -> Unanswered after 4h -> Stage 2 (WhatsApp template sent to daughter Priya Sharma)."}
+                      "Escalation Dispatch: Stage 1 (Voice alert) -> Stage 2 (WhatsApp template sent to daughter Priya Sharma). Readmission prevented."}
                   </p>
                 </div>
               </div>
