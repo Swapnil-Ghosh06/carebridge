@@ -39,10 +39,14 @@ Family: Ramesh's son Karan (Bengaluru). Doctor: Dr. Meera Rao, Sunrise Clinic (f
 
 ## Dependencies added
 (next, react, tailwindcss, @supabase/supabase-js, recharts, lucide-react, framer-motion by default. Add others here.)
+- @supabase/supabase-js ^2 (Aryan)
+- recharts ^3 (Aryan)
+- lucide-react ^1 (Swapin — icons in UI components)
+- framer-motion ^14 (Swapin — motion in Phase 2)
 
 ## Status log
 (Newest first. One line each: time, who, done/blocked.)
-- (empty)
+- 2026-10-05 23:12, Swapin, Phase 0 DONE: scaffolded Next.js 16 (no Vedesh push yet), created app/fonts.ts (Montserrat/DM Sans/Sora), design/tokens.css, tailwind.config.ts, components/ui/ (Button/Card/RiskBadge/StatTile), app/design-preview/, route skeletons, landing page. lint+build green. Committed to swapin/ui.
 
 ## Known issues / blockers
 - (empty)

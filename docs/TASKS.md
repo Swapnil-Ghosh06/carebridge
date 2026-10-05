@@ -9,7 +9,7 @@ Time boxes assume you start about 22:30 tonight. Shift to match your real submis
 - [ ] V: Add `app/fonts.ts` with Montserrat, DM Sans, Sora via `next/font/google`
 - [ ] R: Create Supabase project, run `schema.sql`, `seed.sql`, share env vars privately
 - [ ] R: Write `lib/types.ts` and freeze the API contract (ARCHITECTURE section 7)
-- [ ] S: Push `design/tokens.css` and Tailwind theme extension from DESIGN.md
+- [x] S: Push `design/tokens.css` and Tailwind theme extension from DESIGN.md
 - [ ] A: Create doctor route skeleton, layout and role-switcher on landing
 - [ ] ALL: Read RULES.md and MEMORY.md; create your branch
 - Checkpoint 0: `main` deploys to Vercel and shows the landing page in all three fonts.
