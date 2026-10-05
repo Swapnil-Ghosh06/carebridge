@@ -209,6 +209,12 @@ BEGIN
       curr_date + INTERVAL '13 hours'
     );
   END LOOP;
+
+  -- Baseline normal HR readings for last 3 days at 02:00 (so initial state has no HR anomaly)
+  INSERT INTO vitals (id, patient_id, type, value_a, value_b, recorded_at) VALUES
+  ('p1-hr-1', 'p1', 'hr', 72, NULL, (CURRENT_DATE - INTERVAL '1 day') + INTERVAL '2 hours'),
+  ('p1-hr-2', 'p1', 'hr', 72, NULL, (CURRENT_DATE - INTERVAL '2 days') + INTERVAL '2 hours'),
+  ('p1-hr-3', 'p1', 'hr', 72, NULL, (CURRENT_DATE - INTERVAL '3 days') + INTERVAL '2 hours');
 END $$;
 
 -- 7. Current Initial Risk Scores & Reasons

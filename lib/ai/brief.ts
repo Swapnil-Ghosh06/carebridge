@@ -1,4 +1,6 @@
 import { store } from "@/lib/supabase/localStore";
+import { createClient } from "@/lib/supabase/server";
+import { buildBriefContext, parseBriefOutput } from "./contextBuilder";
 
 export interface BriefSections {
   sinceLastVisit: string;
@@ -6,199 +8,206 @@ export interface BriefSections {
   suggestedChecks: string;
 }
 
-export interface BriefCitation {
-  id: string;
-  type: string;
-  label: string;
+export interface BriefCitationItem {
+  readingId: string;
   value: string;
-  timestamp: string;
-  flag: string;
+  at: string;
 }
 
 export interface BriefResult {
   text: string;
   source: "llm" | "fallback";
   sections: BriefSections;
-  citations: BriefCitation[];
+  citations: BriefCitationItem[];
+  generatedAt?: string;
 }
 
+export const BRIEF_SYSTEM_PROMPT = `You are a clinical decision-support tool. Generate a pre-consult brief in exactly 3 sections.
+
+Rules:
+- Max 100 words total across all three sections.
+- Three sections in this exact order, with these exact labels:
+  'Since last visit:' / 'Concerns:' / 'Suggested checks:'
+- Cite every specific value as Reading:{readingId} using the readingIndex provided.
+  Example: 'Heart rate elevated (Reading:abc123).' NOT 'Heart rate elevated at 108 bpm.'
+- If anomalyFlags contains HIGH severity items, list them first in Concerns.
+- Never say 'diagnose', 'treatment', or specific drug doses.
+- End the entire brief with: 'Doctor decides.'
+- Output plain text only. No markdown, no bullet points.`;
+
 export async function generateBrief(patientId: string): Promise<BriefResult> {
-  const detail = store.getPatientDetail(patientId);
-  if (!detail) {
-    throw new Error("Patient not found");
+  let supabase: any = null;
+  try {
+    supabase = await createClient();
+  } catch {
+    // local/offline
   }
 
-  const { profile, vitals, medLogs, risk } = detail;
+  const { context } = await buildBriefContext(patientId, supabase);
 
-  // 1. Calculate compact telemetry summary
-  const totalMedLogs = medLogs.length;
-  const takenMedLogs = medLogs.filter((m) => m.status === "taken").length;
-  const adherencePct = totalMedLogs > 0 ? Math.round((takenMedLogs / totalMedLogs) * 100) : 100;
+  // Deterministic rule-based fallback
+  const highAnomalies = context.wearable.anomalyFlags
+    .filter((f) => f.severity === "HIGH")
+    .map((f) => f.title);
 
-  const bpVitals = vitals.filter((v) => v.type === "bp");
-  const latestBp = bpVitals[0];
-  const stepsVitals = vitals.filter((v) => v.type === "steps");
-  const recentSteps = stepsVitals.slice(0, 3);
-  const avgRecentSteps =
-    recentSteps.length > 0
-      ? Math.round(recentSteps.reduce((sum, v) => sum + (v.value_a ?? v.valueA ?? 0), 0) / recentSteps.length)
-      : 4000;
-
-  const topReasons = risk.reasons.map((r) => r.text).slice(0, 3);
-
-  // 2. Generate Deterministic Canned Fallback (Under 90 words, 3 parts, ends with 'Doctor decides.')
-  let fallbackSections: BriefSections;
-  let citations: BriefCitation[] = [];
-
-  if (risk.band === "red" || patientId === "p1") {
-    fallbackSections = {
-      sinceLastVisit: `Adherence dropped to 65% over the past 4 days, with 2 consecutive missed morning doses of Metformin 500mg [Log: m1, m4].`,
-      concerns: `Systolic BP trended up +14% to ${latestBp?.value_a ?? latestBp?.valueA ?? 154}/${latestBp?.value_b ?? latestBp?.valueB ?? 94} mmHg [Obs: v7]. Average daily physical activity fell from 5,200 to 2,800 steps [Obs: v14].`,
-      suggestedChecks: `Verify patient morning medication routine, evaluate potential GI or orthostatic side effects, assess ankle edema, and verify cuff placement accuracy. Doctor decides.`,
-    };
-    citations = [
-      {
-        id: "v7",
-        type: "Blood Pressure",
-        label: "BP Reading #v7",
-        value: `${latestBp?.value_a ?? latestBp?.valueA ?? 154}/${latestBp?.value_b ?? latestBp?.valueB ?? 94} mmHg`,
-        timestamp: "Today, 08:30 AM",
-        flag: "HIGH (+14%)",
-      },
-      {
-        id: "v14",
-        type: "Pedometer",
-        label: "Steps Activity #v14",
-        value: `${avgRecentSteps} steps`,
-        timestamp: "Today",
-        flag: "DECREASED (-46%)",
-      },
-      {
-        id: "m1",
-        type: "Medication Log",
-        label: "Dose Log #m1",
-        value: "Metformin 500mg (Missed)",
-        timestamp: "Today, 08:00 AM",
-        flag: "UNCONFIRMED",
-      },
-      {
-        id: "m4",
-        type: "Medication Log",
-        label: "Dose Log #m4",
-        value: "Metformin 500mg (Missed)",
-        timestamp: "Yesterday, 08:00 AM",
-        flag: "STREAK",
-      },
-    ];
-  } else if (risk.band === "yellow") {
-    fallbackSections = {
-      sinceLastVisit: `Adherence maintained at 78% with occasional late evening medication logging.`,
-      concerns: `Diastolic BP fluctuating upwards between 85-89 mmHg across 5 consecutive readings [Obs: v24].`,
-      suggestedChecks: `Check dietary sodium adherence, inquire about sleep regularity and stress factors. Doctor decides.`,
-    };
-    citations = [
-      {
-        id: "v24",
-        type: "Blood Pressure",
-        label: "BP Reading #v24",
-        value: `${latestBp?.value_a ?? latestBp?.valueA ?? 139}/${latestBp?.value_b ?? latestBp?.valueB ?? 89} mmHg`,
-        timestamp: "Today, 09:15 AM",
-        flag: "ELEVATED",
-      },
-    ];
-  } else {
-    fallbackSections = {
-      sinceLastVisit: `100% medication adherence recorded over the past 14 days.`,
-      concerns: `No risk elevations detected. Mean blood pressure stable at 120/78 mmHg [Obs: v32].`,
-      suggestedChecks: `Maintain current lifestyle regimen. Schedule routine 3-month HbA1c check. Doctor decides.`,
-    };
-    citations = [
-      {
-        id: "v32",
-        type: "Blood Pressure",
-        label: "BP Reading #v32",
-        value: "118/76 mmHg",
-        timestamp: "Yesterday",
-        flag: "OPTIMAL",
-      },
-    ];
-  }
+  const fallbackSections: BriefSections = {
+    sinceLastVisit: `Adherence ${context.adherence.pct7d}% over last 7 days. Latest BP ${context.wearable.bloodPressure.latestSystolic} mmHg.`,
+    concerns: highAnomalies.length > 0 ? highAnomalies.join(". ") + "." : "No active concerns.",
+    suggestedChecks: "Review BP trend. Check medicine schedule. Doctor decides.",
+  };
 
   const fallbackText = `Since last visit: ${fallbackSections.sinceLastVisit} Concerns: ${fallbackSections.concerns} Suggested checks: ${fallbackSections.suggestedChecks}`;
 
-  // 3. Try LLM Call with 4-second timeout if LLM / Ollama is configured
-  const ollamaBaseUrl = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
-  const ollamaModel = process.env.OLLAMA_MODEL || "llama3.2";
+  // Check for LLM keys (Gemini / Anthropic / Ollama)
+  const geminiApiKey = process.env.GEMINI_API_KEY;
+  const anthropicApiKey = process.env.ANTHROPIC_API_KEY;
   const llmApiKey = process.env.LLM_API_KEY;
+  const ollamaBaseUrl = process.env.OLLAMA_BASE_URL;
 
+  const hasLlm = Boolean(geminiApiKey || anthropicApiKey || llmApiKey || ollamaBaseUrl);
+
+  if (!hasLlm) {
+    const result: BriefResult = {
+      text: fallbackText,
+      source: "fallback",
+      sections: fallbackSections,
+      citations: [],
+      generatedAt: new Date().toISOString(),
+    };
+    await persistBrief(patientId, result, supabase);
+    return result;
+  }
+
+  // Attempt LLM generation with 4-second timeout
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 4000);
 
   try {
-    if (!llmApiKey && !process.env.OLLAMA_BASE_URL) {
-      clearTimeout(timeoutId);
-      return {
-        source: "fallback",
-        text: fallbackText,
-        sections: fallbackSections,
-        citations,
-      };
-    }
+    let rawOutput: string | null = null;
 
-    const response = await fetch(`${ollamaBaseUrl}/api/chat`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      signal: controller.signal,
-      body: JSON.stringify({
-        model: ollamaModel,
-        stream: false,
-        messages: [
-          {
-            role: "system",
-            content: `You are a clinical decision support assistant generating pre-consult briefs for doctors.
-Strict rules:
-1. Max 90 words.
-2. Structure exactly in three parts:
-   - Since last visit: [Summary of adherence and discharge]
-   - Concerns: [Specific telemetry alerts and risk flags]
-   - Suggested checks: [Practical physical/routine checks]
-3. Never diagnose. Never recommend medication dosages.
-4. End exactly with: "Doctor decides."`,
-          },
-          {
-            role: "user",
-            content: `Patient: ${profile.name}, Age ${profile.age}, Conditions: ${profile.conditions.join(", ")}.
-Telemetry (14 days): Adherence ${adherencePct}%, Latest BP: ${latestBp ? `${latestBp.value_a ?? latestBp.valueA}/${latestBp.value_b ?? latestBp.valueB}` : "None"}, Avg Steps: ${avgRecentSteps}.
-Active Flags: ${topReasons.join("; ")}.`,
-          },
-        ],
-      }),
-    });
+    if (geminiApiKey) {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          signal: controller.signal,
+          body: JSON.stringify({
+            contents: [
+              {
+                role: "user",
+                parts: [
+                  { text: `${BRIEF_SYSTEM_PROMPT}\n\nContext:\n${JSON.stringify(context, null, 2)}` },
+                ],
+              },
+            ],
+          }),
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        rawOutput = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      }
+    } else if (anthropicApiKey) {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": anthropicApiKey,
+          "anthropic-version": "2023-06-01",
+        },
+        signal: controller.signal,
+        body: JSON.stringify({
+          model: "claude-3-5-sonnet-20241022",
+          max_tokens: 300,
+          system: BRIEF_SYSTEM_PROMPT,
+          messages: [{ role: "user", content: JSON.stringify(context) }],
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        rawOutput = data.content?.[0]?.text;
+      }
+    } else if (ollamaBaseUrl) {
+      const response = await fetch(`${ollamaBaseUrl}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
+        body: JSON.stringify({
+          model: process.env.OLLAMA_MODEL || "llama3.2",
+          stream: false,
+          messages: [
+            { role: "system", content: BRIEF_SYSTEM_PROMPT },
+            { role: "user", content: JSON.stringify(context) },
+          ],
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        rawOutput = data.message?.content;
+      }
+    }
 
     clearTimeout(timeoutId);
 
-    if (response.ok) {
-      const data = await response.json();
-      const content = data.message?.content?.trim();
-      if (content && content.includes("Doctor decides")) {
-        return {
-          source: "llm",
-          text: content,
-          sections: fallbackSections,
-          citations,
-        };
+    if (rawOutput && typeof rawOutput === "string") {
+      let cleaned = rawOutput.trim();
+      if (!cleaned.endsWith("Doctor decides.")) {
+        cleaned += " Doctor decides.";
       }
+
+      const { sections, citations } = parseBriefOutput(cleaned, context.readingIndex);
+      const result: BriefResult = {
+        text: cleaned,
+        source: "llm",
+        sections,
+        citations,
+        generatedAt: new Date().toISOString(),
+      };
+      await persistBrief(patientId, result, supabase);
+      return result;
     }
   } catch {
-    // Timeout or network error
+    // Timeout or network failure — fall through to graceful fallback
   } finally {
     clearTimeout(timeoutId);
   }
 
-  return {
-    source: "fallback",
+  // Graceful fallback
+  const result: BriefResult = {
     text: fallbackText,
+    source: "fallback",
     sections: fallbackSections,
-    citations,
+    citations: [],
+    generatedAt: new Date().toISOString(),
   };
+  await persistBrief(patientId, result, supabase);
+  return result;
+}
+
+async function persistBrief(patientId: string, result: BriefResult, supabase?: any) {
+  try {
+    store.addBrief({
+      id: `brief-${Date.now()}`,
+      patient_id: patientId,
+      text: result.text,
+      source: result.source,
+      sections: result.sections,
+      citations: result.citations,
+      created_at: result.generatedAt || new Date().toISOString(),
+    });
+
+    if (supabase && typeof supabase.from === "function") {
+      await supabase.from("briefs").insert({
+        id: `brief-${Date.now()}`,
+        patient_id: patientId,
+        text: result.text,
+        source: result.source,
+        sections: result.sections,
+        citations: result.citations,
+      });
+    }
+  } catch {
+    // Non-blocking persistence failure
+  }
 }

@@ -3,6 +3,8 @@
 -- ==============================================================================
 
 -- Drop tables in reverse dependency order if recreating
+DROP TABLE IF EXISTS patient_goals CASCADE;
+DROP TABLE IF EXISTS doctor_notes CASCADE;
 DROP TABLE IF EXISTS briefs CASCADE;
 DROP TABLE IF EXISTS audit_log CASCADE;
 DROP TABLE IF EXISTS consents CASCADE;
@@ -68,11 +70,11 @@ CREATE TABLE med_logs (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 6. Vitals (BP, Steps, Glucose)
+-- 6. Vitals (BP, Steps, Glucose, HR)
 CREATE TABLE vitals (
   id TEXT PRIMARY KEY,
   patient_id TEXT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
-  type TEXT NOT NULL CHECK (type IN ('bp', 'steps', 'glucose')),
+  type TEXT NOT NULL CHECK (type IN ('bp', 'steps', 'glucose', 'hr')),
   value_a NUMERIC NOT NULL,
   value_b NUMERIC,
   recorded_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -136,6 +138,29 @@ CREATE TABLE briefs (
   text TEXT NOT NULL,
   source TEXT NOT NULL CHECK (source IN ('llm', 'fallback')),
   sections JSONB,
+  citations JSONB DEFAULT '[]'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- 13. Doctor Notes
+CREATE TABLE doctor_notes (
+  id TEXT PRIMARY KEY,
+  patient_id TEXT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  doctor_id TEXT NOT NULL REFERENCES doctors(id) ON DELETE CASCADE,
+  note_text TEXT NOT NULL,
+  parsed_instructions JSONB,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- 14. Patient Goals
+CREATE TABLE patient_goals (
+  id TEXT PRIMARY KEY,
+  patient_id TEXT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  category TEXT NOT NULL CHECK (category IN ('steps', 'medicine', 'bp', 'glucose', 'other')),
+  target TEXT NOT NULL,
+  by_date DATE,
+  source_note_id TEXT REFERENCES doctor_notes(id) ON DELETE SET NULL,
+  completed_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -149,6 +174,8 @@ CREATE INDEX idx_alerts_patient ON alerts(patient_id, created_at DESC);
 CREATE INDEX idx_alerts_audience ON alerts(audience, acknowledged_at);
 CREATE INDEX idx_consents_patient ON consents(patient_id);
 CREATE INDEX idx_audit_log_patient ON audit_log(patient_id, created_at DESC);
+CREATE INDEX idx_doctor_notes_patient ON doctor_notes(patient_id, created_at DESC);
+CREATE INDEX idx_patient_goals_patient ON patient_goals(patient_id, by_date ASC);
 
 -- Enable Supabase Realtime for live updates
 ALTER PUBLICATION supabase_realtime ADD TABLE risk_scores;

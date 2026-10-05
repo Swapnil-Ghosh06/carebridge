@@ -260,7 +260,7 @@ export default function LandingPage() {
 
           <div className="absolute -bottom-2 right-2 sm:right-12 z-40 transform rotate-4">
             <div className="sticky-tag bg-[#FF5C98] text-ink-900 text-xs shadow-[3px_3px_0px_#121214] border-2 border-ink-900 px-3 py-1.5 rounded-xl font-bold">
-              <span>⚡ &quot;Help me analyze Ramesh's BP spike&quot;</span>
+              <span>⚡ &quot;Help me analyze Ramesh&apos;s BP spike&quot;</span>
             </div>
           </div>
 

@@ -58,13 +58,50 @@ export interface Vital {
   id: string;
   patient_id?: string;
   patientId?: string;
-  type: "bp" | "steps" | "glucose";
+  type: "bp" | "steps" | "glucose" | "hr";
   value_a?: number;
   valueA?: number;
   value_b?: number | null;
   valueB?: number | null;
   recorded_at?: string;
   recordedAt?: string;
+}
+
+export interface AnomalyFlag {
+  ruleId: string;
+  severity: "HIGH" | "MEDIUM" | "LOW";
+  title: string;
+  detail: string;
+  readingId: string; // MUST be a real vitals.id from the DB — never invented
+}
+
+export interface WearableContext {
+  patientId: string;
+  windowDays: 14;
+  heartRate: {
+    mean: number;
+    nocturnalMean: number; // hours 23:00–05:00
+    max: number;
+    readings: { id: string; at: string; bpm: number }[];
+  };
+  bloodPressure: {
+    latestSystolic: number;
+    latestDiastolic: number;
+    avgSystolic7d: number;
+    prevAvgSystolic7d: number; // prior 7 days
+    trend: "rising" | "stable" | "falling";
+  };
+  steps: {
+    dailyMean: number;
+    baseline14d: number;
+    pctChangeFromBaseline: number;
+  };
+  glucose: {
+    latestFasting: number | null;
+    mean: number | null;
+  };
+  anomalyFlags: AnomalyFlag[];
+  lastUpdated: string;
 }
 
 export interface RiskScore {
@@ -165,6 +202,31 @@ export interface PatientDetail {
   };
   alerts: Alert[];
   consents?: Consent[];
+  wearable?: WearableContext | null;
+}
+
+export interface DoctorNote {
+  id: string;
+  patient_id: string;
+  doctor_id: string;
+  note_text: string;
+  parsed_instructions?: {
+    reminders: { medicine: string; time: string; instruction: string }[];
+    goals: { category: "steps" | "medicine" | "bp" | "glucose" | "other"; target: string; by: string }[];
+    followUpDate: string | null;
+  } | null;
+  created_at: string;
+}
+
+export interface PatientGoal {
+  id: string;
+  patient_id: string;
+  category: "steps" | "medicine" | "bp" | "glucose" | "other";
+  target: string;
+  by_date?: string | null;
+  source_note_id?: string | null;
+  completed_at?: string | null;
+  created_at: string;
 }
 
 export interface DoctorActionRequest {
@@ -220,12 +282,13 @@ export interface FamilyFeedResponse {
 
 export interface SimEventRequest {
   patientId: string;
-  kind: "miss_dose" | "bp_spike" | "steps_drop" | "recover";
+  kind: "miss_dose" | "bp_spike" | "steps_drop" | "recover" | "hr_spike";
   params?: {
     systolic?: number;
     diastolic?: number;
     medicineId?: string;
     steps?: number;
+    hr?: number;
   };
 }
 

@@ -18,6 +18,8 @@ import {
   DoctorActionResponse,
   SimEventRequest,
   SimEventResponse,
+  DoctorNote,
+  PatientGoal,
 } from "@/lib/types";
 import { computeRisk } from "@/lib/risk/compute";
 
@@ -35,6 +37,8 @@ export interface CareBridgeState {
   briefs: Brief[];
   doctorActions: { id: string; patientId: string; type: "call" | "message" | "teleconsult"; note?: string; timestamp: string }[];
   missedDoseEscalations: Record<string, { logId: string; patientId: string; detectedAt: number; firedStages: Set<"reminder" | "family" | "doctor"> }>;
+  doctorNotes: DoctorNote[];
+  patientGoals: PatientGoal[];
 }
 
 // Helper to generate 14 days of realistic baseline data
@@ -333,9 +337,25 @@ function createInitialState(): CareBridgeState {
     },
   ];
 
+  // Baseline normal HR readings for last 3 days at 02:00 (so initial state has no HR anomaly)
+  for (let d = 1; d <= 3; d++) {
+    const hrDay = new Date(now - d * dayMs);
+    hrDay.setHours(2, 0, 0, 0);
+    vitals.push({
+      id: `p1-hr-${d}`,
+      patient_id: "p1",
+      type: "hr",
+      value_a: 72,
+      value_b: null,
+      recorded_at: hrDay.toISOString(),
+    });
+  }
+
   const briefs: Brief[] = [];
   const doctorActions: CareBridgeState["doctorActions"] = [];
   const missedDoseEscalations: CareBridgeState["missedDoseEscalations"] = {};
+  const doctorNotes: DoctorNote[] = [];
+  const patientGoals: PatientGoal[] = [];
 
   const state: CareBridgeState = {
     patients,
@@ -351,6 +371,8 @@ function createInitialState(): CareBridgeState {
     briefs,
     doctorActions,
     missedDoseEscalations,
+    doctorNotes,
+    patientGoals,
   };
 
   // Compute baseline risk scores for all 3 patients
@@ -560,14 +582,14 @@ class CareBridgeStore {
     return { log: newLog, risk };
   }
 
-  public logVital(patientId: string, type: "bp" | "steps" | "glucose", valueA: number, valueB: number | null = null): { vital: Vital; risk: any } {
+  public logVital(patientId: string, type: "bp" | "steps" | "glucose" | "hr", valueA: number, valueB: number | null = null, recordedAt?: string): { vital: Vital; risk: any } {
     const newVital: Vital = {
-      id: `vital-${Date.now()}`,
+      id: `vital-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`,
       patient_id: patientId,
       type,
       value_a: valueA,
       value_b: valueB,
-      recorded_at: new Date().toISOString(),
+      recorded_at: recordedAt || new Date().toISOString(),
     };
 
     this.state.vitals.unshift(newVital);
@@ -669,6 +691,21 @@ class CareBridgeStore {
       this.logVital(patientId, "bp", 124, 80);
       this.logVital(patientId, "steps", 5500, null);
       alertMessage = `Simulation: Recovery event registered for ${patient.name}`;
+    } else if (kind === "hr_spike") {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      const t2am = new Date(yesterday);
+      t2am.setHours(2, 0, 0, 0);
+      const t3am = new Date(yesterday);
+      t3am.setHours(3, 0, 0, 0);
+      const t4am = new Date(yesterday);
+      t4am.setHours(4, 0, 0, 0);
+
+      this.logVital(patientId, "hr", 109, null, t2am.toISOString());
+      this.logVital(patientId, "hr", 114, null, t3am.toISOString());
+      this.logVital(patientId, "hr", 112, null, t4am.toISOString());
+      alertMessage = `Simulation: Nocturnal HR spike (109-114 bpm) injected for ${patient.name}`;
     }
 
     const newRisk = this.recomputePatientRisk(patientId);
@@ -844,6 +881,85 @@ class CareBridgeStore {
       assumptions,
       alertsPerDay,
     };
+  }
+
+  public addDoctorNote(patientId: string, doctorId: string, noteText: string, parsedInstructions: any): DoctorNote {
+    const note: DoctorNote = {
+      id: `dn-${Date.now()}`,
+      patient_id: patientId,
+      doctor_id: doctorId,
+      note_text: noteText,
+      parsed_instructions: parsedInstructions,
+      created_at: new Date().toISOString(),
+    };
+    this.state.doctorNotes.unshift(note);
+
+    if (parsedInstructions?.goals && Array.isArray(parsedInstructions.goals)) {
+      for (const g of parsedInstructions.goals) {
+        this.state.patientGoals.unshift({
+          id: `pg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          patient_id: patientId,
+          category: g.category || "other",
+          target: g.target || "Health target",
+          by_date: g.by || null,
+          source_note_id: note.id,
+          completed_at: null,
+          created_at: new Date().toISOString(),
+        });
+      }
+    }
+
+    this.state.alerts.unshift({
+      id: `alt-plan-${Date.now()}`,
+      patient_id: patientId,
+      level: "reminder",
+      audience: "patient",
+      message: "Dr. Rao updated your care plan. Tap to review.",
+      created_at: new Date().toISOString(),
+      acknowledged_at: null,
+    });
+
+    return note;
+  }
+
+  public getPatientGoals(patientId: string): { goals: PatientGoal[]; latestNote: DoctorNote | null } {
+    const goals = this.state.patientGoals
+      .filter((g) => g.patient_id === patientId)
+      .sort((a, b) => {
+        if (!a.completed_at && b.completed_at) return -1;
+        if (a.completed_at && !b.completed_at) return 1;
+        return (a.by_date || "").localeCompare(b.by_date || "");
+      });
+    const latestNote = this.state.doctorNotes.find((n) => n.patient_id === patientId) || null;
+    return { goals, latestNote };
+  }
+
+  public completePatientGoal(patientId: string, goalId: string): { completedAt: string } | null {
+    const goal = this.state.patientGoals.find((g) => g.id === goalId && g.patient_id === patientId);
+    if (!goal) return null;
+    const completedAt = new Date().toISOString();
+    goal.completed_at = completedAt;
+    return { completedAt };
+  }
+
+  public getAIAuditLogs() {
+    return this.state.briefs.map((b) => {
+      const patient = this.state.patients.find((p) => p.id === b.patient_id);
+      return {
+        id: b.id || `brief-${Date.now()}`,
+        patient_name: patient?.name || "Patient",
+        created_at: b.created_at,
+        source: b.source,
+        char_count: b.text.length,
+        citation_count: Array.isArray((b as any).citations) ? (b as any).citations.length : 0,
+        text: b.text,
+        citations: (b as any).citations || [],
+      };
+    });
+  }
+
+  public addBrief(brief: Brief & { citations?: any[] }) {
+    this.state.briefs.unshift(brief);
   }
 }
 
