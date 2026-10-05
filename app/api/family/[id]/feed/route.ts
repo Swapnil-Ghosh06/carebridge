@@ -12,7 +12,7 @@ export async function GET(
     const id = params.id;
     // Map family member id (e.g. f1) to patient id (p1) if needed
     const familyMember = store.getState().familyMembers.find((f) => f.id === id);
-    const patientId = familyMember ? familyMember.patient_id : id;
+    const patientId = familyMember?.patient_id || familyMember?.patientId || id || 'p1';
 
     const feed = store.getFamilyFeed(patientId);
 

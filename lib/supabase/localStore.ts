@@ -453,7 +453,7 @@ class CareBridgeStore {
         score: risk.score,
         band: risk.band,
         topReason: risk.reasons[0]?.text || "Telemetry stable within normal limits",
-        lastSeen: lastVital ? lastVital.recorded_at : patient.created_at,
+        lastSeen: lastVital?.recorded_at || lastVital?.recordedAt || patient.created_at || patient.createdAt || "Recently",
         conditions: patient.conditions,
       };
     });

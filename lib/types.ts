@@ -13,19 +13,13 @@ export interface Patient {
   age: number;
   language: 'hi' | 'kn' | 'en' | 'Hindi' | 'Kannada' | 'English' | string;
   conditions: string[];
-<<<<<<< HEAD
   doctorId?: string;
   doctor_id?: string;
   familyId?: string;
   family_id?: string;
+  discharged_at?: string | null;
   createdAt?: string;
   created_at?: string;
-=======
-  doctor_id: string;
-  family_id: string;
-  discharged_at?: string | null;
-  created_at: string;
->>>>>>> origin/main
 }
 
 export interface Doctor {
@@ -79,6 +73,14 @@ export interface Vital {
   value_b?: number | null;
   recordedAt?: string;
   recorded_at?: string;
+}
+
+export interface PatientSnapshot {
+  patient: Patient;
+  medLogs: MedLog[];
+  vitals: Vital[];
+  consents?: Consent[];
+  currentScore?: number;
 }
 
 export interface RiskScore {
@@ -157,20 +159,7 @@ export interface Brief {
   };
 }
 
-<<<<<<< HEAD
-=======
-// Risk Engine Snapshot Structure
-export interface PatientSnapshot {
-  patient: Patient;
-  medLogs: MedLog[];
-  vitals: Vital[];
-  consents?: Consent[];
-  currentScore?: number;
-}
-
 // API DTOs
-
->>>>>>> origin/main
 export interface PatientListItem {
   id: string;
   name: string;
@@ -233,6 +222,7 @@ export interface FamilyFeedResponse {
   patient: {
     id: string;
     name: string;
+    age?: number;
     conditions?: string[];
     band?: RiskBand;
     score?: number;

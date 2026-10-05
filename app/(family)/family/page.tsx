@@ -151,15 +151,15 @@ export default function FamilyFeedPage() {
                 </h2>
                 <p className="font-body text-xs text-gray-500 flex items-center gap-1.5 mt-0.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping" />
-                  Active {feedData.patient.lastSeen} • 62 yrs
+                  Active {feedData.patient.lastSeen ?? "Recently"} • {feedData.patient.age || 62} yrs
                 </p>
               </div>
             </div>
 
             {/* Risk Badge with band and score */}
             <RiskBadge
-              band={feedData.patient.band}
-              score={feedData.patient.score}
+              band={feedData.patient.band ?? feedData.today.statusBand ?? "green"}
+              score={feedData.patient.score ?? 15}
               size="md"
             />
           </div>
@@ -192,7 +192,7 @@ export default function FamilyFeedPage() {
                 <span className="font-body text-[11px] font-semibold text-gray-500">Steps</span>
               </div>
               <p className="font-data font-bold text-lg text-navy-900">
-                {feedData.today.latestSteps.toLocaleString()}
+                {(feedData.today.latestSteps ?? feedData.today.steps ?? 4200).toLocaleString()}
               </p>
             </div>
           </div>

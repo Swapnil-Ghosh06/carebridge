@@ -1,10 +1,26 @@
-import { PatientSnapshot, RiskReason } from "@/lib/types";
+import { PatientSnapshot } from "@/lib/types";
 
 export interface RiskRuleConfig {
   id: string;
   label: string;
   weight: number;
   evaluate: (snapshot: PatientSnapshot) => { hit: boolean; text?: string };
+}
+
+function getLogTime(l: { scheduled_at?: string; scheduledAt?: string }): number {
+  return new Date(l.scheduled_at || l.scheduledAt || Date.now()).getTime();
+}
+
+function getVitalTime(v: { recorded_at?: string; recordedAt?: string }): number {
+  return new Date(v.recorded_at || v.recordedAt || Date.now()).getTime();
+}
+
+function getValA(v?: { value_a?: number; valueA?: number }): number {
+  return v?.value_a ?? v?.valueA ?? 0;
+}
+
+function getValB(v?: { value_b?: number | null; valueB?: number | null }): number {
+  return v?.value_b ?? v?.valueB ?? 0;
 }
 
 export const RISK_RULES: RiskRuleConfig[] = [
@@ -17,7 +33,7 @@ export const RISK_RULES: RiskRuleConfig[] = [
       const now = Date.now();
       const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
       const logs7d = snapshot.medLogs.filter((l) => {
-        const time = new Date(l.scheduled_at).getTime();
+        const time = getLogTime(l);
         return now - time <= sevenDaysMs;
       });
 
@@ -47,7 +63,7 @@ export const RISK_RULES: RiskRuleConfig[] = [
     evaluate: (snapshot) => {
       // Sort logs by scheduled time descending
       const sorted = [...snapshot.medLogs].sort(
-        (a, b) => new Date(b.scheduled_at).getTime() - new Date(a.scheduled_at).getTime()
+        (a, b) => getLogTime(b) - getLogTime(a)
       );
 
       let streak = 0;
@@ -79,27 +95,27 @@ export const RISK_RULES: RiskRuleConfig[] = [
       const oneDayMs = 24 * 60 * 60 * 1000;
       const bpVitals = snapshot.vitals
         .filter((v) => v.type === "bp")
-        .sort((a, b) => new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime());
+        .sort((a, b) => getVitalTime(b) - getVitalTime(a));
 
       if (bpVitals.length < 2) return { hit: false };
 
       const recent7d = bpVitals.filter(
-        (v) => now - new Date(v.recorded_at).getTime() <= 7 * oneDayMs
+        (v) => now - getVitalTime(v) <= 7 * oneDayMs
       );
       const prior7d = bpVitals.filter((v) => {
-        const diff = now - new Date(v.recorded_at).getTime();
+        const diff = now - getVitalTime(v);
         return diff > 7 * oneDayMs && diff <= 14 * oneDayMs;
       });
 
       if (recent7d.length === 0) return { hit: false };
 
       const avgRecent =
-        recent7d.reduce((sum, v) => sum + v.value_a, 0) / recent7d.length;
+        recent7d.reduce((sum, v) => sum + getValA(v), 0) / recent7d.length;
 
       // If no prior 7d vitals, compare recent vs baseline target of 125
       const baseline =
         prior7d.length > 0
-          ? prior7d.reduce((sum, v) => sum + v.value_a, 0) / prior7d.length
+          ? prior7d.reduce((sum, v) => sum + getValA(v), 0) / prior7d.length
           : 125;
 
       const increasePct = ((avgRecent - baseline) / baseline) * 100;
@@ -121,15 +137,15 @@ export const RISK_RULES: RiskRuleConfig[] = [
     evaluate: (snapshot) => {
       const bpVitals = snapshot.vitals
         .filter((v) => v.type === "bp")
-        .sort((a, b) => new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime());
+        .sort((a, b) => getVitalTime(b) - getVitalTime(a));
 
       if (bpVitals.length === 0) return { hit: false };
       const latest = bpVitals[0];
 
-      if (latest.value_a >= 150 || (latest.value_b && latest.value_b >= 95)) {
+      if (getValA(latest) >= 150 || getValB(latest) >= 95) {
         return {
           hit: true,
-          text: `Latest BP recorded at ${latest.value_a}/${latest.value_b || 0} mmHg (exceeds safe threshold).`,
+          text: `Latest BP recorded at ${getValA(latest)}/${getValB(latest)} mmHg (exceeds safe threshold).`,
         };
       }
       return { hit: false };
@@ -146,25 +162,25 @@ export const RISK_RULES: RiskRuleConfig[] = [
       const oneDayMs = 24 * 60 * 60 * 1000;
       const stepVitals = snapshot.vitals
         .filter((v) => v.type === "steps")
-        .sort((a, b) => new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime());
+        .sort((a, b) => getVitalTime(b) - getVitalTime(a));
 
       if (stepVitals.length === 0) return { hit: false };
 
       const recent7d = stepVitals.filter(
-        (v) => now - new Date(v.recorded_at).getTime() <= 7 * oneDayMs
+        (v) => now - getVitalTime(v) <= 7 * oneDayMs
       );
       const prior7d = stepVitals.filter((v) => {
-        const diff = now - new Date(v.recorded_at).getTime();
+        const diff = now - getVitalTime(v);
         return diff > 7 * oneDayMs && diff <= 14 * oneDayMs;
       });
 
       if (recent7d.length === 0) return { hit: false };
 
       const avgRecent =
-        recent7d.reduce((sum, v) => sum + v.value_a, 0) / recent7d.length;
+        recent7d.reduce((sum, v) => sum + getValA(v), 0) / recent7d.length;
       const baseline =
         prior7d.length > 0
-          ? prior7d.reduce((sum, v) => sum + v.value_a, 0) / prior7d.length
+          ? prior7d.reduce((sum, v) => sum + getValA(v), 0) / prior7d.length
           : 5000;
 
       const dropPct = ((baseline - avgRecent) / baseline) * 100;
@@ -186,15 +202,15 @@ export const RISK_RULES: RiskRuleConfig[] = [
     evaluate: (snapshot) => {
       const gluVitals = snapshot.vitals
         .filter((v) => v.type === "glucose")
-        .sort((a, b) => new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime());
+        .sort((a, b) => getVitalTime(b) - getVitalTime(a));
 
       if (gluVitals.length === 0) return { hit: false };
       const latest = gluVitals[0];
 
-      if (latest.value_a >= 180) {
+      if (getValA(latest) >= 180) {
         return {
           hit: true,
-          text: `Latest blood glucose elevated at ${latest.value_a} mg/dL (target < 140 mg/dL).`,
+          text: `Latest blood glucose elevated at ${getValA(latest)} mg/dL (target < 140 mg/dL).`,
         };
       }
       return { hit: false };
@@ -231,12 +247,12 @@ export const RISK_RULES: RiskRuleConfig[] = [
       const fortyEightHoursMs = 48 * 60 * 60 * 1000;
 
       const latestVital = snapshot.vitals.reduce((latest, v) => {
-        const time = new Date(v.recorded_at).getTime();
+        const time = getVitalTime(v);
         return time > latest ? time : latest;
       }, 0);
 
       const latestLog = snapshot.medLogs.reduce((latest, l) => {
-        const time = l.taken_at ? new Date(l.taken_at).getTime() : 0;
+        const time = l.taken_at || l.takenAt ? new Date(l.taken_at || l.takenAt || 0).getTime() : 0;
         return time > latest ? time : latest;
       }, 0);
 
