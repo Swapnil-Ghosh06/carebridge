@@ -14,7 +14,7 @@ export type { RiskReason };
 
 export interface ReasonListProps {
   reasons: RiskReason[];
-}
+}  
 
 export const ReasonList: React.FC<ReasonListProps> = ({ reasons }) => {
   if (!reasons || reasons.length === 0) {
