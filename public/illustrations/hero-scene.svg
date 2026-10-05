@@ -1,0 +1,59 @@
+<svg viewBox="0 0 600 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- BLOB LAYER -->
+  <g transform="translate(6, 6)" opacity="0.85">
+    <path d="M 60,180 C 40,60 200,30 320,40 C 460,50 560,110 540,230 C 520,330 380,360 220,340 C 80,320 80,260 60,180 Z" fill="#EEF2F8"/>
+    <!-- Patient blobs -->
+    <path d="M 120,150 Q 100,200 95,280 Q 150,290 190,280 Q 185,200 170,150 Z" fill="#2CC3A8"/>
+    <ellipse cx="145" cy="110" rx="22" ry="26" fill="#F2B01E"/>
+    <!-- Dog blob -->
+    <path d="M 50,285 Q 60,250 95,255 Q 110,270 105,310 Q 75,320 50,310 Z" fill="#FF6B35"/>
+    <!-- Family daughter blob -->
+    <path d="M 260,170 Q 240,215 235,285 Q 285,295 325,285 Q 320,215 305,170 Z" fill="#7FD6E8"/>
+    <ellipse cx="282" cy="120" rx="20" ry="24" fill="#F2B01E"/>
+    <!-- Doctor blob -->
+    <path d="M 400,140 Q 370,185 365,280 Q 430,290 480,280 Q 475,185 450,140 Z" fill="#4B3FB8"/>
+    <ellipse cx="425" cy="100" rx="22" ry="26" fill="#F2B01E"/>
+    <rect x="440" y="160" width="45" height="60" rx="6" fill="#5EEAD4"/>
+  </g>
+  <!-- NAVY LINE LAYER -->
+  <g stroke="#0B1F4B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 30,325 C 180,330 420,330 570,325" stroke-dasharray="6 6"/>
+    <!-- Patient -->
+    <circle cx="140" cy="108" r="6"/>
+    <circle cx="154" cy="108" r="6"/>
+    <path d="M 146,108 L 148,108"/>
+    <path d="M 143,122 Q 148,126 153,122"/>
+    <path d="M 130,105 Q 128,90 145,88 Q 162,90 160,105"/>
+    <path d="M 130,145 L 145,155 L 160,145"/>
+    <path d="M 130,150 Q 110,165 105,285 L 185,285 Q 180,165 160,150"/>
+    <rect x="165" y="170" width="22" height="38" rx="4"/>
+    <path d="M 105,285 L 110,322 L 132,322 L 135,285 L 155,285 L 158,322 L 180,322 L 185,285"/>
+
+    <!-- Dog -->
+    <circle cx="65" cy="270" r="1.5" fill="#0B1F4B"/>
+    <path d="M 55,265 Q 50,260 55,275 Q 65,282 75,275 Q 78,265 70,262 Z"/>
+    <path d="M 72,275 Q 88,272 98,290 L 96,322 L 60,322 Q 60,295 68,280"/>
+    <path d="M 98,288 Q 112,278 110,268"/>
+
+    <!-- Family daughter -->
+    <circle cx="276" cy="118" r="2" fill="#0B1F4B"/>
+    <circle cx="288" cy="118" r="2" fill="#0B1F4B"/>
+    <path d="M 280,128 Q 284,132 288,128"/>
+    <path d="M 268,115 Q 265,98 282,96 Q 298,98 296,115"/>
+    <path d="M 296,112 Q 306,120 302,138"/>
+    <path d="M 270,165 Q 250,180 245,285 L 315,285 Q 310,180 290,165"/>
+    <path d="M 245,285 L 250,322 L 270,322 L 275,285 L 285,285 L 290,322 L 310,322 L 315,285"/>
+
+    <!-- Doctor -->
+    <circle cx="418" cy="98" r="2" fill="#0B1F4B"/>
+    <circle cx="432" cy="98" r="2" fill="#0B1F4B"/>
+    <path d="M 422,108 Q 426,112 430,108"/>
+    <path d="M 410,95 Q 408,78 425,76 Q 442,78 440,95"/>
+    <circle cx="438" cy="84" r="6"/>
+    <path d="M 418,122 Q 412,140 415,155 Q 425,165 435,155 Q 438,140 432,122"/>
+    <circle cx="425" cy="168" r="4"/>
+    <path d="M 405,145 Q 380,160 375,285 L 465,285 Q 460,160 435,145"/>
+    <rect x="440" y="165" width="44" height="58" rx="5"/>
+    <path d="M 375,285 L 380,322 L 405,322 L 410,285 L 430,285 L 435,322 L 460,322 L 465,285"/>
+  </g>
+</svg>
