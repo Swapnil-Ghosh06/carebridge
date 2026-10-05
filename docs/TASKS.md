@@ -75,15 +75,15 @@ S:
 - [ ] A: Test on the presentation laptop and projector resolution
 - [ ] S: Final visual QA, check fonts are only the three allowed
 - [ ] V: Record a 2-minute backup video of the full scenario
-- [ ] V: Write the submission text: problem, solution, what's built vs roadmap, simulated-data disclosure
-- [ ] ALL: Final deploy on Vercel, copy the URL, open it in a fresh browser to verify
+- [x] V: Write the submission text: problem, solution, what's built vs roadmap, simulated-data disclosure
+- [x] ALL: Final deploy on Vercel, copy the URL, open it in a fresh browser to verify
 
 ## Phase 5: Submission kit
-- [ ] Live URL + GitHub link
+- [x] Live URL + GitHub link
 - [ ] Demo video (backup)
-- [ ] 1-page "what's real vs simulated" note
-- [ ] Roadmap slide (Tier 3 items)
-- [ ] Who built what: V patient/family + lead, A doctor/admin, S design, R backend/AI
+- [x] 1-page "what's real vs simulated" note
+- [x] Roadmap slide (Tier 3 items)
+- [x] Who built what: V patient/family + lead, A doctor/admin, S design, R backend/AI
 
 ## Demo script (practice until boring)
 1. Landing -> pick Patient. Show Hindi greeting. Say "maine dawai le li" -> logged.
