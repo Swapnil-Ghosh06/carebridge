@@ -278,7 +278,10 @@ export default function PatientHomePage() {
           </div>
 
           {/* Greeting Hero Section */}
-          <section className="bg-[#121214] text-white rounded-[22px] p-5 sm:p-6 border-2 border-[#121214] shadow-[4px_4px_0px_#121214] relative overflow-hidden">
+          <section
+            style={{ backgroundColor: '#121214', color: '#FFFFFF' }}
+            className="bg-[#121214] text-white rounded-[22px] p-5 sm:p-6 border-2 border-[#121214] shadow-[4px_4px_0px_#121214] relative overflow-hidden"
+          >
             <div className="relative z-10">
               <span className="font-body text-[#D4F77C] text-sm sm:text-base font-bold tracking-wide block">
                 {getGreeting()},
@@ -296,15 +299,15 @@ export default function PatientHomePage() {
             {/* Quick Voice Log Prompt Pill */}
             <Link
               href="/patient/voice"
-              className="mt-4 pt-3.5 border-t border-white/15 flex items-center justify-between bg-white/5 hover:bg-white/10 rounded-xl px-3 py-2 transition-all group"
+              className="mt-4 pt-3.5 border-t border-white/15 flex items-center justify-between bg-white/10 hover:bg-white/15 rounded-xl px-3 py-2 transition-all group"
             >
               <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-200">
-                <span className="p-1.5 rounded-full bg-[#FF5C98] text-white shrink-0">
+                <span className="p-1.5 rounded-full bg-[#FF5C98] text-white shrink-0 shadow-[1px_1px_0px_#000]">
                   <Mic className="w-3.5 h-3.5" />
                 </span>
-                <span className="font-body font-medium">{t('voice_hint', locale)}</span>
+                <span className="font-body font-medium text-white/90">{t('voice_hint', locale)}</span>
               </div>
-              <span className="text-xs font-display font-bold text-[#D4F77C] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+              <span className="text-xs font-display font-bold text-[#D4F77C] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform shrink-0">
                 <span>Try voice</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </span>

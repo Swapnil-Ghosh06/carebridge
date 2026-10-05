@@ -96,39 +96,48 @@ export const StatTile: React.FC<StatTileProps> = ({
       ? "text-[var(--ink-700)]"
       : "text-[var(--brand-teal)]";
 
+  // Dynamic font sizing: values like "142/88" (6+ chars) need compact sizing so they never overflow on mobile
+  const valString = String(value);
+  const responsiveValueSize =
+    valString.length >= 6
+      ? "text-[15px] sm:text-lg"
+      : valString.length >= 5
+      ? "text-lg sm:text-xl"
+      : valueSize[size];
+
   return (
     <div
       className={[
         "bg-white rounded-[20px] border-2 border-[var(--ink-900)] shadow-[2.5px_2.5px_0px_var(--ink-900)]",
-        "p-3 sm:p-3.5 flex flex-col justify-between h-full min-h-[140px] transition-all",
+        "p-2.5 sm:p-3.5 flex flex-col justify-between h-full min-h-[140px] overflow-hidden transition-all",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      <div>
+      <div className="min-w-0">
         {/* Top Header: Icon + Metric Name */}
-        <div className="flex items-center gap-1.5 mb-1.5">
+        <div className="flex items-center gap-1.5 mb-1.5 min-w-0">
           {icon && (
             <span className="p-1 rounded-lg bg-[var(--surface-100)] inline-flex items-center justify-center text-[var(--ink-900)] shrink-0">
               {icon}
             </span>
           )}
-          <span className="font-display font-bold text-xs sm:text-[13px] text-[var(--ink-800)] line-clamp-1 leading-tight tracking-tight">
+          <span className="font-display font-bold text-xs sm:text-[13px] text-[var(--ink-800)] truncate leading-tight tracking-tight">
             {label}
           </span>
         </div>
 
         {/* Big Value Row */}
-        <div className="flex items-baseline gap-1 mt-1">
+        <div className="flex items-baseline gap-1 mt-1 min-w-0 max-w-full overflow-hidden">
           <span
-            className={["font-data font-bold text-[var(--ink-900)] tracking-tight leading-none", valueSize[size]].join(" ")}
+            className={["font-data font-bold text-[var(--ink-900)] tracking-tight leading-none truncate", responsiveValueSize].join(" ")}
             aria-label={`${label}: ${value}`}
           >
             {value}
           </span>
           {displayUnit && displayUnit.toLowerCase() !== label.toLowerCase() && (
-            <span className="font-data text-[var(--ink-500)] text-[11px] font-semibold">{displayUnit}</span>
+            <span className="font-data text-[var(--ink-500)] text-[10px] sm:text-[11px] font-semibold shrink-0">{displayUnit}</span>
           )}
         </div>
       </div>
