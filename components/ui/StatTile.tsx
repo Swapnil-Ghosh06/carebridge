@@ -54,15 +54,15 @@ const trendIcon: Record<TrendDirection, React.ElementType> = {
 };
 
 const valueSize = {
-  sm: "text-2xl",
-  md: "text-4xl",
-  lg: "text-5xl",
+  sm: "text-base sm:text-xl",
+  md: "text-xl sm:text-3xl",
+  lg: "text-2xl sm:text-4xl",
 };
 
 const labelSize = {
-  sm: "text-xs",
-  md: "text-sm",
-  lg: "text-base",
+  sm: "text-[11px] sm:text-xs",
+  md: "text-xs sm:text-sm",
+  lg: "text-sm sm:text-base",
 };
 
 export const StatTile: React.FC<StatTileProps> = ({
@@ -99,54 +99,60 @@ export const StatTile: React.FC<StatTileProps> = ({
   return (
     <div
       className={[
-        "bg-[var(--surface-0)] rounded-[var(--r-lg)] shadow-[var(--shadow-card)]",
-        "p-5 flex flex-col gap-1",
+        "bg-[var(--surface-0)] rounded-[18px] border-2 border-[var(--ink-900)] shadow-[2px_2px_0px_var(--ink-900)] sm:shadow-[3px_3px_0px_var(--ink-900)]",
+        "p-3 sm:p-4.5 flex flex-col justify-between gap-1 transition-all",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      {/* Optional icon */}
-      {icon && (
-        <span className="text-[var(--ink-500)] mb-1" aria-hidden="true">
-          {icon}
-        </span>
-      )}
-
-      {/* Value row */}
-      <div className="flex items-baseline gap-1.5 flex-wrap">
-        <span
-          className={["font-data font-bold text-[var(--ink-900)]", valueSize[size]].join(" ")}
-          aria-label={`${label}: ${value}${displayUnit ? " " + displayUnit : ""}`}
-        >
-          {value}
-        </span>
-        {displayUnit && (
-          <span className="font-body text-[var(--ink-500)] text-sm">{displayUnit}</span>
+      <div>
+        {/* Optional icon */}
+        {icon && (
+          <div className="mb-1.5 flex items-center justify-between" aria-hidden="true">
+            <span className="p-1 rounded-lg bg-[var(--surface-100)] inline-flex items-center justify-center text-[var(--ink-900)]">
+              {icon}
+            </span>
+          </div>
         )}
-      </div>
 
-      {/* Label */}
-      <span className={["font-body font-medium text-[var(--ink-500)]", labelSize[size]].join(" ")}>
-        {label}
-      </span>
-
-      {/* Target/Goal secondary note */}
-      {target && (
-        <span className="font-body text-xs text-[var(--ink-500)] mt-0.5">
-          {target}
-        </span>
-      )}
-
-      {/* Trend */}
-      {trend && TrendIcon && (
-        <div className={["flex items-center gap-1 mt-1", trendColor].join(" ")}>
-          <TrendIcon size={14} aria-hidden="true" />
-          {activeTrendLabel && (
-            <span className="font-body text-xs">{activeTrendLabel}</span>
+        {/* Value row */}
+        <div className="flex items-baseline gap-1 flex-wrap">
+          <span
+            className={["font-data font-bold text-[var(--ink-900)] tracking-tight leading-none", valueSize[size]].join(" ")}
+            aria-label={`${label}: ${value}${displayUnit ? " " + displayUnit : ""}`}
+          >
+            {value}
+          </span>
+          {displayUnit && (
+            <span className="font-body text-[var(--ink-500)] text-[11px] sm:text-xs font-medium">{displayUnit}</span>
           )}
         </div>
-      )}
+
+        {/* Label */}
+        <span className={["font-body font-bold text-[var(--ink-800)] line-clamp-1 mt-1 block leading-tight", labelSize[size]].join(" ")}>
+          {label}
+        </span>
+      </div>
+
+      <div>
+        {/* Target/Goal secondary note */}
+        {target && (
+          <span className="font-body text-[10px] sm:text-[11px] text-[var(--ink-500)] font-medium block mt-0.5 line-clamp-1">
+            {target}
+          </span>
+        )}
+
+        {/* Trend */}
+        {trend && TrendIcon && (
+          <div className={["flex items-center gap-1 mt-1 font-medium", trendColor].join(" ")}>
+            <TrendIcon size={12} className="shrink-0" aria-hidden="true" />
+            {activeTrendLabel && (
+              <span className="font-body text-[10px] sm:text-[11px] line-clamp-1">{activeTrendLabel}</span>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

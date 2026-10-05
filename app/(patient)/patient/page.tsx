@@ -263,29 +263,29 @@ export default function PatientHomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-50 text-navy-900 pb-28">
+    <div className="min-h-screen bg-[#FAF8F5] text-ink-900 pb-28 sm:pb-32">
       {/* Patient Header with Language Switcher */}
       <PatientHeader locale={locale} onLocaleChange={handleLocaleChange} />
 
-      <main className="max-w-md mx-auto px-4 pt-4 space-y-5">
+      <main className="max-w-md mx-auto px-3.5 sm:px-4 pt-3.5 space-y-4 sm:space-y-5">
         {/* Simulated Data & Decision Support Banner */}
-        <div className="bg-amber-50/90 border border-amber-200/80 rounded-xl px-3 py-1.5 flex items-center justify-between text-xs text-amber-800">
-          <span className="flex items-center gap-1.5 font-medium">
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-            {t('decision_support_note', locale)}
+        <div className="bg-[#FEF3C7] border-2 border-ink-900 rounded-xl px-3 py-2 flex items-center justify-between text-xs text-ink-900 font-body font-semibold shadow-[2px_2px_0px_#121214]">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0" />
+            <span>{t('decision_support_note', locale)}</span>
           </span>
         </div>
 
         {/* Greeting Hero Section */}
-        <section className="bg-gradient-to-br from-navy-900 to-navy-800 text-white rounded-3xl p-6 shadow-card relative overflow-hidden">
+        <section className="bg-ink-900 text-white rounded-[22px] p-5 sm:p-6 border-2 border-ink-900 shadow-[4px_4px_0px_#121214] relative overflow-hidden">
           <div className="relative z-10">
-            <span className="font-body text-teal-400 text-base sm:text-lg font-medium tracking-wide">
+            <span className="font-body text-[#D4F77C] text-sm sm:text-base font-bold tracking-wide block">
               {getGreeting()},
             </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight mt-0.5">
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-white tracking-tight mt-0.5">
               {HERO_PATIENT.name} {t('ji', locale)}
             </h2>
-            <p className="font-body text-gray-300 text-base mt-2">
+            <p className="font-body text-[#EAE7DC] text-sm sm:text-base mt-1 font-medium">
               {pendingLogs.length > 0
                 ? `${pendingLogs.length} dose${pendingLogs.length > 1 ? 's' : ''} left for today.`
                 : t('all_caught_up', locale)}
@@ -295,15 +295,15 @@ export default function PatientHomePage() {
           {/* Quick Voice Log Prompt Pill */}
           <Link
             href="/patient/voice"
-            className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between hover:opacity-90 transition-opacity"
+            className="mt-4 pt-3.5 border-t border-white/15 flex items-center justify-between bg-white/5 hover:bg-white/10 rounded-xl px-3 py-2 transition-all group"
           >
-            <div className="flex items-center gap-2 text-xs text-gray-200">
-              <span className="p-1.5 rounded-full bg-teal-500/20 text-teal-400">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-200">
+              <span className="p-1.5 rounded-full bg-[#FF5C98] text-white shrink-0">
                 <Mic className="w-3.5 h-3.5" />
               </span>
-              <span>{t('voice_hint', locale)}</span>
+              <span className="font-body font-medium">{t('voice_hint', locale)}</span>
             </div>
-            <span className="text-xs font-display font-bold text-teal-400 flex items-center gap-1">
+            <span className="text-xs font-display font-bold text-[#D4F77C] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
               <span>Try voice</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </span>
@@ -312,13 +312,13 @@ export default function PatientHomePage() {
 
         {/* Next Medicine Dose Card */}
         <section className="space-y-2">
-          <div className="flex items-center justify-between">
-            <h3 className="font-display font-bold text-xl text-navy-900">
+          <div className="flex items-center justify-between px-0.5">
+            <h3 className="font-display font-bold text-lg sm:text-xl text-ink-900">
               {t('next_dose', locale)}
             </h3>
             <Link
               href="/patient/medicines"
-              className="font-body text-sm font-semibold text-teal-600 hover:text-teal-700"
+              className="font-body text-xs sm:text-sm font-bold text-ink-700 hover:text-ink-900 underline"
             >
               View all ({totalMeds})
             </Link>
@@ -336,25 +336,25 @@ export default function PatientHomePage() {
               onMarkTaken={handleMarkTaken}
             />
           ) : (
-            <Card className="text-center py-8 bg-white border border-emerald-100">
-              <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-2" />
-              <h4 className="font-display font-bold text-xl text-navy-900">
+            <Card className="text-center py-6 bg-white border-2 border-ink-900 shadow-[3px_3px_0px_#121214] rounded-[20px]">
+              <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-2" />
+              <h4 className="font-display font-bold text-lg text-ink-900">
                 {t('all_caught_up', locale)}
               </h4>
-              <p className="font-body text-base text-gray-500 mt-1 max-w-xs mx-auto">
+              <p className="font-body text-sm text-ink-500 mt-1 max-w-xs mx-auto">
                 All scheduled medicines for today have been completed.
               </p>
             </Card>
           )}
         </section>
 
-        {/* 3 StatTiles: Steps, Medicines, BP (Sora for numbers) */}
+        {/* 3 StatTiles: Steps, Medicines, BP */}
         <section className="space-y-2">
-          <h3 className="font-display font-bold text-xl text-navy-900">
+          <h3 className="font-display font-bold text-lg sm:text-xl text-ink-900 px-0.5">
             {t('today_summary', locale)}
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             {/* Steps Tile */}
             <StatTile
               label={t('steps_today', locale)}
@@ -364,9 +364,8 @@ export default function PatientHomePage() {
                   : '4,210'
               }
               unit="steps"
-              target="Goal: 6,000"
-              variant="teal"
-              icon={<Footprints className="w-5 h-5 text-teal-600" />}
+              target="Goal: 6k"
+              icon={<Footprints className="w-4 h-4 text-ink-900" />}
               trendText="On track"
               trend="neutral"
             />
@@ -376,11 +375,10 @@ export default function PatientHomePage() {
               label={t('meds_adherence', locale)}
               value={`${takenCount}/${totalMeds}`}
               unit="doses"
-              target={takenCount === totalMeds ? '100% adherence' : 'Pending evening'}
-              variant="indigo"
-              icon={<Pill className="w-5 h-5 text-indigo-600" />}
+              target={takenCount === totalMeds ? '100%' : 'Eve pending'}
+              icon={<Pill className="w-4 h-4 text-ink-900" />}
               trend="up"
-              trendText={takenCount > 0 ? 'Logged' : 'None yet'}
+              trendText={takenCount > 0 ? 'Logged' : 'Pending'}
             />
 
             {/* Blood Pressure Tile */}
@@ -394,9 +392,8 @@ export default function PatientHomePage() {
                   : '138/88'
               }
               unit="mmHg"
-              target="Target <130/80"
-              variant="amber"
-              icon={<Heart className="w-5 h-5 text-amber-600" />}
+              target="<130/80"
+              icon={<Heart className="w-4 h-4 text-ink-900" />}
               trend="up"
               trendText="Elevated"
             />
@@ -405,20 +402,20 @@ export default function PatientHomePage() {
 
         {/* Phase 4A: Wearable Insight Section ("Your Health Today") */}
         {wearable && (
-          <section className="space-y-3 pt-1">
-            <h3 className="font-display font-bold text-xl sm:text-2xl text-navy-900 tracking-tight">
+          <section className="space-y-2.5 pt-1">
+            <h3 className="font-display font-bold text-lg sm:text-xl text-ink-900 px-0.5">
               {t('wearable.section_title', locale)}
             </h3>
 
             {highAnomalyFlags.length === 0 ? (
-              <Card className="bg-white rounded-2xl shadow-card border border-slate-100 border-l-[3px] border-l-emerald-600 p-5 flex items-center gap-4">
-                <div className="p-3 rounded-2xl bg-emerald-50 text-emerald-600 shrink-0">
-                  <CheckCircle2 className="w-7 h-7 text-emerald-600" />
+              <div className="bg-white rounded-[20px] border-2 border-ink-900 shadow-[3px_3px_0px_#121214] border-l-[6px] border-l-emerald-600 p-4 sm:p-5 flex items-center gap-3.5">
+                <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 shrink-0">
+                  <CheckCircle2 className="w-6 h-6 text-emerald-600" />
                 </div>
-                <p className="font-body font-medium text-lg sm:text-[20px] text-navy-900 leading-snug">
+                <p className="font-body font-semibold text-base sm:text-lg text-ink-900 leading-snug">
                   {t('wearable.all_good', locale)}
                 </p>
-              </Card>
+              </div>
             ) : (
               <div className="space-y-3">
                 {highAnomalyFlags.map((flag) => {
@@ -426,15 +423,15 @@ export default function PatientHomePage() {
                   const isSending = isSendingFlag[flag.ruleId];
 
                   return (
-                    <Card
+                    <div
                       key={flag.ruleId}
-                      className="bg-white rounded-2xl shadow-card border border-slate-100 border-l-[3px] border-l-teal-600 p-5 sm:p-6 space-y-4"
+                      className="bg-white rounded-[20px] border-2 border-ink-900 shadow-[3px_3px_0px_#121214] border-l-[6px] border-l-[#0D9488] p-4 sm:p-5 space-y-3"
                     >
-                      <div className="flex items-start gap-3.5">
-                        <div className="p-3 rounded-2xl bg-teal-50 text-teal-600 shrink-0 mt-0.5">
+                      <div className="flex items-start gap-3">
+                        <div className="p-2 rounded-xl bg-teal-50 text-teal-700 shrink-0 mt-0.5 border border-teal-200">
                           {getFlagIcon(flag.ruleId)}
                         </div>
-                        <p className="font-body font-medium text-lg sm:text-[20px] text-navy-900 leading-relaxed">
+                        <p className="font-body font-semibold text-base sm:text-lg text-ink-900 leading-snug">
                           {getFlagMessage(flag.ruleId, flag.detail)}
                         </p>
                       </div>
@@ -444,9 +441,9 @@ export default function PatientHomePage() {
                           <button
                             type="button"
                             disabled
-                            className="bg-emerald-50 border border-emerald-300 text-emerald-700 min-h-[48px] px-5 py-2.5 rounded-xl font-body font-semibold text-base flex items-center gap-2 cursor-default select-none"
+                            className="bg-emerald-50 border-2 border-emerald-600 text-emerald-800 min-h-[44px] px-4 py-2 rounded-xl font-body font-bold text-sm flex items-center gap-2 cursor-default select-none shadow-[2px_2px_0px_#15803D]"
                           >
-                            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                             <span>{t('wearable.sent', locale)}</span>
                           </button>
                         ) : (
@@ -454,16 +451,16 @@ export default function PatientHomePage() {
                             type="button"
                             disabled={isSending}
                             onClick={() => handleShareWithDoctor(flag.ruleId)}
-                            className="bg-white border-2 border-teal-600 text-teal-700 hover:bg-teal-50 active:scale-[0.98] min-h-[48px] px-5 py-2.5 rounded-xl font-body font-semibold text-base transition-all flex items-center justify-center gap-2 shadow-sm"
+                            className="bg-white hover:bg-[#FAF8F5] border-2 border-ink-900 text-ink-900 font-display font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-[2px_2px_0px_#121214] active:translate-y-0.5 min-h-[44px] flex items-center justify-center gap-2 transition-all cursor-pointer"
                           >
                             {isSending && (
-                              <Loader2 className="w-4 h-4 animate-spin text-teal-600" />
+                              <Loader2 className="w-4 h-4 animate-spin text-ink-900" />
                             )}
                             <span>{t('wearable.tell_doctor', locale)}</span>
                           </button>
                         )}
                       </div>
-                    </Card>
+                    </div>
                   );
                 })}
               </div>
@@ -500,66 +497,63 @@ export default function PatientHomePage() {
           </section>
         )}
 
-        {/* Quick Action: Log BP reading or Call Doctor */}
-        <section className="pt-2">
+        {/* Quick Action: Log BP reading */}
+        <section className="pt-1">
           <Link href="/patient/vitals">
-            <Card
-              hoverEffect
-              className="flex items-center justify-between p-4 cursor-pointer bg-gradient-to-r from-teal-50/50 to-white border-teal-100"
-            >
+            <div className="flex items-center justify-between p-3.5 sm:p-4 bg-white rounded-[20px] border-2 border-ink-900 shadow-[2px_2px_0px_#121214] hover:-translate-y-0.5 transition-all cursor-pointer">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-teal-600 text-white rounded-2xl">
-                  <Heart className="w-6 h-6" />
+                <div className="p-2.5 bg-[#FF5C98] text-white rounded-xl border border-ink-900">
+                  <Heart className="w-5 h-5 stroke-[2.5]" />
                 </div>
                 <div>
-                  <h4 className="font-display font-bold text-lg text-navy-900">
+                  <h4 className="font-display font-bold text-base sm:text-lg text-ink-900">
                     {t('log_bp_title', locale)}
                   </h4>
-                  <p className="font-body text-sm text-gray-500">
+                  <p className="font-body text-xs sm:text-sm text-ink-500">
                     Record your morning or evening pressure
                   </p>
                 </div>
               </div>
-              <ArrowRight className="w-5 h-5 text-teal-600" />
-            </Card>
+              <ArrowRight className="w-5 h-5 text-ink-900" />
+            </div>
           </Link>
         </section>
 
         {/* Clinic & Doctor Info Footer Card */}
-        <section className="pt-2">
-          <Card className="bg-gray-50 border-gray-200 p-4">
+        <section className="pt-1">
+          <div className="bg-white rounded-[20px] border-2 border-ink-900 shadow-[2px_2px_0px_#121214] p-3.5 sm:p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-body text-xs text-gray-500 uppercase tracking-wider font-semibold">
+                <p className="font-body text-[11px] text-ink-500 uppercase tracking-wider font-bold">
                   Primary Physician
                 </p>
-                <p className="font-display font-bold text-navy-900 text-base">
+                <p className="font-display font-bold text-ink-900 text-base mt-0.5">
                   {t('doctor_name', locale)}
                 </p>
-                <p className="font-body text-xs text-gray-500">
+                <p className="font-body text-xs text-ink-500">
                   {t('clinic_name', locale)} • Bengaluru
                 </p>
               </div>
               <a
                 href="tel:+918023456789"
-                className="px-4 py-2 bg-white border border-gray-300 rounded-full font-display font-bold text-xs text-navy-900 hover:bg-gray-100 flex items-center gap-1.5"
+                className="px-3.5 py-2 bg-[#D4F77C] hover:bg-[#CEF267] border-2 border-ink-900 rounded-full font-display font-bold text-xs text-ink-900 shadow-[1.5px_1.5px_0px_#121214] active:translate-y-0.5 flex items-center gap-1.5 transition-all"
               >
                 <span>Call Clinic</span>
               </a>
             </div>
-          </Card>
+          </div>
         </section>
       </main>
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-navy-900 text-white px-5 py-3 rounded-full shadow-lg flex items-center gap-2 font-display text-sm font-semibold animate-bounce">
-          <CheckCircle2 className="w-5 h-5 text-teal-400" />
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-ink-900 text-white px-5 py-3 rounded-full border-2 border-ink-900 shadow-[3px_3px_0px_#121214] flex items-center gap-2 font-display text-sm font-semibold animate-bounce select-none">
+          <CheckCircle2 className="w-5 h-5 text-[#D4F77C]" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Bottom Tab Bar (72px, fixed bottom) */}
+      {/* Bottom Tab Bar (68px, fixed bottom) */}
       <BottomNav locale={locale} />
     </div>
   );

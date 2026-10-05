@@ -60,16 +60,16 @@ export const GoalItem: React.FC<GoalItemProps> = ({
       aria-pressed={isCompleted}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      className={`group flex items-center justify-between p-3.5 sm:p-4 min-h-[56px] rounded-2xl border transition-all duration-200 select-none ${
+      className={`group flex items-center justify-between p-3 sm:p-3.5 min-h-[54px] rounded-xl border-2 border-ink-900 transition-all select-none ${
         isCompleted
-          ? 'bg-emerald-50/70 border-emerald-200 cursor-default'
-          : 'bg-white border-slate-200 hover:border-teal-400 hover:bg-teal-50/30 cursor-pointer active:scale-[0.99]'
+          ? 'bg-emerald-50 border-emerald-600 shadow-[1px_1px_0px_#15803D] cursor-default'
+          : 'bg-white shadow-[2px_2px_0px_#121214] hover:bg-[#FAF8F5] cursor-pointer active:translate-y-0.5'
       } ${disabled ? 'opacity-60 pointer-events-none' : ''} ${className}`}
     >
-      <div className="flex items-center gap-3.5 min-w-0 pr-2">
+      <div className="flex items-center gap-3 min-w-0 pr-2">
         <div
-          className={`p-2.5 rounded-xl shrink-0 transition-colors ${
-            isCompleted ? 'bg-emerald-100 text-emerald-700' : 'bg-teal-50 text-teal-700'
+          className={`p-2 rounded-lg shrink-0 transition-colors border border-ink-900 ${
+            isCompleted ? 'bg-emerald-100 text-emerald-800' : 'bg-[#D4F77C] text-ink-900'
           }`}
         >
           {getCategoryIcon()}
@@ -77,16 +77,16 @@ export const GoalItem: React.FC<GoalItemProps> = ({
 
         <div className="min-w-0">
           <p
-            className={`font-body font-medium text-lg sm:text-[20px] leading-snug tracking-tight transition-colors ${
+            className={`font-body font-bold text-sm sm:text-base leading-snug tracking-tight transition-colors ${
               isCompleted
-                ? 'line-through text-slate-400 font-normal'
-                : 'text-navy-900 group-hover:text-teal-950'
+                ? 'line-through text-ink-400 font-medium'
+                : 'text-ink-900'
             }`}
           >
             {target}
           </p>
           {by && (
-            <p className="font-body text-[13px] text-slate-500 mt-0.5 tracking-normal">
+            <p className="font-body text-xs text-ink-500 mt-0.5 font-medium">
               By {by}
             </p>
           )}
@@ -95,13 +95,13 @@ export const GoalItem: React.FC<GoalItemProps> = ({
 
       <div className="shrink-0 pl-2">
         {isCompleted ? (
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-            <span className="font-body text-xs font-semibold">Done</span>
+          <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-600 font-data text-xs font-bold">
+            <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+            <span>Done</span>
           </div>
         ) : (
-          <div className="w-7 h-7 rounded-full border-2 border-slate-300 group-hover:border-teal-500 flex items-center justify-center transition-colors">
-            <Circle className="w-3.5 h-3.5 text-transparent group-hover:text-teal-400/50 fill-current transition-colors" />
+          <div className="w-6 h-6 rounded-full border-2 border-ink-900 group-hover:bg-[#D4F77C] flex items-center justify-center transition-colors">
+            <Circle className="w-3 h-3 text-transparent group-hover:text-ink-900 fill-current transition-colors" />
           </div>
         )}
       </div>
