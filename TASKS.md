@@ -10,7 +10,7 @@ Time boxes assume you start about 22:30 tonight. Shift to match your real submis
 - [ ] R: Create Supabase project, run `schema.sql`, `seed.sql`, share env vars privately
 - [ ] R: Write `lib/types.ts` and freeze the API contract (ARCHITECTURE section 7)
 - [ ] S: Push `design/tokens.css` and Tailwind theme extension from DESIGN.md
-- [ ] A: Create doctor route skeleton, layout and role-switcher on landing
+- [x] A: Create doctor route skeleton, layout and role-switcher on landing
 - [ ] ALL: Read RULES.md and MEMORY.md; create your branch
 - Checkpoint 0: `main` deploys to Vercel and shows the landing page in all three fonts.
 
@@ -23,10 +23,10 @@ V (patient + family):
 - [ ] i18n scaffold with en/hi/kn for ~30 key strings
 
 A (doctor):
-- [ ] Patient list with `PatientRow` + `RiskBadge`, sorted by score
-- [ ] Patient detail page: profile, BP/steps trend charts, medicine log
-- [ ] "Why flagged" panel using `ReasonList`
-- [ ] Supabase Realtime (or 3 s polling) so list updates live
+- [x] A: Patient list with `PatientRow` + `RiskBadge`, sorted by score
+- [x] A: Patient detail page: profile, BP/steps trend charts, medicine log
+- [x] A: "Why flagged" panel using `ReasonList`
+- [x] A: Supabase Realtime (or 3 s polling) so list updates live
 
 S (UI/UX):
 - [ ] Figma: tokens + component set + P2, D1, D2 frames first
@@ -51,9 +51,9 @@ V:
 - [ ] Voice screen UI (listening, recognised text, confirm)
 - [ ] Family alert feed shows escalation messages live
 A:
-- [ ] Brief drawer (`BriefPanel`) with loading and fallback states
-- [ ] One-tap actions (call, message, teleconsult) with toast + alert record
-- [ ] Admin ROI panel
+- [x] A: Brief drawer (`BriefPanel`) with loading and fallback states
+- [x] A: One-tap actions (call, message, teleconsult) with toast + alert record
+- [x] A: Admin ROI panel
 S:
 - [ ] Final screens: P3 voice, D3 brief, F1/F2, A1 in Figma
 - [ ] Motion spec: list re-sort slide, badge swap, mic pulse
@@ -61,7 +61,7 @@ S:
 - Checkpoint 2 (03:30): Full demo scenario runs once end-to-end, even if ugly.
 
 ## Phase 3: P1 extras + polish (03:30-05:00, optional if tired)
-- [ ] A: Consent dashboard + audit log UI (needs R's `/consents`, `/audit`)
+- [x] A: Consent dashboard + audit log UI (needs R's `/consents`, `/audit`)
 - [ ] R: Audit writes on every doctor view; consent filtering in `GET /patients/:id`
 - [ ] V: Consent settings screen for patient (P5)
 - [ ] S: Empty/loading/error states across all screens; mobile responsiveness pass
