@@ -1,25 +1,17 @@
-// lib/types.ts
-// Comprehensive CareBridge data models and API contract
+export type RiskBand = "green" | "yellow" | "red";
 
-export type RiskBand = 'green' | 'yellow' | 'red';
-export type ConsentCategory = 'vitals' | 'medicines' | 'steps' | 'glucose';
-
-export type AlertLevel = 'reminder' | 'family' | 'doctor';
-export type AlertAudience = 'patient' | 'family' | 'doctor';
+export type ConsentCategory = "vitals" | "medicines" | "steps" | "glucose";
 
 export interface Patient {
   id: string;
   name: string;
   age: number;
-  language: 'hi' | 'kn' | 'en' | 'Hindi' | 'Kannada' | 'English' | string;
+  language: "Hindi" | "Kannada" | "English" | string;
   conditions: string[];
-  doctorId?: string;
-  doctor_id?: string;
-  familyId?: string;
-  family_id?: string;
+  doctor_id: string;
+  family_id: string;
   discharged_at?: string | null;
-  createdAt?: string;
-  created_at?: string;
+  created_at: string;
 }
 
 export interface Doctor {
@@ -32,49 +24,114 @@ export interface FamilyMember {
   id: string;
   name: string;
   relation: string;
+  patient_id: string;
   patientId?: string;
-  patient_id?: string;
   phone: string;
 }
 
 export interface Medicine {
   id: string;
-  patientId?: string;
   patient_id?: string;
   name: string;
   dose: string;
-  times: string[]; // e.g. ['08:00', '20:00']
+  times: string[];
   instructions?: string;
 }
 
 export interface MedLog {
   id: string;
-  patientId?: string;
   patient_id?: string;
-  medicineId?: string;
+  patientId?: string;
   medicine_id?: string;
+  medicineId?: string;
   medicine_name?: string;
+  medicineName?: string;
   dose?: string;
-  scheduledAt?: string;
   scheduled_at?: string;
-  takenAt?: string | null;
+  scheduledAt?: string;
   taken_at?: string | null;
-  status: 'taken' | 'missed' | 'pending';
+  takenAt?: string | null;
+  status: "taken" | "missed" | "pending";
 }
 
 export interface Vital {
   id: string;
-  patientId?: string;
   patient_id?: string;
-  type: 'bp' | 'steps' | 'glucose';
-  valueA?: number; // systolic for BP, count for steps, mg/dL for glucose
+  patientId?: string;
+  type: "bp" | "steps" | "glucose";
   value_a?: number;
-  valueB?: number | null; // diastolic for BP
+  valueA?: number;
   value_b?: number | null;
-  recordedAt?: string;
+  valueB?: number | null;
   recorded_at?: string;
+  recordedAt?: string;
 }
 
+export interface RiskScore {
+  id: string;
+  patient_id: string;
+  score: number;
+  band: RiskBand;
+  computed_at: string;
+}
+
+export interface RiskReason {
+  id?: string;
+  risk_score_id?: string;
+  rule_id?: string;
+  ruleId?: string;
+  text: string;
+  weight: number;
+}
+
+export interface Alert {
+  id: string;
+  patient_id?: string;
+  patientId?: string;
+  level: "reminder" | "family" | "doctor";
+  audience: "patient" | "family" | "doctor";
+  message: string;
+  created_at?: string;
+  createdAt?: string;
+  acknowledged_at?: string | null;
+  acknowledgedAt?: string | null;
+}
+
+export interface Consent {
+  id?: string;
+  patient_id: string;
+  category: ConsentCategory;
+  granted: boolean;
+  updated_at: string;
+}
+
+export interface AuditLog {
+  id: string;
+  patient_id: string;
+  patientId?: string;
+  actor_type: string;
+  actor_id: string;
+  actor?: string;
+  action: string;
+  category: string;
+  created_at?: string;
+  at?: string;
+}
+
+export interface Brief {
+  id?: string;
+  patient_id: string;
+  text: string;
+  source: "llm" | "fallback";
+  created_at: string;
+  sections?: {
+    sinceLastVisit: string;
+    concerns: string;
+    suggestedChecks: string;
+  };
+}
+
+// Risk Engine Snapshot Structure
 export interface PatientSnapshot {
   patient: Patient;
   medLogs: MedLog[];
@@ -83,83 +140,8 @@ export interface PatientSnapshot {
   currentScore?: number;
 }
 
-export interface RiskScore {
-  id: string;
-  patientId?: string;
-  patient_id?: string;
-  score: number; // 0-100
-  band: RiskBand;
-  reasons?: RiskReason[];
-  computedAt?: string;
-  computed_at?: string;
-}
-
-export interface RiskReason {
-  id?: string;
-  risk_score_id?: string;
-  ruleId?: string;
-  rule_id?: string;
-  text: string;
-  weight: number;
-}
-
-export interface Alert {
-  id: string;
-  patientId?: string;
-  patient_id?: string;
-  level: AlertLevel;
-  audience: AlertAudience;
-  message: string;
-  createdAt?: string;
-  created_at?: string;
-  acknowledgedAt?: string | null;
-  acknowledged_at?: string | null;
-}
-
-export interface Consent {
-  id?: string;
-  patientId?: string;
-  patient_id?: string;
-  category: ConsentCategory;
-  granted: boolean;
-  updatedAt?: string;
-  updated_at?: string;
-}
-
-export interface AuditLog {
-  id: string;
-  patientId?: string;
-  patient_id?: string;
-  actorType?: string;
-  actor_type?: string;
-  actorId?: string;
-  actor_id?: string;
-  actor?: string;
-  action: string;
-  category: string;
-  createdAt?: string;
-  created_at?: string;
-  at?: string;
-}
-
-export interface AuditLogItem extends AuditLog {}
-
-export interface Brief {
-  id?: string;
-  patient_id?: string;
-  patientId?: string;
-  text: string;
-  source: 'llm' | 'fallback';
-  created_at?: string;
-  createdAt?: string;
-  sections?: {
-    sinceLastVisit: string;
-    concerns: string;
-    suggestedChecks: string;
-  };
-}
-
 // API DTOs
+
 export interface PatientListItem {
   id: string;
   name: string;
@@ -168,7 +150,7 @@ export interface PatientListItem {
   band: RiskBand;
   topReason: string;
   lastSeen: string;
-  conditions?: string[];
+  conditions: string[];
 }
 
 export interface PatientDetail {
@@ -185,13 +167,9 @@ export interface PatientDetail {
   consents?: Consent[];
 }
 
-export interface PatientDetailResponse extends PatientDetail {
-  medicines?: Medicine[];
-}
-
 export interface DoctorActionRequest {
   patientId: string;
-  type: 'call' | 'message' | 'teleconsult';
+  type: "call" | "message" | "teleconsult";
   note?: string;
 }
 
@@ -201,7 +179,7 @@ export interface DoctorActionResponse {
   actionRecord: {
     id: string;
     patientId: string;
-    type: 'call' | 'message' | 'teleconsult';
+    type: "call" | "message" | "teleconsult";
     timestamp: string;
   };
 }
@@ -222,20 +200,20 @@ export interface FamilyFeedResponse {
   patient: {
     id: string;
     name: string;
-    age?: number;
+    age: number;
     conditions?: string[];
-    band?: RiskBand;
+    band: RiskBand;
     score?: number;
     lastSeen?: string;
   };
   today: {
-    adherencePct?: number;
-    medicinesTaken: number;
-    medicinesTotal: number;
-    latestBp?: string | null;
-    latestSteps?: number;
     steps?: number;
+    medicinesTaken?: number;
+    medicinesTotal?: number;
+    latestBp?: string;
     statusBand?: RiskBand;
+    adherencePct: number;
+    latestSteps: number;
   };
   alerts: Alert[];
 }

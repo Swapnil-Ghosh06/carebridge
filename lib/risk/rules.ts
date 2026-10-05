@@ -1,4 +1,4 @@
-import { PatientSnapshot } from "@/lib/types";
+import { PatientSnapshot, RiskReason } from "@/lib/types";
 
 export interface RiskRuleConfig {
   id: string;
@@ -7,21 +7,17 @@ export interface RiskRuleConfig {
   evaluate: (snapshot: PatientSnapshot) => { hit: boolean; text?: string };
 }
 
-function getLogTime(l: { scheduled_at?: string; scheduledAt?: string }): number {
-  return new Date(l.scheduled_at || l.scheduledAt || Date.now()).getTime();
-}
+const getVitalTime = (v: { recorded_at?: string; recordedAt?: string }) =>
+  new Date(v.recorded_at || v.recordedAt || 0).getTime();
 
-function getVitalTime(v: { recorded_at?: string; recordedAt?: string }): number {
-  return new Date(v.recorded_at || v.recordedAt || Date.now()).getTime();
-}
+const getVitalValA = (v: { value_a?: number; valueA?: number }) =>
+  v.value_a ?? v.valueA ?? 0;
 
-function getValA(v?: { value_a?: number; valueA?: number }): number {
-  return v?.value_a ?? v?.valueA ?? 0;
-}
+const getVitalValB = (v: { value_b?: number | null; valueB?: number | null }) =>
+  v.value_b ?? v.valueB ?? null;
 
-function getValB(v?: { value_b?: number | null; valueB?: number | null }): number {
-  return v?.value_b ?? v?.valueB ?? 0;
-}
+const getMedLogTime = (l: { scheduled_at?: string; scheduledAt?: string }) =>
+  new Date(l.scheduled_at || l.scheduledAt || 0).getTime();
 
 export const RISK_RULES: RiskRuleConfig[] = [
   // 1. Medication Adherence Low (< 70% over last 7 days)
@@ -33,7 +29,7 @@ export const RISK_RULES: RiskRuleConfig[] = [
       const now = Date.now();
       const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
       const logs7d = snapshot.medLogs.filter((l) => {
-        const time = getLogTime(l);
+        const time = getMedLogTime(l);
         return now - time <= sevenDaysMs;
       });
 
@@ -63,7 +59,7 @@ export const RISK_RULES: RiskRuleConfig[] = [
     evaluate: (snapshot) => {
       // Sort logs by scheduled time descending
       const sorted = [...snapshot.medLogs].sort(
-        (a, b) => getLogTime(b) - getLogTime(a)
+        (a, b) => getMedLogTime(b) - getMedLogTime(a)
       );
 
       let streak = 0;
@@ -110,12 +106,12 @@ export const RISK_RULES: RiskRuleConfig[] = [
       if (recent7d.length === 0) return { hit: false };
 
       const avgRecent =
-        recent7d.reduce((sum, v) => sum + getValA(v), 0) / recent7d.length;
+        recent7d.reduce((sum, v) => sum + getVitalValA(v), 0) / recent7d.length;
 
       // If no prior 7d vitals, compare recent vs baseline target of 125
       const baseline =
         prior7d.length > 0
-          ? prior7d.reduce((sum, v) => sum + getValA(v), 0) / prior7d.length
+          ? prior7d.reduce((sum, v) => sum + getVitalValA(v), 0) / prior7d.length
           : 125;
 
       const increasePct = ((avgRecent - baseline) / baseline) * 100;
@@ -141,11 +137,13 @@ export const RISK_RULES: RiskRuleConfig[] = [
 
       if (bpVitals.length === 0) return { hit: false };
       const latest = bpVitals[0];
+      const valA = getVitalValA(latest);
+      const valB = getVitalValB(latest);
 
-      if (getValA(latest) >= 150 || getValB(latest) >= 95) {
+      if (valA >= 150 || (valB && valB >= 95)) {
         return {
           hit: true,
-          text: `Latest BP recorded at ${getValA(latest)}/${getValB(latest)} mmHg (exceeds safe threshold).`,
+          text: `Latest BP recorded at ${valA}/${valB || 0} mmHg (exceeds safe threshold).`,
         };
       }
       return { hit: false };
@@ -177,10 +175,10 @@ export const RISK_RULES: RiskRuleConfig[] = [
       if (recent7d.length === 0) return { hit: false };
 
       const avgRecent =
-        recent7d.reduce((sum, v) => sum + getValA(v), 0) / recent7d.length;
+        recent7d.reduce((sum, v) => sum + getVitalValA(v), 0) / recent7d.length;
       const baseline =
         prior7d.length > 0
-          ? prior7d.reduce((sum, v) => sum + getValA(v), 0) / prior7d.length
+          ? prior7d.reduce((sum, v) => sum + getVitalValA(v), 0) / prior7d.length
           : 5000;
 
       const dropPct = ((baseline - avgRecent) / baseline) * 100;
@@ -206,11 +204,12 @@ export const RISK_RULES: RiskRuleConfig[] = [
 
       if (gluVitals.length === 0) return { hit: false };
       const latest = gluVitals[0];
+      const valA = getVitalValA(latest);
 
-      if (getValA(latest) >= 180) {
+      if (valA >= 180) {
         return {
           hit: true,
-          text: `Latest blood glucose elevated at ${getValA(latest)} mg/dL (target < 140 mg/dL).`,
+          text: `Latest blood glucose elevated at ${valA} mg/dL (target < 140 mg/dL).`,
         };
       }
       return { hit: false };
@@ -252,7 +251,7 @@ export const RISK_RULES: RiskRuleConfig[] = [
       }, 0);
 
       const latestLog = snapshot.medLogs.reduce((latest, l) => {
-        const time = l.taken_at || l.takenAt ? new Date(l.taken_at || l.takenAt || 0).getTime() : 0;
+        const time = l.taken_at ? new Date(l.taken_at).getTime() : 0;
         return time > latest ? time : latest;
       }, 0);
 

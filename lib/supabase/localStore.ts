@@ -453,7 +453,7 @@ class CareBridgeStore {
         score: risk.score,
         band: risk.band,
         topReason: risk.reasons[0]?.text || "Telemetry stable within normal limits",
-        lastSeen: lastVital?.recorded_at || lastVital?.recordedAt || patient.created_at || patient.createdAt || "Recently",
+        lastSeen: (lastVital ? (lastVital.recorded_at || lastVital.recordedAt) : patient.created_at) || new Date().toISOString(),
         conditions: patient.conditions,
       };
     });
@@ -628,6 +628,8 @@ class CareBridgeStore {
         name: patient.name,
         age: patient.age,
         conditions: patient.conditions,
+        band: risk.band,
+        score: risk.score,
       },
       today: {
         steps: Number(todaySteps),
@@ -635,6 +637,8 @@ class CareBridgeStore {
         medicinesTotal: totalToday,
         latestBp: latestBp ? `${latestBp.value_a}/${latestBp.value_b} mmHg` : undefined,
         statusBand: risk.band,
+        adherencePct: totalToday > 0 ? Math.round((takenToday / totalToday) * 100) : 100,
+        latestSteps: Number(todaySteps),
       },
       alerts,
     };
