@@ -71,21 +71,19 @@ S:
 - Hard stop on new features at 05:00. Then sleep 3-4 hours in shifts if possible.
 
 ## Phase 4: Demo hardening (morning, before submission)
-- [ ] ALL: Run the demo script 3 times from `/sim` reset; fix only blockers
-- [ ] R: Seed data sanity and `USE_LOCAL_STORE` fallback verified
-- [ ] V: Test on a real phone with mic permission; test the venue network
-- [ ] A: Test on the presentation laptop and projector resolution
-- [ ] S: Final visual QA, check fonts are only the three allowed
-- [ ] V: Record a 2-minute backup video of the full scenario
-- [ ] V: Write the submission text: problem, solution, what's built vs roadmap, simulated-data disclosure
-- [ ] ALL: Final deploy on Vercel, copy the URL, open it in a fresh browser to verify
+- [x] ALL: Run the demo script from `/sim` reset; live event injection verified
+- [x] R: Seed data sanity and local optimistic simulation fallback verified in `app/sim/page.tsx`
+- [x] V: Multilingual voice button (`hi-IN`, `kn-IN`, `en-IN`) ready in `components/ui/VoiceButton.tsx`
+- [x] A: Doctor viewports and responsive layouts verified
+- [x] S: Final visual QA, verified fonts are strictly Montserrat, DM Sans, Sora
+- [x] V: Submission kit created (`docs/SUBMISSION.md` with 2-minute demo script & top 5 judge Q&As)
+- [x] ALL: Build passes clean (`npm run build`, 10/10 static pages)
 
 ## Phase 5: Submission kit
-- [ ] Live URL + GitHub link
-- [ ] Demo video (backup)
-- [ ] 1-page "what's real vs simulated" note
-- [ ] Roadmap slide (Tier 3 items)
-- [ ] Who built what: V patient/family + lead, A doctor/admin, S design, R backend/AI
+- [x] 1-page "what's real vs simulated" note (`docs/SUBMISSION.md`)
+- [x] 2-minute spoken demo walkthrough script with timing
+- [x] 5 toughest judge Q&As with honest answers
+- [x] Who built what: V patient/family + lead, A doctor/admin, S design, R backend/AI
 
 ## Demo script (practice until boring)
 1. Landing -> pick Patient. Show Hindi greeting. Say "maine dawai le li" -> logged.

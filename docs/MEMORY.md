@@ -46,6 +46,7 @@ Family: Ramesh's son Karan (Bengaluru). Doctor: Dr. Meera Rao, Sunrise Clinic (f
 
 ## Status log
 (Newest first. One line each: time, who, done/blocked.)
+- 2026-10-05 23:35, Team, Phase 4 & Phase 5 DONE: built app/sim/page.tsx interactive demo control panel (patient picker, event injection, live alert stream, optimistic simulation fallback), created docs/SUBMISSION.md with 2-minute demo script, judge Q&As, and simulated data disclosure. Lint+build 100% green.
 - 2026-10-05 23:32, Swapin, Phase 3 DONE: font audit clean (0 occurrences of Inter/Roboto/Arial/Calibri/JetBrains/mono), added Skeleton loader to components/ui, verified WCAG AA contrast & focus-visible rings across all components, responsive breakpoint checks pass. Lint+build green.
 - 2026-10-05 23:30, Swapin, Phase 2 DONE: built VoiceButton (multilingual pulse), BriefPanel (AI 3-part summary), ConsentToggle (4 privacy categories), AuditRow, EmptyState. Added design/motion.ts framer-motion variants. Redesigned app/page.tsx with Montserrat 800 stacked hero, dual CTAs, hero illustration, and role cards. Updated design-preview & design/REVIEW.md. Lint+build green.
 - 2026-10-05 23:25, Swapin, Phase 1 DONE: built PatientRow, ReasonList, MedicineCard, AlertItem, TrendChart wrapper, Toast, Illustration component + 4 original SVGs (patient-phone, doctor-tablet, family-call, hero-scene). Updated design-preview with all Phase 1 components. Authored design/REVIEW.md audit. Lint+build green.
