@@ -30,30 +30,40 @@ export interface FamilyMember {
 
 export interface Medicine {
   id: string;
-  patient_id: string;
+  patient_id?: string;
   name: string;
   dose: string;
   times: string[];
+  instructions?: string;
 }
 
 export interface MedLog {
   id: string;
-  patient_id: string;
-  medicine_id: string;
+  patient_id?: string;
+  patientId?: string;
+  medicine_id?: string;
+  medicineId?: string;
   medicine_name?: string;
+  medicineName?: string;
   dose?: string;
-  scheduled_at: string;
-  taken_at: string | null;
+  scheduled_at?: string;
+  scheduledAt?: string;
+  taken_at?: string | null;
+  takenAt?: string | null;
   status: "taken" | "missed" | "pending";
 }
 
 export interface Vital {
   id: string;
-  patient_id: string;
+  patient_id?: string;
+  patientId?: string;
   type: "bp" | "steps" | "glucose";
-  value_a: number; // systolic for BP, count for steps, mg/dL for glucose
-  value_b: number | null; // diastolic for BP
-  recorded_at: string;
+  value_a?: number;
+  valueA?: number;
+  value_b?: number | null;
+  valueB?: number | null;
+  recorded_at?: string;
+  recordedAt?: string;
 }
 
 export interface RiskScore {
@@ -67,19 +77,23 @@ export interface RiskScore {
 export interface RiskReason {
   id?: string;
   risk_score_id?: string;
-  rule_id: string;
+  rule_id?: string;
+  ruleId?: string;
   text: string;
   weight: number;
 }
 
 export interface Alert {
   id: string;
-  patient_id: string;
+  patient_id?: string;
+  patientId?: string;
   level: "reminder" | "family" | "doctor";
   audience: "patient" | "family" | "doctor";
   message: string;
-  created_at: string;
-  acknowledged_at: string | null;
+  created_at?: string;
+  createdAt?: string;
+  acknowledged_at?: string | null;
+  acknowledgedAt?: string | null;
 }
 
 export interface Consent {
@@ -185,14 +199,19 @@ export interface FamilyFeedResponse {
     id: string;
     name: string;
     age: number;
-    conditions: string[];
+    conditions?: string[];
+    band: RiskBand;
+    score?: number;
+    lastSeen?: string;
   };
   today: {
-    steps: number;
-    medicinesTaken: number;
-    medicinesTotal: number;
+    steps?: number;
+    medicinesTaken?: number;
+    medicinesTotal?: number;
     latestBp?: string;
-    statusBand: RiskBand;
+    statusBand?: RiskBand;
+    adherencePct: number;
+    latestSteps: number;
   };
   alerts: Alert[];
 }

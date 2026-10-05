@@ -367,3 +367,207 @@ export const MOCK_ADMIN_ROI: AdminROIResponse = {
     { date: "Oct 5", count: 28 },
   ],
 };
+
+export const HERO_PATIENT = {
+  id: "p1",
+  name: "Ramesh K.",
+  age: 62,
+  language: "Hindi",
+  conditions: ["Diabetes Type 2", "Hypertension"],
+  score: 58,
+  band: "yellow" as const,
+  lastSeen: "Today, 10 mins ago",
+};
+
+export const SEED_MEDICINES = [
+  {
+    id: "m1",
+    name: "Metformin",
+    dose: "500mg",
+    times: ["08:00", "20:00"],
+    instructions: "Take after breakfast and dinner",
+  },
+  {
+    id: "m2",
+    name: "Amlodipine",
+    dose: "5mg",
+    times: ["08:00"],
+    instructions: "Take in the morning",
+  },
+];
+
+export const INITIAL_MED_LOGS = [
+  {
+    id: "log-1",
+    medicineId: "m1",
+    medicineName: "Metformin 500mg",
+    scheduledAt: "08:00 AM",
+    takenAt: "08:15 AM",
+    status: "taken" as const,
+  },
+  {
+    id: "log-2",
+    medicineId: "m2",
+    medicineName: "Amlodipine 5mg",
+    scheduledAt: "08:00 AM",
+    takenAt: "08:15 AM",
+    status: "taken" as const,
+  },
+  {
+    id: "log-3",
+    medicineId: "m1",
+    medicineName: "Metformin 500mg",
+    scheduledAt: "08:00 PM",
+    takenAt: null,
+    status: "pending" as const,
+  },
+];
+
+export const INITIAL_VITALS = [
+  {
+    id: "vital-bp-1",
+    patientId: "p1",
+    type: "bp" as const,
+    valueA: 142,
+    valueB: 88,
+    recordedAt: "Today, 08:30 AM",
+  },
+  {
+    id: "vital-steps-1",
+    patientId: "p1",
+    type: "steps" as const,
+    valueA: 3420,
+    valueB: null,
+    recordedAt: "Today, Live sync",
+  },
+  {
+    id: "vital-glucose-1",
+    patientId: "p1",
+    type: "glucose" as const,
+    valueA: 148,
+    valueB: null,
+    recordedAt: "Yesterday, Fasting",
+  },
+];
+
+export const INITIAL_ALERTS = [
+  {
+    id: "alert-1",
+    patientId: "p1",
+    level: "reminder" as const,
+    audience: "patient" as const,
+    message: "Time for evening Metformin 500mg after dinner.",
+    createdAt: "10 mins ago",
+    acknowledgedAt: null,
+  },
+  {
+    id: "alert-2",
+    patientId: "p1",
+    level: "family" as const,
+    audience: "family" as const,
+    message: "Ramesh ji has not logged evening medicine yet. Sent gentle reminder.",
+    createdAt: "25 mins ago",
+    acknowledgedAt: null,
+  },
+];
+
+export const INITIAL_FAMILY_FEED = {
+  patient: {
+    id: "p1",
+    name: "Ramesh K.",
+    age: 62,
+    band: "yellow" as const,
+    score: 58,
+    lastSeen: "12 mins ago",
+    conditions: ["Diabetes Type 2", "Hypertension"],
+  },
+  today: {
+    adherencePct: 75,
+    medicinesTaken: 2,
+    medicinesTotal: 3,
+    latestBp: "142 / 88 mmHg",
+    latestSteps: 3420,
+    statusBand: "yellow" as const,
+  },
+  alerts: [
+    {
+      id: "fam-alert-1",
+      patientId: "p1",
+      level: "reminder" as const,
+      audience: "family" as const,
+      message: "Morning doses (Amlodipine & Metformin) taken on time at 8:15 AM.",
+      createdAt: "4 hours ago",
+      acknowledgedAt: "4 hours ago",
+    },
+    {
+      id: "fam-alert-2",
+      patientId: "p1",
+      level: "family" as const,
+      audience: "family" as const,
+      message: "Blood Pressure checked: 142/88 mmHg. Slightly elevated but stable.",
+      createdAt: "Today, 8:30 AM",
+      acknowledgedAt: null,
+    },
+    {
+      id: "fam-alert-3",
+      patientId: "p1",
+      level: "doctor" as const,
+      audience: "doctor" as const,
+      message: "Pre-visit health summary generated for Dr. Meera Rao (Decision support).",
+      createdAt: "Yesterday",
+      acknowledgedAt: null,
+    },
+  ],
+};
+
+export const INITIAL_CONSENTS = [
+  {
+    category: "vitals" as const,
+    granted: true,
+    title: "Blood Pressure & Heart Rate",
+    description: "Share systolic, diastolic readings and pulse logs with Dr. Rao and family.",
+  },
+  {
+    category: "medicines" as const,
+    granted: true,
+    title: "Daily Medication Schedule",
+    description: "Share dose times, morning/evening confirmations, and adherence streak with family.",
+  },
+  {
+    category: "steps" as const,
+    granted: true,
+    title: "Daily Step Count & Activity",
+    description: "Share pedometer steps to evaluate mobility and physical recovery.",
+  },
+  {
+    category: "glucose" as const,
+    granted: false,
+    title: "Blood Sugar & Glucose Tests",
+    description: "Share fasting and post-meal glucose records (currently restricted by patient).",
+  },
+];
+
+export const INITIAL_AUDIT_LOGS = [
+  {
+    id: "audit-1",
+    actor: "Dr. Meera Rao (Sunrise Clinic)",
+    action: "Viewed patient dashboard & BP trend",
+    category: "vitals",
+    at: "Today, 10:14 AM",
+  },
+  {
+    id: "audit-2",
+    actor: "Karan K. (Family)",
+    action: "Received medicine adherence update",
+    category: "medicines",
+    at: "Today, 08:45 AM",
+  },
+  {
+    id: "audit-3",
+    actor: "CareBridge Engine",
+    action: "Generated decision support pre-consult brief",
+    category: "vitals",
+    at: "Yesterday, 06:30 PM",
+  },
+];
+

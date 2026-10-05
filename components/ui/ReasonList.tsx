@@ -10,7 +10,9 @@ import {
 } from "lucide-react";
 import { RiskReason } from "@/lib/types";
 
-interface ReasonListProps {
+export type { RiskReason };
+
+export interface ReasonListProps {
   reasons: RiskReason[];
 }
 
@@ -38,10 +40,11 @@ export const ReasonList: React.FC<ReasonListProps> = ({ reasons }) => {
   return (
     <div className="space-y-2.5">
       {reasons.map((reason, idx) => {
-        const IconComponent = getRuleIcon(reason.rule_id);
+        const ruleId = reason.rule_id || reason.ruleId || "";
+        const IconComponent = getRuleIcon(ruleId);
         return (
           <div
-            key={reason.id || reason.rule_id || idx}
+            key={reason.id || ruleId || idx}
             className="flex items-start justify-between gap-3 p-3.5 rounded-md bg-surface-50 border border-ink-300/30 hover:border-ink-300 transition-colors"
           >
             <div className="flex items-start gap-3">
@@ -53,7 +56,7 @@ export const ReasonList: React.FC<ReasonListProps> = ({ reasons }) => {
                   {reason.text}
                 </p>
                 <span className="font-data text-xs text-ink-500">
-                  Rule ID: {reason.rule_id}
+                  Rule ID: {ruleId}
                 </span>
               </div>
             </div>

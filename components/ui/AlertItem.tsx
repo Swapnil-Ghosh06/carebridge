@@ -1,0 +1,179 @@
+/**
+ * AlertItem component (owner: Swapin)
+ * ─────────────────────────────────────────────────────────
+ * Displays an alert notification in the doctor portal, family feed, or patient notifications.
+ *
+ * Rules:
+ *  - Font: DM Sans (message), Sora (timestamp, level tag), Montserrat (actions/headings)
+ *  - Clear hierarchy with distinct icons for reminder, family, doctor, and urgent alerts
+ *  - Supports optional acknowledgement or primary CTA
+ */
+
+"use client";
+
+import * as React from "react";
+import { Bell, Users, Stethoscope, AlertTriangle, Check } from "lucide-react";
+import { Card } from "./Card";
+import { Button } from "./Button";
+
+export type AlertLevel = "reminder" | "family" | "doctor" | "urgent";
+
+export interface AlertItemProps {
+  id?: string;
+  level: AlertLevel;
+  audience?: "patient" | "family" | "doctor" | string;
+  message: string;
+  time?: string;
+  createdAt?: string;
+  created_at?: string;
+  patientName?: string;
+  acknowledged?: boolean;
+  acknowledgedAt?: string | null;
+  acknowledged_at?: string | null;
+  onAcknowledge?: () => void;
+  actionLabel?: string;
+  onAction?: () => void;
+  className?: string;
+}
+
+const levelConfig: Record<
+  AlertLevel,
+  {
+    label: string;
+    icon: React.ElementType;
+    iconBg: string;
+    iconColor: string;
+    badgeBg: string;
+    badgeColor: string;
+  }
+> = {
+  reminder: {
+    label: "REMINDER",
+    icon: Bell,
+    iconBg: "bg-[var(--surface-100)]",
+    iconColor: "text-[var(--ink-700)]",
+    badgeBg: "bg-[var(--surface-100)]",
+    badgeColor: "text-[var(--ink-700)]",
+  },
+  family: {
+    label: "FAMILY NOTIFIED",
+    icon: Users,
+    iconBg: "bg-[var(--surface-100)]",
+    iconColor: "text-[var(--brand-indigo)]",
+    badgeBg: "bg-[var(--surface-100)]",
+    badgeColor: "text-[var(--brand-indigo)]",
+  },
+  doctor: {
+    label: "CLINICAL FLAG",
+    icon: Stethoscope,
+    iconBg: "bg-[var(--risk-amber-bg)]",
+    iconColor: "text-[var(--risk-amber)]",
+    badgeBg: "bg-[var(--risk-amber-bg)]",
+    badgeColor: "text-[var(--risk-amber)]",
+  },
+  urgent: {
+    label: "URGENT ESCALATION",
+    icon: AlertTriangle,
+    iconBg: "bg-[var(--risk-red-bg)]",
+    iconColor: "text-[var(--risk-red)]",
+    badgeBg: "bg-[var(--risk-red-bg)]",
+    badgeColor: "text-[var(--risk-red)]",
+  },
+};
+
+export function AlertItem({
+  level,
+  message,
+  time,
+  createdAt,
+  created_at,
+  patientName,
+  acknowledged = false,
+  acknowledgedAt,
+  acknowledged_at,
+  onAcknowledge,
+  actionLabel,
+  onAction,
+  className = "",
+}: AlertItemProps) {
+  const config = levelConfig[level] || levelConfig.reminder;
+  const Icon = config.icon;
+  const displayTime = time || createdAt || created_at || "";
+  const isAck = acknowledged || Boolean(acknowledgedAt || acknowledged_at);
+
+  return (
+    <Card
+      variant={isAck ? "flat" : "default"}
+      className={`p-4 transition-all duration-200 ${
+        isAck ? "opacity-75" : ""
+      } ${className}`}
+    >
+      <div className="flex items-start gap-3.5">
+        {/* Level Icon */}
+        <div
+          className={`w-10 h-10 rounded-[var(--r-md)] flex items-center justify-center shrink-0 ${config.iconBg} ${config.iconColor}`}
+          aria-hidden="true"
+        >
+          <Icon className="w-5 h-5 stroke-[2.2]" />
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-2 mb-1 flex-wrap">
+            <div className="flex items-center gap-2">
+              <span
+                className={`font-data text-[11px] font-bold tracking-wider px-2 py-0.5 rounded-[var(--r-pill)] uppercase ${config.badgeBg} ${config.badgeColor}`}
+              >
+                {config.label}
+              </span>
+              {patientName && (
+                <span className="font-display font-semibold text-sm text-[var(--ink-900)]">
+                  {patientName}
+                </span>
+              )}
+            </div>
+
+            <span className="font-data text-xs text-[var(--ink-500)] shrink-0">
+              {displayTime}
+            </span>
+          </div>
+
+          <p className="font-body text-sm text-[var(--ink-700)] leading-relaxed mt-1">
+            {message}
+          </p>
+
+          {/* Action buttons if any */}
+          {(onAcknowledge || onAction) && (
+            <div className="flex items-center gap-2.5 mt-3 pt-2 border-t border-[var(--surface-100)]">
+              {onAction && actionLabel && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={onAction}
+                  className="!min-h-[36px] text-xs py-1 px-3"
+                >
+                  {actionLabel}
+                </Button>
+              )}
+              {onAcknowledge && !acknowledged && (
+                <button
+                  type="button"
+                  onClick={onAcknowledge}
+                  className="font-body text-xs text-[var(--ink-500)] hover:text-[var(--ink-900)] flex items-center gap-1 py-1 px-2 rounded hover:bg-[var(--surface-100)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-teal)]"
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Mark read
+                </button>
+              )}
+              {acknowledged && (
+                <span className="font-body text-xs text-[var(--ink-500)] italic">
+                  Acknowledged
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </Card>
+  );
+}

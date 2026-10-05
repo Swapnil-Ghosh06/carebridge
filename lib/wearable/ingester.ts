@@ -27,11 +27,11 @@ export function analyzeWearableTelemetry(vitals: Vital[]): WearableSummary {
 
   // Step baseline calculation (first 3 days vs today)
   const baselineSteps = stepsVitals.length >= 3 
-    ? Math.round((stepsVitals[0].value_a + stepsVitals[1].value_a + stepsVitals[2].value_a) / 3)
+    ? Math.round(((stepsVitals[0].value_a ?? 5200) + (stepsVitals[1].value_a ?? 5200) + (stepsVitals[2].value_a ?? 5200)) / 3)
     : 5200;
   
   const latestSteps = stepsVitals.length > 0 
-    ? stepsVitals[stepsVitals.length - 1].value_a 
+    ? (stepsVitals[stepsVitals.length - 1].value_a ?? 2800)
     : 2800;
 
   const declinePercent = Math.round(((baselineSteps - latestSteps) / baselineSteps) * 100);

@@ -41,7 +41,7 @@ export async function generateBrief(patientId: string): Promise<BriefResult> {
   const recentSteps = stepsVitals.slice(0, 3);
   const avgRecentSteps =
     recentSteps.length > 0
-      ? Math.round(recentSteps.reduce((sum, v) => sum + v.value_a, 0) / recentSteps.length)
+      ? Math.round(recentSteps.reduce((sum, v) => sum + (v.value_a ?? v.valueA ?? 0), 0) / recentSteps.length)
       : 4000;
 
   const topReasons = risk.reasons.map((r) => r.text).slice(0, 3);
