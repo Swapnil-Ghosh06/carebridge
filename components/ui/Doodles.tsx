@@ -688,193 +688,23 @@ export function DoodleCanopyRight({ className = "" }: { className?: string }) {
 }
 
 /**
- * Authentic Surrealist Art Collage from Daisy Inspiration (Screenshot 4):
- * Classical portrait silhouette with open glowing pink brain, floating 3D shiny sphere,
- * yellow smiling daisy scribble, silver foil ghost, golden ribbon wave, and handwriting.
+ * Authentic Surrealist Art Collage from Daisy Inspiration (Screenshot 1 Exact Match):
+ * Classical portrait of Mona Lisa with exposed glowing pink brain, floating 3D pink sphere,
+ * cute ghost, holographic balloon dog, cursive script notes, yellow daisy with scribble nest,
+ * physics/math equations sheet, golden rotini pasta, and retro computer cursor.
  */
 export function DaisyMonaLisaCollage({ className = "" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 460 480"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-    >
-      <defs>
-        {/* Shiny 3D Pink Sphere Gradient */}
-        <radialGradient id="sphereGrad" cx="35%" cy="30%" r="65%">
-          <stop offset="0%" stopColor="#FFFFFF" />
-          <stop offset="30%" stopColor="#FF77B2" />
-          <stop offset="70%" stopColor="#D92672" />
-          <stop offset="100%" stopColor="#800D3C" />
-        </radialGradient>
-        {/* Silver Foil Ghost Gradient */}
-        <linearGradient id="silverFoil" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FFFFFF" />
-          <stop offset="45%" stopColor="#E2E8F0" />
-          <stop offset="70%" stopColor="#94A3B8" />
-          <stop offset="100%" stopColor="#CBD5E1" />
-        </linearGradient>
-        {/* Golden Ribbon Gradient */}
-        <linearGradient id="goldRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FDE047" />
-          <stop offset="50%" stopColor="#F59E0B" />
-          <stop offset="100%" stopColor="#B45309" />
-        </linearGradient>
-      </defs>
-
-      {/* ─── 1. FLOATING 3D SHINY SPHERE (Top center) ──────────── */}
-      <circle cx="270" cy="50" r="26" fill="url(#sphereGrad)" filter="drop-shadow(3px 5px 6px rgba(0,0,0,0.25))" />
-      {/* Specular highlight glint on sphere */}
-      <ellipse cx="260" cy="42" rx="7" ry="4" fill="#FFFFFF" opacity="0.85" transform="rotate(-30 260 42)" />
-
-      {/* ─── 2. SILVER FOIL GHOST STICKER (Top Right) ──────────── */}
-      <g transform="translate(380, 50)" filter="drop-shadow(2px 3px 4px rgba(0,0,0,0.2))">
-        <path
-          d="M25 0C11.2 0 0 11.2 0 25C0 35 6 42 10 48C13 52 18 48 22 52C26 56 31 52 35 56C39 52 44 54 48 50C52 46 50 35 50 25C50 11.2 38.8 0 25 0Z"
-          fill="url(#silverFoil)"
-          stroke="#121214"
-          strokeWidth="2"
+    <div className={`relative flex items-center justify-center ${className}`}>
+      <div className="relative w-full max-w-[440px] select-none">
+        <img
+          src="/images/mona-lisa-clean.png"
+          alt="Mona Lisa Surrealist Art Collage with Exposed Brain"
+          className="w-full h-auto object-contain block select-none pointer-events-none"
+          loading="eager"
         />
-        {/* Ghost eyes and playful mouth */}
-        <circle cx="18" cy="22" r="3.5" fill="#121214" />
-        <circle cx="32" cy="22" r="3.5" fill="#121214" />
-        <ellipse cx="25" cy="32" rx="4" ry="5" fill="#121214" />
-      </g>
-
-      {/* ─── 3. HANDWRITTEN MATH / SCRIPT EQUATIONS (Upper Right) ── */}
-      <g stroke="#121214" strokeWidth="1.2" opacity="0.6" strokeLinecap="round">
-        <path d="M220 120C240 110 260 115 280 108" />
-        <path d="M215 130C235 125 270 135 295 122" />
-        <path d="M225 142C250 138 275 145 300 136" />
-        <path d="M210 155C230 152 260 158 285 150" />
-        <path d="M230 168C255 165 280 172 310 160" />
-        <text x="320" y="125" fontFamily="monospace" fontSize="9" fill="#121214" opacity="0.7">
-          e^{"{"}iπ{"}"}+1=0
-        </text>
-        <text x="325" y="145" fontFamily="monospace" fontSize="8" fill="#121214" opacity="0.7">
-          ∇×B = μ₀J
-        </text>
-      </g>
-
-      {/* ─── 4. YELLOW SMILING DAISY FLOWER STICKER (Center Right) ── */}
-      <g transform="translate(320, 160)" filter="drop-shadow(2px 3px 0px #121214)">
-        {/* Scribbled Stem */}
-        <path d="M25 45C22 60 28 75 24 90" stroke="#121214" strokeWidth="2.5" strokeLinecap="round" />
-        {/* Flower Petals */}
-        <ellipse cx="25" cy="10" rx="9" ry="14" fill="#FDE047" stroke="#121214" strokeWidth="2" />
-        <ellipse cx="25" cy="40" rx="9" ry="14" fill="#FDE047" stroke="#121214" strokeWidth="2" />
-        <ellipse cx="10" cy="25" rx="14" ry="9" fill="#FDE047" stroke="#121214" strokeWidth="2" />
-        <ellipse cx="40" cy="25" rx="14" ry="9" fill="#FDE047" stroke="#121214" strokeWidth="2" />
-        <ellipse cx="14" cy="14" rx="10" ry="12" fill="#FDE047" stroke="#121214" strokeWidth="2" transform="rotate(-45 14 14)" />
-        <ellipse cx="36" cy="36" rx="10" ry="12" fill="#FDE047" stroke="#121214" strokeWidth="2" transform="rotate(-45 36 36)" />
-        <ellipse cx="14" cy="36" rx="10" ry="12" fill="#FDE047" stroke="#121214" strokeWidth="2" transform="rotate(45 14 36)" />
-        <ellipse cx="36" cy="14" rx="10" ry="12" fill="#FDE047" stroke="#121214" strokeWidth="2" transform="rotate(45 36 14)" />
-        {/* Flower Center with Smile */}
-        <circle cx="25" cy="25" r="13" fill="#FFFFFF" stroke="#121214" strokeWidth="2" />
-        <circle cx="20" cy="22" r="2" fill="#121214" />
-        <circle cx="30" cy="22" r="2" fill="#121214" />
-        <path d="M20 27C22 31 28 31 30 27" stroke="#121214" strokeWidth="2" strokeLinecap="round" />
-      </g>
-
-      {/* ─── 5. GOLDEN RIBBON SQUIGGLE (Far Right) ─────────────── */}
-      <g transform="translate(390, 220)">
-        <path
-          d="M0 20C15 5 25 35 40 20C55 5 65 35 80 20"
-          stroke="url(#goldRibbon)"
-          strokeWidth="10"
-          strokeLinecap="round"
-          filter="drop-shadow(2px 3px 4px rgba(0,0,0,0.2))"
-        />
-      </g>
-
-      {/* ─── 6. MONA LISA / RENAISSANCE PORTRAIT WITH EXPOSED BRAIN ── */}
-      <g transform="translate(180, 200)">
-        {/* Soft pink highlight aura behind head */}
-        <ellipse cx="110" cy="140" rx="95" ry="120" fill="#FF5C98" opacity="0.3" filter="blur(16px)" />
-
-        {/* Outer Hot Pink Cutout Border Silhouette (matching Daisy) */}
-        <path
-          d="M110 50C70 50 35 80 30 130C25 180 15 220 0 280H220C205 220 195 180 190 130C185 80 150 50 110 50Z"
-          fill="#1E1E24"
-          stroke="#FF5C98"
-          strokeWidth="6"
-          strokeLinejoin="round"
-        />
-
-        {/* Draped Renaissance Garment */}
-        <path
-          d="M10 280C25 240 45 200 65 190C85 200 135 200 155 190C175 200 195 240 210 280H10Z"
-          fill="#2C2B30"
-          stroke="#121214"
-          strokeWidth="2"
-        />
-        {/* Garment Fold Lines */}
-        <path d="M65 190C75 220 85 250 90 280" stroke="#121214" strokeWidth="1.8" />
-        <path d="M155 190C145 220 135 250 130 280" stroke="#121214" strokeWidth="1.8" />
-
-        {/* Neck & Chest Area */}
-        <path
-          d="M85 160C85 185 135 185 135 160V140H85V160Z"
-          fill="#F6E7D2"
-          stroke="#121214"
-          strokeWidth="1.8"
-        />
-
-        {/* Face Outline & Classic Mona Lisa Features */}
-        <path
-          d="M75 110C75 145 90 168 110 168C130 168 145 145 145 110C145 95 140 85 110 85C80 85 75 95 75 110Z"
-          fill="#FCEBD6"
-          stroke="#121214"
-          strokeWidth="2"
-        />
-        {/* Soft classic renaissance hair parted down middle */}
-        <path
-          d="M68 95C65 125 60 165 55 190C68 175 75 145 78 120"
-          fill="#3B2F2F"
-          stroke="#121214"
-          strokeWidth="1.8"
-        />
-        <path
-          d="M152 95C155 125 160 165 165 190C152 175 145 145 142 120"
-          fill="#3B2F2F"
-          stroke="#121214"
-          strokeWidth="1.8"
-        />
-
-        {/* Serene eyes, subtle eyebrows, and enigmatic smile */}
-        <ellipse cx="96" cy="118" rx="4" ry="2.5" fill="#4B382A" />
-        <ellipse cx="124" cy="118" rx="4" ry="2.5" fill="#4B382A" />
-        <path d="M90 112C95 110 102 110 105 112" stroke="#4B382A" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M115 112C118 110 125 110 130 112" stroke="#4B382A" strokeWidth="1.2" strokeLinecap="round" />
-        {/* Nose bridge */}
-        <path d="M110 115V132L114 135" stroke="#4B382A" strokeWidth="1.4" strokeLinecap="round" />
-        {/* Famous gentle smile */}
-        <path d="M102 146C106 149 114 149 118 146" stroke="#4B382A" strokeWidth="1.8" strokeLinecap="round" />
-
-        {/* ─── THE ICONIC EXPOSED GLOWING BRAIN (Top of Head) ──── */}
-        <g transform="translate(68, 40)">
-          {/* Glowing pink brain convolutions */}
-          <path
-            d="M42 45C30 45 15 35 15 22C15 10 26 0 42 0C58 0 69 10 69 22C69 35 54 45 42 45Z"
-            fill="#FF77B2"
-            stroke="#121214"
-            strokeWidth="2.5"
-          />
-          {/* Convoluted gyri and sulci curves */}
-          <path
-            d="M25 20C30 15 36 25 42 18C48 12 55 22 60 16M28 28C34 24 38 32 46 26C52 22 58 28 62 25M35 8C38 14 42 8 46 12"
-            stroke="#800D3C"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-          />
-          {/* Sparkles radiating from brain thoughts */}
-          <path d="M42 -6L42 -14" stroke="#FF5C98" strokeWidth="2.5" strokeLinecap="round" />
-          <path d="M18 -2L12 -8" stroke="#FF5C98" strokeWidth="2.5" strokeLinecap="round" />
-          <path d="M66 -2L72 -8" stroke="#FF5C98" strokeWidth="2.5" strokeLinecap="round" />
-        </g>
-      </g>
-    </svg>
+      </div>
+    </div>
   );
 }
 
