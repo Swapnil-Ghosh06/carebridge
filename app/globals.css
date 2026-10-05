@@ -1,0 +1,92 @@
+/**
+ * CareBridge global styles
+ * ─────────────────────────────────────────
+ * 1. Import design tokens (source of truth)
+ * 2. Tailwind v4 @theme — maps tokens into utility classes
+ * 3. Base resets
+ *
+ * Do NOT add custom hex values here — reference tokens only.
+ */
+
+@import "tailwindcss";
+@import "../design/tokens.css";
+
+@theme inline {
+  /* ── Font families ──────────────────────────────────────────── */
+  --font-display: var(--font-display);
+  --font-body:    var(--font-body);
+  --font-data:    var(--font-data);
+
+  /* Tailwind utility aliases */
+  --font-family-display: var(--font-display);
+  --font-family-body:    var(--font-body);
+  --font-family-data:    var(--font-data);
+
+  /* ── Colors ─────────────────────────────────────────────────── */
+  --color-ink-900:    var(--ink-900);
+  --color-ink-700:    var(--ink-700);
+  --color-ink-500:    var(--ink-500);
+  --color-ink-300:    var(--ink-300);
+
+  --color-surface-0:   var(--surface-0);
+  --color-surface-50:  var(--surface-50);
+  --color-surface-100: var(--surface-100);
+
+  --color-brand-teal:     var(--brand-teal);
+  --color-brand-teal-600: var(--brand-teal-600);
+  --color-brand-mint:     var(--brand-mint);
+  --color-brand-indigo:   var(--brand-indigo);
+
+  /* Blob colors (illustrations only — not exposed as utilities intentionally,
+     but listed for completeness in SVG inline styles) */
+
+  /* Risk — intentionally NOT added as general utilities to prevent misuse */
+  --color-risk-red:       var(--risk-red);
+  --color-risk-red-bg:    var(--risk-red-bg);
+  --color-risk-amber:     var(--risk-amber);
+  --color-risk-amber-bg:  var(--risk-amber-bg);
+  --color-risk-green:     var(--risk-green);
+  --color-risk-green-bg:  var(--risk-green-bg);
+
+  /* ── Border radius ──────────────────────────────────────────── */
+  --radius-sm:   var(--r-sm);
+  --radius-md:   var(--r-md);
+  --radius-lg:   var(--r-lg);
+  --radius-pill: var(--r-pill);
+
+  /* ── Box shadows ────────────────────────────────────────────── */
+  --shadow-card: var(--shadow-card);
+}
+
+/* ── Base resets ─────────────────────────────────────────────── */
+html {
+  font-family: var(--font-body), sans-serif;
+  color: var(--ink-900);
+  background-color: var(--surface-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* Headings use display font */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), sans-serif;
+}
+
+/* Stats / data elements use data font */
+.font-data,
+[class*="stat"],
+[class*="badge-text"],
+[class*="score"] {
+  font-family: var(--font-data), sans-serif;
+}
+
+/* Focus ring — accessible, uses brand teal */
+*:focus-visible {
+  outline: 2px solid var(--brand-teal);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}

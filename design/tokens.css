@@ -1,0 +1,79 @@
+/**
+ * CareBridge Design Tokens (owner: Swapin)
+ * ─────────────────────────────────────────
+ * Source of truth for every CSS custom property.
+ * Import this file in globals.css.
+ *
+ * RULES:
+ *  - Never add a new colour without consulting Swapin (or the DESIGN.md).
+ *  - Risk colours (--risk-*) are RESERVED for RiskBadge only.
+ *  - Blob colours are ONLY for SVG illustration layers, never UI decoration.
+ *  - No random hex values in components — always reference a variable from here.
+ */
+
+:root {
+  /* ── Typography ─────────────────────────────────────────────── */
+  --font-display: var(--font-display); /* Montserrat — headings, hero, buttons */
+  --font-body: var(--font-body);       /* DM Sans — body text, forms, labels   */
+  --font-data: var(--font-data);       /* Sora — numbers, stats, badges, charts */
+
+  /* ── Ink (text + borders) ───────────────────────────────────── */
+  --ink-900: #0b1f4b; /* headlines, primary text (deep navy)  */
+  --ink-700: #2b3c66;
+  --ink-500: #5b6b8c; /* secondary text — min contrast on surface-0: WCAG AA OK */
+  --ink-300: #b7c0d4; /* borders, dividers                    */
+
+  /* ── Surfaces ───────────────────────────────────────────────── */
+  --surface-0:   #ffffff;
+  --surface-50:  #f7f9fc; /* app background                       */
+  --surface-100: #eef2f8;
+
+  /* ── Brand ──────────────────────────────────────────────────── */
+  --brand-teal:     #14b8a6; /* primary action, links                */
+  --brand-teal-600: #0f9b8c; /* hover state for teal                 */
+  --brand-mint:     #5eead4; /* highlights on dark backgrounds       */
+  --brand-indigo:   #4b3fb8; /* secondary action / CTA               */
+
+  /* ── Illustration blobs (decorative, illustrations only) ────── */
+  --blob-coral:  #ff6b35;
+  --blob-sun:    #f2b01e;
+  --blob-leaf:   #5b8c2a;
+  --blob-sky:    #7fd6e8;
+  --blob-indigo: #4b3fb8;
+  --blob-teal:   #2cc3a8;
+
+  /* ── Risk (RESERVED — RiskBadge use only, never decoration) ─── */
+  --risk-red:       #e5484d;
+  --risk-red-bg:    #fdecec;
+  --risk-amber:     #f5a524;
+  --risk-amber-bg:  #fef3dc;
+  --risk-green:     #30a46c;
+  --risk-green-bg:  #e6f6ee;
+
+  /* ── Border radius ──────────────────────────────────────────── */
+  --r-sm:   8px;
+  --r-md:   14px;
+  --r-lg:   22px;
+  --r-pill: 999px;
+
+  /* ── Shadow ─────────────────────────────────────────────────── */
+  --shadow-card:
+    0 1px 2px rgba(11, 31, 75, 0.06),
+    0 8px 24px rgba(11, 31, 75, 0.06);
+
+  /* ── Spacing scale (4px base grid) ─────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-18: 72px;
+
+  /* ── Layout widths ──────────────────────────────────────────── */
+  --max-portal:  1200px;
+  --max-patient: 440px;
+}
+
+/* Dark mode: skipped for prototype (per DESIGN.md) */
