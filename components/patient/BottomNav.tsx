@@ -76,7 +76,7 @@ export function BottomNav({ locale = 'en' }: BottomNavProps) {
                   }`}
                 />
               </div>
-              <span className={`font-mono text-[10px] mt-1 tracking-tight ${item.isSpecial ? 'font-bold text-ink-900' : ''}`}>
+              <span className={`font-body text-[10px] font-medium mt-1 tracking-tight ${item.isSpecial ? 'font-bold text-ink-900' : ''}`}>
                 {item.label}
               </span>
             </Link>

@@ -150,6 +150,19 @@ export function BriefPanel({
   const effectiveCitations = citations.length > 0 ? citations : data?.citations ?? [];
   const isLoading = loading || (isStreaming && !rawText);
 
+  // Close on Escape key when drawer is open
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen && onClose) {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [isOpen, onClose]);
+
   // Content body rendering
   const renderContent = () => {
     // 1. Error State
