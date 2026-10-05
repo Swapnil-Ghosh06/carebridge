@@ -263,142 +263,146 @@ export default function PatientHomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-ink-900 pb-28 sm:pb-32">
-      {/* Patient Header with Language Switcher */}
-      <PatientHeader locale={locale} onLocaleChange={handleLocaleChange} />
+    <div className="min-h-screen bg-[#F4F1EA] md:bg-[#EAE6DB] flex flex-col items-center">
+      <div className="w-full max-w-md min-h-screen bg-[#FAF8F5] text-ink-900 flex flex-col relative md:border-x-2 md:border-ink-900 md:shadow-[0_10px_35px_rgba(0,0,0,0.08)] pb-28 sm:pb-32">
+        {/* Patient Header with Language Switcher */}
+        <PatientHeader locale={locale} onLocaleChange={handleLocaleChange} />
 
-      <main className="max-w-md mx-auto px-3.5 sm:px-4 pt-3.5 space-y-4 sm:space-y-5">
-        {/* Simulated Data & Decision Support Banner */}
-        <div className="bg-[#FEF3C7] border-2 border-ink-900 rounded-xl px-3 py-2 flex items-center justify-between text-xs text-ink-900 font-body font-semibold shadow-[2px_2px_0px_#121214]">
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0" />
-            <span>{t('decision_support_note', locale)}</span>
-          </span>
-        </div>
-
-        {/* Greeting Hero Section */}
-        <section className="bg-ink-900 text-white rounded-[22px] p-5 sm:p-6 border-2 border-ink-900 shadow-[4px_4px_0px_#121214] relative overflow-hidden">
-          <div className="relative z-10">
-            <span className="font-body text-[#D4F77C] text-sm sm:text-base font-bold tracking-wide block">
-              {getGreeting()},
+        <main className="w-full px-3.5 sm:px-4 pt-3.5 space-y-4 sm:space-y-5">
+          {/* Simulated Data & Decision Support Banner */}
+          <div className="bg-[#FEF3C7] border-2 border-ink-900 rounded-xl px-3 py-2 flex items-center justify-between text-xs text-ink-900 font-body font-semibold shadow-[2px_2px_0px_#121214]">
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0" />
+              <span>{t('decision_support_note', locale)}</span>
             </span>
-            <h2 className="font-display font-bold text-2xl sm:text-3xl text-white tracking-tight mt-0.5">
-              {HERO_PATIENT.name} {t('ji', locale)}
-            </h2>
-            <p className="font-body text-[#EAE7DC] text-sm sm:text-base mt-1 font-medium">
-              {pendingLogs.length > 0
-                ? `${pendingLogs.length} dose${pendingLogs.length > 1 ? 's' : ''} left for today.`
-                : t('all_caught_up', locale)}
-            </p>
           </div>
 
-          {/* Quick Voice Log Prompt Pill */}
-          <Link
-            href="/patient/voice"
-            className="mt-4 pt-3.5 border-t border-white/15 flex items-center justify-between bg-white/5 hover:bg-white/10 rounded-xl px-3 py-2 transition-all group"
-          >
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-200">
-              <span className="p-1.5 rounded-full bg-[#FF5C98] text-white shrink-0">
-                <Mic className="w-3.5 h-3.5" />
+          {/* Greeting Hero Section */}
+          <section className="bg-[#121214] text-white rounded-[22px] p-5 sm:p-6 border-2 border-[#121214] shadow-[4px_4px_0px_#121214] relative overflow-hidden">
+            <div className="relative z-10">
+              <span className="font-body text-[#D4F77C] text-sm sm:text-base font-bold tracking-wide block">
+                {getGreeting()},
               </span>
-              <span className="font-body font-medium">{t('voice_hint', locale)}</span>
-            </div>
-            <span className="text-xs font-display font-bold text-[#D4F77C] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-              <span>Try voice</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </span>
-          </Link>
-        </section>
-
-        {/* Next Medicine Dose Card */}
-        <section className="space-y-2">
-          <div className="flex items-center justify-between px-0.5">
-            <h3 className="font-display font-bold text-lg sm:text-xl text-ink-900">
-              {t('next_dose', locale)}
-            </h3>
-            <Link
-              href="/patient/medicines"
-              className="font-body text-xs sm:text-sm font-bold text-ink-700 hover:text-ink-900 underline"
-            >
-              View all ({totalMeds})
-            </Link>
-          </div>
-
-          {nextMedicine && nextLog ? (
-            <MedicineCard
-              id={nextMedicine.id}
-              name={nextMedicine.name}
-              dose={nextMedicine.dose}
-              time={nextLog.scheduledAt || nextLog.scheduled_at || '08:00 AM'}
-              instructions={nextMedicine.instructions}
-              status="pending"
-              isLoading={isLoading}
-              onMarkTaken={handleMarkTaken}
-            />
-          ) : (
-            <Card className="text-center py-6 bg-white border-2 border-ink-900 shadow-[3px_3px_0px_#121214] rounded-[20px]">
-              <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-2" />
-              <h4 className="font-display font-bold text-lg text-ink-900">
-                {t('all_caught_up', locale)}
-              </h4>
-              <p className="font-body text-sm text-ink-500 mt-1 max-w-xs mx-auto">
-                All scheduled medicines for today have been completed.
+              <h2 className="font-display font-bold text-2xl sm:text-3xl text-white tracking-tight mt-0.5">
+                {HERO_PATIENT.name} {t('ji', locale)}
+              </h2>
+              <p className="font-body text-[#EAE7DC] text-sm sm:text-base mt-1 font-medium">
+                {pendingLogs.length > 0
+                  ? `${pendingLogs.length} dose${pendingLogs.length > 1 ? 's' : ''} left for today.`
+                  : t('all_caught_up', locale)}
               </p>
-            </Card>
-          )}
-        </section>
+            </div>
 
-        {/* 3 StatTiles: Steps, Medicines, BP */}
-        <section className="space-y-2">
-          <h3 className="font-display font-bold text-lg sm:text-xl text-ink-900 px-0.5">
-            {t('today_summary', locale)}
-          </h3>
+            {/* Quick Voice Log Prompt Pill */}
+            <Link
+              href="/patient/voice"
+              className="mt-4 pt-3.5 border-t border-white/15 flex items-center justify-between bg-white/5 hover:bg-white/10 rounded-xl px-3 py-2 transition-all group"
+            >
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-200">
+                <span className="p-1.5 rounded-full bg-[#FF5C98] text-white shrink-0">
+                  <Mic className="w-3.5 h-3.5" />
+                </span>
+                <span className="font-body font-medium">{t('voice_hint', locale)}</span>
+              </div>
+              <span className="text-xs font-display font-bold text-[#D4F77C] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                <span>Try voice</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </Link>
+          </section>
 
-          <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            {/* Steps Tile */}
-            <StatTile
-              label={t('steps_today', locale)}
-              value={
-                latestSteps
-                  ? (latestSteps.valueA ?? latestSteps.value_a ?? 4210).toLocaleString()
-                  : '4,210'
-              }
-              unit="steps"
-              target="Goal: 6k"
-              icon={<Footprints className="w-4 h-4 text-ink-900" />}
-              trendText="On track"
-              trend="neutral"
-            />
+          {/* Next Medicine Dose Card */}
+          <section className="space-y-2">
+            <div className="flex items-center justify-between px-0.5">
+              <h3 className="font-display font-bold text-lg sm:text-xl text-ink-900">
+                {t('next_dose', locale)}
+              </h3>
+              <Link
+                href="/patient/medicines"
+                className="font-body text-xs sm:text-sm font-bold text-ink-700 hover:text-ink-900 underline"
+              >
+                View all ({totalMeds})
+              </Link>
+            </div>
 
-            {/* Medicines Taken Tile */}
-            <StatTile
-              label={t('meds_adherence', locale)}
-              value={`${takenCount}/${totalMeds}`}
-              unit="doses"
-              target={takenCount === totalMeds ? '100%' : 'Eve pending'}
-              icon={<Pill className="w-4 h-4 text-ink-900" />}
-              trend="up"
-              trendText={takenCount > 0 ? 'Logged' : 'Pending'}
-            />
+            {nextMedicine && nextLog ? (
+              <MedicineCard
+                id={nextMedicine.id}
+                name={nextMedicine.name}
+                dose={nextMedicine.dose}
+                time={nextLog.scheduledAt || nextLog.scheduled_at || '08:00 AM'}
+                instructions={nextMedicine.instructions}
+                status="pending"
+                isLoading={isLoading}
+                onMarkTaken={handleMarkTaken}
+              />
+            ) : (
+              <Card className="text-center py-6 bg-white border-2 border-ink-900 shadow-[3px_3px_0px_#121214] rounded-[20px]">
+                <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-2" />
+                <h4 className="font-display font-bold text-lg text-ink-900">
+                  {t('all_caught_up', locale)}
+                </h4>
+                <p className="font-body text-sm text-ink-500 mt-1 max-w-xs mx-auto">
+                  All scheduled medicines for today have been completed.
+                </p>
+              </Card>
+            )}
+          </section>
 
-            {/* Blood Pressure Tile */}
-            <StatTile
-              label={t('latest_bp', locale)}
-              value={
-                latestBp
-                  ? `${latestBp.valueA ?? latestBp.value_a}/${
-                      latestBp.valueB ?? latestBp.value_b
-                    }`
-                  : '138/88'
-              }
-              unit="mmHg"
-              target="<130/80"
-              icon={<Heart className="w-4 h-4 text-ink-900" />}
-              trend="up"
-              trendText="Elevated"
-            />
-          </div>
-        </section>
+          {/* 3 StatTiles: Steps, Medicines, BP */}
+          <section className="space-y-2">
+            <h3 className="font-display font-bold text-lg sm:text-xl text-ink-900 px-0.5">
+              {t('today_summary', locale)}
+            </h3>
+
+            <div className="grid grid-cols-3 gap-2 sm:gap-2.5 items-stretch">
+              {/* Steps Tile */}
+              <StatTile
+                label={locale === 'hi' ? 'कदम' : locale === 'kn' ? 'ಹೆಜ್ಜೆ' : 'Steps'}
+                value={
+                  latestSteps
+                    ? (latestSteps.valueA ?? latestSteps.value_a ?? 4210).toLocaleString()
+                    : '4,210'
+                }
+                unit=""
+                target="Goal: 6k"
+                icon={<Footprints className="w-4 h-4 text-ink-900" />}
+                trendText="On track"
+                trend="neutral"
+                className="h-full"
+              />
+
+              {/* Medicines Taken Tile */}
+              <StatTile
+                label={locale === 'hi' ? 'दवाएं' : locale === 'kn' ? 'ಔಷಧಿ' : 'Meds'}
+                value={`${takenCount}/${totalMeds}`}
+                unit=""
+                target={takenCount === totalMeds ? '100%' : 'Eve pending'}
+                icon={<Pill className="w-4 h-4 text-ink-900" />}
+                trend="up"
+                trendText={takenCount > 0 ? 'Logged' : 'Pending'}
+                className="h-full"
+              />
+
+              {/* Blood Pressure Tile */}
+              <StatTile
+                label={locale === 'hi' ? 'रक्तचाप' : locale === 'kn' ? 'ರಕ್ತದೊತ್ತಡ' : 'BP'}
+                value={
+                  latestBp
+                    ? `${latestBp.valueA ?? latestBp.value_a}/${
+                        latestBp.valueB ?? latestBp.value_b
+                      }`
+                    : '138/88'
+                }
+                unit="mmHg"
+                target="<130/80"
+                icon={<Heart className="w-4 h-4 text-ink-900" />}
+                trend="up"
+                trendText="Elevated"
+                className="h-full"
+              />
+            </div>
+          </section>
 
         {/* Phase 4A: Wearable Insight Section ("Your Health Today") */}
         {wearable && (
@@ -555,6 +559,7 @@ export default function PatientHomePage() {
 
       {/* Bottom Tab Bar (68px, fixed bottom) */}
       <BottomNav locale={locale} />
+      </div>
     </div>
   );
 }

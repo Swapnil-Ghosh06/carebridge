@@ -15,6 +15,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { Card, RiskBadge, AlertItem } from '@/components/ui';
+import { BottomNav } from '@/components/patient/BottomNav';
 import { Locale, t } from '@/lib/i18n';
 import { INITIAL_FAMILY_FEED, HERO_PATIENT } from '@/lib/mockData';
 import { FamilyFeedResponse, Alert } from '@/lib/types';
@@ -169,55 +170,56 @@ export default function FamilyFeedPage() {
   }, [feedData.alerts]);
 
   return (
-    <div className="min-h-screen bg-[var(--surface-50)] text-[var(--ink-900)] pb-20">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[var(--surface-200)] px-4 py-3">
-        <div className="max-w-md mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="p-2 -ml-2 rounded-[var(--r-md)] text-[var(--ink-900)] hover:bg-[var(--surface-100)] min-h-[44px] min-w-[44px] flex items-center"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </Link>
-            <div>
-              <h1 className="font-display font-bold text-lg text-[var(--ink-900)] leading-tight">
-                {t('family_feed_title', locale)}
-              </h1>
-              <p className="font-body text-xs text-[var(--ink-500)]">
-                Karan K. • Bengaluru
-              </p>
+    <div className="min-h-screen bg-[#F4F1EA] md:bg-[#EAE6DB] flex flex-col items-center">
+      <div className="w-full max-w-md min-h-screen bg-[#FAF8F5] text-[var(--ink-900)] flex flex-col relative md:border-x-2 md:border-ink-900 md:shadow-[0_10px_35px_rgba(0,0,0,0.08)] pb-28 sm:pb-32">
+        {/* Header */}
+        <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-2 border-ink-900 px-4 py-3">
+          <div className="w-full flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Link
+                href="/patient"
+                className="p-2 -ml-2 rounded-xl text-[var(--ink-900)] hover:bg-[var(--surface-100)] min-h-[44px] min-w-[44px] flex items-center"
+              >
+                <ChevronLeft className="w-6 h-6 stroke-[2.5]" />
+              </Link>
+              <div>
+                <h1 className="font-display font-bold text-lg text-[var(--ink-900)] leading-tight">
+                  {t('family_feed_title', locale)}
+                </h1>
+                <p className="font-body text-xs text-[var(--ink-500)]">
+                  Karan K. • Bengaluru
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleManualRefresh}
+                className={`p-2 rounded-full text-[var(--ink-700)] hover:bg-[var(--surface-100)] min-h-[40px] min-w-[40px] flex items-center justify-center transition-transform ${
+                  isRefreshing ? 'animate-spin text-[var(--brand-teal)]' : ''
+                }`}
+                title="Refresh live status"
+              >
+                <RefreshCw className="w-4 h-4" />
+              </button>
+              <div className="flex bg-[var(--surface-100)] p-0.5 rounded-full border border-[var(--surface-200)] text-xs">
+                {(['en', 'hi', 'kn'] as const).map((loc) => (
+                  <button
+                    key={loc}
+                    onClick={() => setLocale(loc)}
+                    className={`px-2 py-0.5 rounded-full font-bold uppercase transition-colors ${
+                      locale === loc ? 'bg-[var(--brand-teal)] text-white' : 'text-[var(--ink-500)] hover:text-[var(--ink-700)]'
+                    }`}
+                  >
+                    {loc}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
+        </header>
 
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleManualRefresh}
-              className={`p-2 rounded-full text-[var(--ink-700)] hover:bg-[var(--surface-100)] min-h-[40px] min-w-[40px] flex items-center justify-center transition-transform ${
-                isRefreshing ? 'animate-spin text-[var(--brand-teal)]' : ''
-              }`}
-              title="Refresh live status"
-            >
-              <RefreshCw className="w-4 h-4" />
-            </button>
-            <div className="flex bg-[var(--surface-100)] p-0.5 rounded-full border border-[var(--surface-200)] text-xs">
-              {(['en', 'hi', 'kn'] as const).map((loc) => (
-                <button
-                  key={loc}
-                  onClick={() => setLocale(loc)}
-                  className={`px-2 py-0.5 rounded-full font-bold uppercase transition-colors ${
-                    locale === loc ? 'bg-[var(--brand-teal)] text-white' : 'text-[var(--ink-500)] hover:text-[var(--ink-700)]'
-                  }`}
-                >
-                  {loc}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <main className="max-w-md mx-auto px-4 pt-4 space-y-5">
+        <main className="w-full px-4 pt-4 space-y-5">
         {/* Patient Status Overview Card (F1) */}
         <Card className="p-6 border-indigo-100 shadow-card bg-gradient-to-b from-white to-indigo-50/20">
           <div className="flex items-start justify-between">
@@ -411,11 +413,15 @@ export default function FamilyFeedPage() {
 
       {/* Toast */}
       {toastMessage && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[var(--ink-900)] text-white px-5 py-3 rounded-full shadow-lg flex items-center gap-2 font-display text-sm font-semibold animate-bounce">
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[var(--ink-900)] text-white px-5 py-3 rounded-full shadow-lg flex items-center gap-2 font-display text-sm font-semibold animate-bounce">
           <CheckCircle2 className="w-5 h-5 text-[var(--brand-teal)]" />
           <span>{toastMessage}</span>
         </div>
       )}
+
+      {/* Bottom Navigation */}
+      <BottomNav locale={locale} />
+      </div>
     </div>
   );
 }

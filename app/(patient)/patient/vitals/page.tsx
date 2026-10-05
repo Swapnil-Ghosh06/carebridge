@@ -108,16 +108,17 @@ export default function PatientVitalsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-ink-900 pb-28 sm:pb-32">
-      <PatientHeader
-        locale={locale}
-        onLocaleChange={handleLocaleChange}
-        showBack
-        backHref="/patient"
-        title={t('log_bp_title', locale)}
-      />
+    <div className="min-h-screen bg-[#F4F1EA] md:bg-[#EAE6DB] flex flex-col items-center">
+      <div className="w-full max-w-md min-h-screen bg-[#FAF8F5] text-ink-900 flex flex-col relative md:border-x-2 md:border-ink-900 md:shadow-[0_10px_35px_rgba(0,0,0,0.08)] pb-28 sm:pb-32">
+        <PatientHeader
+          locale={locale}
+          onLocaleChange={handleLocaleChange}
+          showBack
+          backHref="/patient"
+          title={t('log_bp_title', locale)}
+        />
 
-      <main className="max-w-md mx-auto px-3.5 sm:px-4 pt-3.5 space-y-4">
+        <main className="w-full px-3.5 sm:px-4 pt-3.5 space-y-4">
         <form onSubmit={handleSave} className="space-y-4">
           <div className="bg-white rounded-[20px] border-2 border-ink-900 shadow-[3px_3px_0px_#121214] p-4 sm:p-5">
             <div className="flex items-center gap-3 mb-4">
@@ -275,6 +276,7 @@ export default function PatientVitalsPage() {
       )}
 
       <BottomNav locale={locale} />
+      </div>
     </div>
   );
 }

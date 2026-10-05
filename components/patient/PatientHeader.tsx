@@ -22,8 +22,8 @@ export function PatientHeader({
   title,
 }: PatientHeaderProps) {
   return (
-    <header className="sticky top-0 z-40 bg-white border-b-2 border-ink-900 px-4 py-3 shadow-[0px_2px_0px_#121214]">
-      <div className="max-w-md mx-auto flex items-center justify-between gap-2">
+    <header className="sticky top-0 z-40 w-full bg-white border-b-2 border-ink-900 px-3.5 sm:px-4 py-2.5 shadow-[0px_2px_0px_#121214]">
+      <div className="w-full flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           {showBack ? (
             <Link

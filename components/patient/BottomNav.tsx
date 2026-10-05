@@ -43,8 +43,8 @@ export function BottomNav({ locale = 'en' }: BottomNavProps) {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-2 border-ink-900 shadow-[0px_-2px_0px_#121214] h-[68px] pb-1 select-none">
-      <div className="max-w-md mx-auto h-full px-2 flex items-center justify-around">
+    <nav className="fixed bottom-0 left-0 right-0 md:left-1/2 md:-translate-x-1/2 md:max-w-md z-50 bg-white border-t-2 md:border-x-2 border-ink-900 shadow-[0px_-2px_0px_#121214] h-[68px] pb-1 select-none">
+      <div className="w-full h-full px-2 flex items-center justify-around">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;

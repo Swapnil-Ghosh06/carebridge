@@ -99,58 +99,55 @@ export const StatTile: React.FC<StatTileProps> = ({
   return (
     <div
       className={[
-        "bg-[var(--surface-0)] rounded-[18px] border-2 border-[var(--ink-900)] shadow-[2px_2px_0px_var(--ink-900)] sm:shadow-[3px_3px_0px_var(--ink-900)]",
-        "p-3 sm:p-4.5 flex flex-col justify-between gap-1 transition-all",
+        "bg-white rounded-[20px] border-2 border-[var(--ink-900)] shadow-[2.5px_2.5px_0px_var(--ink-900)]",
+        "p-3 sm:p-3.5 flex flex-col justify-between h-full min-h-[140px] transition-all",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
     >
       <div>
-        {/* Optional icon */}
-        {icon && (
-          <div className="mb-1.5 flex items-center justify-between" aria-hidden="true">
-            <span className="p-1 rounded-lg bg-[var(--surface-100)] inline-flex items-center justify-center text-[var(--ink-900)]">
+        {/* Top Header: Icon + Metric Name */}
+        <div className="flex items-center gap-1.5 mb-1.5">
+          {icon && (
+            <span className="p-1 rounded-lg bg-[var(--surface-100)] inline-flex items-center justify-center text-[var(--ink-900)] shrink-0">
               {icon}
             </span>
-          </div>
-        )}
+          )}
+          <span className="font-display font-bold text-xs sm:text-[13px] text-[var(--ink-800)] line-clamp-1 leading-tight tracking-tight">
+            {label}
+          </span>
+        </div>
 
-        {/* Value row */}
-        <div className="flex items-baseline gap-1 flex-wrap">
+        {/* Big Value Row */}
+        <div className="flex items-baseline gap-1 mt-1">
           <span
             className={["font-data font-bold text-[var(--ink-900)] tracking-tight leading-none", valueSize[size]].join(" ")}
-            aria-label={`${label}: ${value}${displayUnit ? " " + displayUnit : ""}`}
+            aria-label={`${label}: ${value}`}
           >
             {value}
           </span>
-          {displayUnit && (
-            <span className="font-body text-[var(--ink-500)] text-[11px] sm:text-xs font-medium">{displayUnit}</span>
+          {displayUnit && displayUnit.toLowerCase() !== label.toLowerCase() && (
+            <span className="font-data text-[var(--ink-500)] text-[11px] font-semibold">{displayUnit}</span>
           )}
         </div>
-
-        {/* Label */}
-        <span className={["font-body font-bold text-[var(--ink-800)] line-clamp-1 mt-1 block leading-tight", labelSize[size]].join(" ")}>
-          {label}
-        </span>
       </div>
 
-      <div>
-        {/* Target/Goal secondary note */}
+      {/* Bottom Footer Row */}
+      <div className="pt-2 border-t border-[var(--ink-200)] mt-2 flex flex-col justify-end min-h-[36px] gap-0.5">
         {target && (
-          <span className="font-body text-[10px] sm:text-[11px] text-[var(--ink-500)] font-medium block mt-0.5 line-clamp-1">
+          <span className="font-body text-[10px] sm:text-[11px] text-[var(--ink-600)] font-semibold block truncate">
             {target}
           </span>
         )}
-
-        {/* Trend */}
-        {trend && TrendIcon && (
-          <div className={["flex items-center gap-1 mt-1 font-medium", trendColor].join(" ")}>
-            <TrendIcon size={12} className="shrink-0" aria-hidden="true" />
-            {activeTrendLabel && (
-              <span className="font-body text-[10px] sm:text-[11px] line-clamp-1">{activeTrendLabel}</span>
-            )}
+        {activeTrendLabel && (
+          <div className={["flex items-center gap-1 font-medium", trendColor].join(" ")}>
+            {TrendIcon && <TrendIcon size={11} className="shrink-0" aria-hidden="true" />}
+            <span className="font-body text-[10px] sm:text-[11px] font-semibold truncate">{activeTrendLabel}</span>
           </div>
+        )}
+        {!target && !activeTrendLabel && (
+          <span className="font-body text-[11px] text-[var(--ink-400)] block truncate">—</span>
         )}
       </div>
     </div>
