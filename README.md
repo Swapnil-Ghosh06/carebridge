@@ -100,28 +100,28 @@ CareBridge is built on a clean, decoupled architecture with deterministic rule e
 ```mermaid
 flowchart TB
     subgraph SENSORS ["1. Telemetry Ingestion Layer"]
-        W[Smartwatch PPG / IMU]
-        BPM[Bluetooth BP Monitor]
-        Voice[Elderly Voice Log hi/kn/en]
+        W["Smartwatch PPG / IMU"]
+        BPM["Bluetooth BP Monitor"]
+        Voice["Elderly Voice Log (Hindi, Kannada, English)"]
     end
 
     subgraph ENGINE ["2. Deterministic & AI Processing"]
-        Ingest[Wearable Context Processor]
-        Rules[Deterministic Clinical Rules Engine<br/>HR > 100 nocturnal | Steps -30% | BP trend]
-        BriefGen[Pre-Consult Brief Synthesizer<br/>Strict Grounded Evidence Citations]
+        Ingest["Wearable Context Processor"]
+        Rules["Deterministic Clinical Rules Engine<br/>(HR > 100 nocturnal, Steps -30%, BP trend)"]
+        BriefGen["Pre-Consult Brief Synthesizer<br/>Strict Grounded Evidence Citations"]
     end
 
     subgraph STORAGE ["3. Data & Interoperability"]
-        DB[(Supabase / In-Memory Store)]
-        FHIR[ABDM FHIR R4 Exporter<br/>LOINC & SNOMED CT Mappings]
-        RxNav[NIH RxNav Drug-Drug Checker]
+        DB[("Supabase / In-Memory Store")]
+        FHIR["ABDM FHIR R4 Exporter<br/>LOINC & SNOMED CT Mappings"]
+        RxNav["NIH RxNav Drug-Drug Checker"]
     end
 
     subgraph ENDPOINTS ["4. Multi-Stakeholder Endpoints"]
-        Doctor[Doctor Clinical Cockpit<br/>Red-Triage Queue & What-If Simulator]
-        Family[Family Guardian Feed<br/>Real-Time Escalation Ladder]
-        Patient[Patient Mobile App<br/>Elderly-First Voice UI]
-        Admin[Hospital Admin ROI Panel<br/>Readmissions Cost Avoidance]
+        Doctor["Doctor Clinical Cockpit<br/>Red-Triage Queue & What-If Simulator"]
+        Family["Family Guardian Feed<br/>Real-Time Escalation Ladder"]
+        Patient["Patient Mobile App<br/>Elderly-First Voice UI"]
+        Admin["Hospital Admin ROI Panel<br/>Readmissions Cost Avoidance"]
     end
 
     W --> Ingest
@@ -132,7 +132,7 @@ flowchart TB
     Rules --> BriefGen
     BriefGen --> Doctor
     Rules --> Family
-    Doctor -->|Two-Way Care Plan Update| Patient
+    Doctor -->|"Two-Way Care Plan Update"| Patient
     Doctor --> FHIR
     Doctor --> RxNav
     DB --> Admin
@@ -147,22 +147,22 @@ Rather than overwhelming physicians with raw alert fatigue, CareBridge deploys a
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Patient as 👴 Ramesh ji (Patient)
-    actor Family as 👩 Priya (Family Guardian)
-    actor Doctor as 🩺 Dr. Meera Rao (Cardiologist)
-    participant Sys as ⚙️ CareBridge Engine
+    actor Patient as Ramesh ji (Patient)
+    actor Family as Priya (Family Guardian)
+    actor Doctor as Dr. Meera Rao (Cardiologist)
+    participant Sys as CareBridge Engine
 
     Note over Patient,Sys: Morning: Patient misses Metformin dose
-    Sys->>Patient: Level 1: Gentle Voice / Push Nudge ("Time for morning medicine")
-    Note over Patient: 10 seconds pass (Demo) / 30 mins (Prod) with no confirmation
-    Sys->>Family: Level 2: WhatsApp / SMS Notification ("Ramesh ji missed his morning Metformin")
+    Sys->>Patient: Level 1: Gentle Voice or Push Nudge - Time for morning medicine
+    Note over Patient: 10 seconds pass (Demo) or 30 mins (Prod) with no confirmation
+    Sys->>Family: Level 2: WhatsApp or SMS Alert - Ramesh ji missed morning Metformin
     Family->>Patient: Family calls or sends one-tap care encouragement
-    Note over Sys: Evening: Nocturnal HR spikes >100 bpm & BP jumps to 155/95 mmHg
+    Note over Sys: Evening: Nocturnal HR spikes above 100 bpm and BP jumps to 155/95 mmHg
     Sys->>Doctor: Level 3: Patient flips to RED in Doctor Triage Queue
-    Note over Doctor: Doctor opens Pre-Consult Brief with [Obs: v7] Citations
-    Doctor->>Patient: Doctor triggers 1-tap teleconsult & updates care plan
+    Note over Doctor: Doctor opens Pre-Consult Brief with Clinical Citations
+    Doctor->>Patient: Doctor triggers 1-tap teleconsult and updates care plan
     Doctor->>Sys: New medication schedule saved
-    Sys->>Patient: Daily goals & voice prompts update automatically
+    Sys->>Patient: Daily goals and voice prompts update automatically
 ```
 
 ---
@@ -222,12 +222,12 @@ The fundamental breakthrough of CareBridge is transforming outpatient care from 
 
 ```mermaid
 flowchart LR
-    A[Doctor Reviews Telemetry & Brief] --> B[Doctor Writes Clinical Note / Modifies Meds]
-    B --> C[CareBridge AI Parser extracts Reminders & Goals]
-    C --> D[Patient App updates Daily Schedule & Voice Reminders]
-    C --> E[Family Guardian Feed records Updated Plan]
-    D --> F[Patient confirms Goal via Voice/Tap]
-    F --> G[Compliance & Trajectory reported back to Doctor]
+    A["Doctor Reviews Telemetry & Brief"] --> B["Doctor Writes Clinical Note / Modifies Meds"]
+    B --> C["CareBridge AI Parser extracts Reminders & Goals"]
+    C --> D["Patient App updates Daily Schedule & Voice Reminders"]
+    C --> E["Family Guardian Feed records Updated Plan"]
+    D --> F["Patient confirms Goal via Voice or Tap"]
+    F --> G["Compliance & Trajectory reported back to Doctor"]
 ```
 
 ---
