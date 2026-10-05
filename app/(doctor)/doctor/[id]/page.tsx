@@ -12,6 +12,8 @@ import {
   Clock,
   Bell,
   RefreshCw,
+  Sliders,
+  FileCode2,
 } from "lucide-react";
 import { PatientDetail, AuditLog } from "@/lib/types";
 import { MOCK_PATIENT_DETAILS, MOCK_AUDIT_LOGS } from "@/lib/mockData";
@@ -23,6 +25,8 @@ import { TrendCharts } from "@/components/doctor/TrendCharts";
 import { MedicineLogTable } from "@/components/doctor/MedicineLogTable";
 import { SharedDataPanel } from "@/components/doctor/SharedDataPanel";
 import { BriefPanel } from "@/components/doctor/BriefPanel";
+import { WhatIfSimulator } from "@/components/doctor/WhatIfSimulator";
+import { FhirExportDrawer } from "@/components/doctor/FhirExportDrawer";
 import { AuditRow } from "@/components/ui/AuditRow";
 
 export default function PatientDetailPage() {
@@ -33,6 +37,8 @@ export default function PatientDetailPage() {
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
   const [activeTab, setActiveTab] = useState<"clinical" | "audit">("clinical");
   const [isBriefOpen, setIsBriefOpen] = useState(false);
+  const [isWhatIfOpen, setIsWhatIfOpen] = useState(false);
+  const [isFhirOpen, setIsFhirOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const fetchPatientDetail = React.useCallback(async () => {
@@ -122,7 +128,7 @@ export default function PatientDetailPage() {
             </div>
           </div>
 
-          {/* AI Pre-Consult Brief Trigger Button */}
+          {/* Clinical Decision Support Triggers */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
             <Button
               variant="secondary"
@@ -132,6 +138,16 @@ export default function PatientDetailPage() {
             >
               <Sparkles className="w-4 h-4 text-brand-mint" />
               <span>Pre-Consult Brief</span>
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="md"
+              onClick={() => setIsWhatIfOpen(true)}
+              className="gap-2 shadow-xs border-brand-teal text-brand-teal hover:bg-brand-teal/5"
+            >
+              <Sliders className="w-4 h-4 text-brand-teal" />
+              <span>&ldquo;What-If&rdquo; Simulator</span>
             </Button>
           </div>
         </div>
@@ -269,6 +285,28 @@ export default function PatientDetailPage() {
         <div className="space-y-6">
           <SharedDataPanel consents={consents} />
 
+          {/* ABDM / FHIR Interoperability Card */}
+          <div className="bg-surface-0 rounded-lg p-5 border border-ink-300/30 shadow-card flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h4 className="font-display font-bold text-ink-900 text-sm flex items-center gap-2">
+                <FileCode2 className="w-4 h-4 text-brand-indigo" />
+                <span>Ayushman Bharat Digital Mission (ABDM) / FHIR R4 Bundle</span>
+              </h4>
+              <p className="font-body text-xs text-ink-500 mt-0.5">
+                Standardized interoperability collection with LOINC and SNOMED CT coded telemetry
+              </p>
+            </div>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setIsFhirOpen(true)}
+              className="gap-2 shrink-0 text-xs border-brand-indigo text-brand-indigo hover:bg-brand-indigo/5"
+            >
+              <FileCode2 className="w-3.5 h-3.5" />
+              <span>Preview &amp; Export FHIR R4</span>
+            </Button>
+          </div>
+
           <div className="bg-surface-0 rounded-lg p-6 border border-ink-300/30 shadow-card">
             <div className="flex items-center justify-between mb-4">
               <div>
@@ -304,6 +342,20 @@ export default function PatientDetailPage() {
         patientName={profile.name}
         isOpen={isBriefOpen}
         onClose={() => setIsBriefOpen(false)}
+      />
+
+      {/* What-If Clinical Drug Simulator Drawer */}
+      <WhatIfSimulator
+        patientName={profile.name}
+        isOpen={isWhatIfOpen}
+        onClose={() => setIsWhatIfOpen(false)}
+      />
+
+      {/* ABDM / HL7 FHIR R4 Bundle Export Drawer */}
+      <FhirExportDrawer
+        detail={detail}
+        isOpen={isFhirOpen}
+        onClose={() => setIsFhirOpen(false)}
       />
     </div>
   );
