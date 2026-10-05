@@ -14,6 +14,7 @@ import {
   RefreshCw,
   Sliders,
   FileCode2,
+  Activity,
 } from "lucide-react";
 import { PatientDetail, AuditLog } from "@/lib/types";
 import { MOCK_PATIENT_DETAILS, MOCK_AUDIT_LOGS } from "@/lib/mockData";
@@ -35,7 +36,7 @@ export default function PatientDetailPage() {
 
   const [detail, setDetail] = useState<PatientDetail | null>(null);
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
-  const [activeTab, setActiveTab] = useState<"clinical" | "audit">("clinical");
+  const [activeTab, setActiveTab] = useState<"clinical" | "rules" | "audit">("clinical");
   const [isBriefOpen, setIsBriefOpen] = useState(false);
   const [isWhatIfOpen, setIsWhatIfOpen] = useState(false);
   const [isFhirOpen, setIsFhirOpen] = useState(false);
@@ -180,6 +181,21 @@ export default function PatientDetailPage() {
         </button>
 
         <button
+          onClick={() => setActiveTab("rules")}
+          className={`px-4 py-2 rounded-full border-2 border-ink-900 flex items-center gap-2 transition cursor-pointer ${
+            activeTab === "rules"
+              ? "bg-[#D4F77C] text-ink-900 shadow-[2px_2px_0px_#121214]"
+              : "bg-white text-ink-700 hover:bg-[#FAF8F5]"
+          }`}
+        >
+          <Activity className="w-4 h-4" />
+          <span>8-Rule Engine</span>
+          <span className="font-mono text-[10px] px-1.5 py-0.5 rounded-full bg-ink-900 text-white">
+            {risk.reasons.length} / 8 active
+          </span>
+        </button>
+
+        <button
           onClick={() => setActiveTab("audit")}
           className={`px-4 py-2 rounded-full border-2 border-ink-900 flex items-center gap-2 transition cursor-pointer ${
             activeTab === "audit"
@@ -280,7 +296,132 @@ export default function PatientDetailPage() {
         </div>
       )}
 
-      {/* Tab 2: DPDP Consent & Access Log */}
+      {/* Tab 2: 8-Rule Engine Status */}
+      {activeTab === "rules" && (
+        <div className="space-y-6">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-ink-900 shadow-[5px_5px_0px_#121214]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b-2 border-ink-900 gap-3">
+              <div>
+                <h3 className="font-serif font-black text-ink-900 text-xl flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-indigo-700" />
+                  <span>Deterministic 8-Rule Clinical Evaluation</span>
+                </h3>
+                <p className="font-mono text-xs text-ink-500 mt-0.5">
+                  Live evaluation of {profile.name}&apos;s continuous telemetry against the 8 transparent clinical heuristics.
+                </p>
+              </div>
+              <div className="font-mono text-xs bg-[#FAF8F5] border-2 border-ink-900 rounded-2xl px-4 py-2 flex items-center gap-2 font-bold shadow-[2px_2px_0px_#121214]">
+                <span>Triage Score:</span>
+                <span className="text-base text-ink-900 font-serif font-black">{risk.score}/100</span>
+                <span className="uppercase text-[10px] px-2 py-0.5 rounded-full bg-ink-900 text-white">{risk.band}</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+              {[
+                {
+                  id: "MED_ADHERENCE_LOW",
+                  label: "Low Medication Adherence (< 70%)",
+                  weight: 25,
+                  ruleThreshold: "Taken doses < 70% over rolling 7 days",
+                },
+                {
+                  id: "MED_MISSED_STREAK",
+                  label: "Consecutive Missed Doses (>= 2)",
+                  weight: 15,
+                  ruleThreshold: "2 or more consecutive missed doses",
+                },
+                {
+                  id: "BP_TREND_UP",
+                  label: "Elevated Blood Pressure Trend (> 8%)",
+                  weight: 20,
+                  ruleThreshold: "Avg systolic BP up > 8% vs prior 7 days",
+                },
+                {
+                  id: "BP_HIGH_ABS",
+                  label: "Critical Blood Pressure Threshold",
+                  weight: 20,
+                  ruleThreshold: "Latest Systolic >= 150 or Diastolic >= 95 mmHg",
+                },
+                {
+                  id: "STEPS_DROP",
+                  label: "Sharp Drop in Physical Activity (> 40%)",
+                  weight: 10,
+                  ruleThreshold: "Daily steps down > 40% vs 14d baseline",
+                },
+                {
+                  id: "GLUCOSE_HIGH",
+                  label: "Elevated Fasting Glucose (>= 180)",
+                  weight: 15,
+                  ruleThreshold: "Latest fasting blood glucose >= 180 mg/dL",
+                },
+                {
+                  id: "RECENT_DISCHARGE",
+                  label: "Recent Hospital Discharge (<= 14 days)",
+                  weight: 10,
+                  ruleThreshold: "Discharged within last 14 days (vulnerability window)",
+                },
+                {
+                  id: "NO_DATA_48H",
+                  label: "No Telemetry in 48 Hours",
+                  weight: 15,
+                  ruleThreshold: "No vitals or medicine logs for > 48 hours",
+                },
+              ].map((rule, idx) => {
+                const triggeredReason = risk.reasons.find((r) => (r.rule_id || r.ruleId) === rule.id);
+                const isTriggered = Boolean(triggeredReason);
+
+                return (
+                  <div
+                    key={rule.id}
+                    className={`p-4 rounded-2xl border-2 border-ink-900 transition-all ${
+                      isTriggered
+                        ? "bg-[#FFF0F5] shadow-[3px_3px_0px_#E11D48]"
+                        : "bg-[#FBF9F4] shadow-[2px_2px_0px_#121214]"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs font-black w-6 h-6 rounded-full bg-ink-900 text-white flex items-center justify-center">
+                          #{idx + 1}
+                        </span>
+                        <span className="font-mono text-xs font-bold text-ink-900">
+                          {rule.label}
+                        </span>
+                      </div>
+                      <span
+                        className={`font-mono text-[10px] font-bold px-2 py-0.5 rounded-full border border-ink-900 ${
+                          isTriggered
+                            ? "bg-rose-500 text-white"
+                            : "bg-emerald-100 text-emerald-900"
+                        }`}
+                      >
+                        {isTriggered ? `ACTIVE (+${triggeredReason?.weight ?? rule.weight} pts)` : "NORMAL (0 pts)"}
+                      </span>
+                    </div>
+
+                    <p className="font-mono text-[11px] text-ink-500 mb-2">
+                      Threshold: {rule.ruleThreshold}
+                    </p>
+
+                    {isTriggered ? (
+                      <div className="bg-white border border-rose-300 rounded-xl p-2.5 font-sans text-xs text-rose-900 font-medium">
+                        ⚠️ {triggeredReason?.text}
+                      </div>
+                    ) : (
+                      <div className="bg-white border border-emerald-300 rounded-xl p-2.5 font-mono text-[11px] text-emerald-800">
+                        ✓ Telemetry within safe physiological baseline
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tab 3: DPDP Consent & Access Log */}
       {activeTab === "audit" && (
         <div className="space-y-6">
           <SharedDataPanel consents={consents} />

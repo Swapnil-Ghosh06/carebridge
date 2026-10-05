@@ -52,6 +52,7 @@ import {
 export default function LandingPage() {
   // Feature Tab selection for Section 2 (Daisy "Transform chaos into creativity" clone)
   const [activeFeature, setActiveFeature] = React.useState<number>(0);
+  const [selectedRuleCategory, setSelectedRuleCategory] = React.useState<string>("all");
 
   // Live Sandbox Simulation state for Section 3 (Daisy "Turn midnight musings..." clone)
   const [simRiskBand, setSimRiskBand] = React.useState<RiskBand>("amber");
@@ -516,6 +517,204 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          2.5 SECTION 2.5: "8-RULE ENGINE" (#triage-engine)
+          Deterministic Explainable Clinical Triage Matrix
+      ───────────────────────────────────────────────────────────── */}
+      <section id="triage-engine" className="max-w-[1240px] mx-auto w-full px-6 sm:px-12 py-16 scroll-mt-24">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EDE9FE] border-2 border-ink-900 font-mono text-[11px] font-bold uppercase text-ink-900 shadow-[2px_2px_0px_#121214] mb-3">
+            <ShieldCheck className="w-3.5 h-3.5 text-indigo-700" />
+            <span>8-Rule Deterministic Engine • Zero Hallucination</span>
+          </div>
+          <h2 className="font-serif font-black text-3xl sm:text-5xl text-ink-900 tracking-tight leading-tight">
+            Transparent Clinical Triage Rules
+          </h2>
+          <p className="font-mono text-xs sm:text-sm text-ink-600 mt-2">
+            No black-box hallucinating AI. Every risk score (0–100) is deterministically summed from 8 weighted clinical heuristics with explicit mathematical formulas.
+          </p>
+        </div>
+
+        {/* Filter Tabs by Category */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-8 font-mono text-xs font-bold">
+          {[
+            { id: "all", label: "All 8 Rules (130 pts total cap)" },
+            { id: "medicines", label: "Medication Adherence (40 pts)" },
+            { id: "vitals", label: "Cardiovascular & Glycemic (55 pts)" },
+            { id: "lifestyle", label: "Wearable Mobility (10 pts)" },
+            { id: "history", label: "Discharge & Dropout (25 pts)" },
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedRuleCategory(cat.id)}
+              className={`px-4 py-2 rounded-full border-2 border-ink-900 transition-all cursor-pointer ${
+                selectedRuleCategory === cat.id
+                  ? "bg-[#D4F77C] text-ink-900 shadow-[3px_3px_0px_#121214] -translate-y-0.5"
+                  : "bg-white text-ink-700 hover:bg-[#FAF8F5] shadow-[1px_1px_0px_#121214]"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* 8 Rules Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {[
+            {
+              id: "MED_ADHERENCE_LOW",
+              num: "#1",
+              category: "medicines",
+              label: "Low Medication Adherence",
+              weight: 25,
+              threshold: "< 70% taken doses over 7 days",
+              clinicalRationale: "Missed antihypertensive or oral hypoglycemic doses directly cause rebound hypertension and glycemic volatility within 48–72 hours.",
+              action: "Triggers Stage 1 Senior Voice Reminder & Stage 2 Family Nudge.",
+            },
+            {
+              id: "MED_MISSED_STREAK",
+              num: "#2",
+              category: "medicines",
+              label: "Consecutive Missed Doses",
+              weight: 15,
+              threshold: ">= 2 consecutive doses missed",
+              clinicalRationale: "A streak of missed doses suggests deliberate medication discontinuation, severe side effects, or confusion with pill organizer.",
+              action: "Escalates directly to Family Caregiver WhatsApp circle.",
+            },
+            {
+              id: "BP_TREND_UP",
+              num: "#3",
+              category: "vitals",
+              label: "Elevated BP 7-Day Trend",
+              weight: 20,
+              threshold: "7-day average systolic up > 8% vs prior 7d",
+              clinicalRationale: "Subacute upward BP drift signals fluid overload, sodium indiscretion, or loss of medical control before acute hypertensive crisis.",
+              action: "Flags patient into Doctor Cockpit Amber Triage Queue.",
+            },
+            {
+              id: "BP_STAGE2_SPIKE",
+              num: "#4",
+              category: "vitals",
+              label: "Critical Blood Pressure Spike",
+              weight: 20,
+              threshold: "Systolic >= 150 mmHg or Diastolic >= 95 mmHg",
+              clinicalRationale: "Stage 2 hypertensive readings require urgent physician evaluation to prevent stroke, myocardial infarction, or acute renal insult.",
+              action: "Urgent Red Triage flag + Physician SMS callback queue.",
+            },
+            {
+              id: "STEPS_DROP",
+              num: "#5",
+              category: "lifestyle",
+              label: "Wearable Mobility Decline",
+              weight: 10,
+              threshold: "Daily steps down > 40% vs 14d baseline",
+              clinicalRationale: "Rapid physical deceleration is a validated early biomarker of acute illness, occult infection, or progressive heart failure.",
+              action: "Included in pre-consult AI brief under Concerns.",
+            },
+            {
+              id: "GLUCOSE_HIGH",
+              num: "#6",
+              category: "vitals",
+              label: "Fasting Hyperglycemia",
+              weight: 15,
+              threshold: "Fasting blood glucose >= 180 mg/dL",
+              clinicalRationale: "Persistent fasting hyperglycemia causes osmotic diuresis, electrolyte imbalance, and accelerated microvascular damage.",
+              action: "Prompts doctor to verify compliance and titrate Metformin/Insulin.",
+            },
+            {
+              id: "RECENT_DISCHARGE",
+              num: "#7",
+              category: "history",
+              label: "Post-Discharge 14-Day Window",
+              weight: 10,
+              threshold: "Discharged from inpatient care <= 14 days ago",
+              clinicalRationale: "The first two weeks post-discharge represent the highest vulnerability window for preventable 30-day hospital readmissions.",
+              action: "Automatically adds baseline +10 pts buffer to keep close watch.",
+            },
+            {
+              id: "NO_DATA_48H",
+              num: "#8",
+              category: "history",
+              label: "Telemetry Dropout / Data Silence",
+              weight: 15,
+              threshold: "No vitals or meds logged in > 48 hours",
+              clinicalRationale: "Elderly patients living alone who stop logging suddenly may have suffered a fall, loss of consciousness, or phone battery failure.",
+              action: "Dispatches family wellness check via WhatsApp nudge.",
+            },
+          ]
+            .filter((r) => selectedRuleCategory === "all" || r.category === selectedRuleCategory)
+            .map((rule) => (
+              <div
+                key={rule.id}
+                className="bg-white border-2 border-ink-900 rounded-3xl p-5 shadow-[4px_4px_0px_#121214] flex flex-col justify-between hover:shadow-[6px_6px_0px_#121214] hover:-translate-y-1 transition-all duration-200"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="w-8 h-8 rounded-full bg-ink-900 text-white font-mono font-black text-xs flex items-center justify-center border border-white">
+                      {rule.num}
+                    </span>
+                    <span className="font-mono text-xs font-black bg-[#D4F77C] px-2.5 py-0.5 rounded-full border border-ink-900 text-ink-900 shadow-[1px_1px_0px_#121214]">
+                      +{rule.weight} pts
+                    </span>
+                  </div>
+
+                  <h3 className="font-serif font-black text-lg text-ink-900 mb-1 leading-snug">
+                    {rule.label}
+                  </h3>
+                  <span className="font-mono text-[10px] text-ink-500 block mb-3">
+                    ID: {rule.id}
+                  </span>
+
+                  <div className="bg-[#FAF8F5] border border-ink-900/20 rounded-xl p-2.5 mb-3">
+                    <span className="font-mono text-[10px] uppercase font-bold text-ink-500 block">
+                      Trigger Threshold:
+                    </span>
+                    <p className="font-mono text-xs font-bold text-ink-900 mt-0.5">
+                      {rule.threshold}
+                    </p>
+                  </div>
+
+                  <p className="font-sans text-xs text-ink-700 leading-relaxed mb-3">
+                    {rule.clinicalRationale}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t-2 border-ink-900/20">
+                  <span className="font-mono text-[10px] uppercase font-bold text-ink-500 block">
+                    Escalation Response:
+                  </span>
+                  <p className="font-mono text-[11px] font-bold text-indigo-900 mt-0.5">
+                    {rule.action}
+                  </p>
+                </div>
+              </div>
+            ))}
+        </div>
+
+        {/* Triage Bands Summary Bar */}
+        <div className="mt-8 bg-[#FBF9F4] border-2 border-ink-900 rounded-3xl p-5 shadow-[4px_4px_0px_#121214] flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs font-bold uppercase text-ink-700">
+              Deterministic Triage Bands:
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 font-mono text-xs font-bold">
+            <span className="px-3 py-1.5 rounded-full bg-emerald-100 border border-emerald-800 text-emerald-900 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
+              GREEN (0–39): Stable Outpatient Care
+            </span>
+            <span className="px-3 py-1.5 rounded-full bg-amber-100 border border-amber-800 text-amber-900 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-amber-600"></span>
+              AMBER (40–69): Family Caregiver Alert
+            </span>
+            <span className="px-3 py-1.5 rounded-full bg-rose-100 border border-rose-800 text-rose-900 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-rose-600"></span>
+              RED (70–100): Urgent Physician Triage
+            </span>
           </div>
         </div>
       </section>
