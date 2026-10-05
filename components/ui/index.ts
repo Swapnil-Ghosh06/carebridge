@@ -57,6 +57,9 @@ export {
   DoodleHeart,
   DoodleSleepingCat,
   DoodleRibbonWave,
+  DoodleSittingPerson,
+  DoodleCanopyLeft,
+  DoodleCanopyRight,
 } from "./Doodles";
 
 export { VoiceButton } from "./VoiceButton";
