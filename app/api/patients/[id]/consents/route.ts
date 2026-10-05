@@ -1,13 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { MOCK_PATIENT_DETAILS, INITIAL_CONSENTS } from "@/lib/mockData";
+import { store } from "@/lib/supabase/localStore";
+import { INITIAL_CONSENTS } from "@/lib/mockData";
+
+export const dynamic = "force-dynamic";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const patientId = params.id;
-  const detail = MOCK_PATIENT_DETAILS[patientId];
-  return NextResponse.json(detail?.consents || INITIAL_CONSENTS);
+  try {
+    const patientId = params.id;
+    const consents = store.getConsents(patientId);
+    if (consents && consents.length > 0) {
+      return NextResponse.json(consents);
+    }
+    return NextResponse.json(INITIAL_CONSENTS);
+  } catch {
+    return NextResponse.json(INITIAL_CONSENTS);
+  }
 }
 
 export async function PUT(
@@ -15,33 +25,20 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const patientId = params.id;
     const body = await request.json();
     const { category, granted } = body;
 
-    if (!category || typeof granted !== 'boolean') {
+    if (!category || typeof granted !== "boolean") {
       return NextResponse.json(
-        { error: 'category and granted boolean are required' },
+        { error: "category and boolean granted are required" },
         { status: 400 }
       );
     }
 
-    const patientId = params.id;
-    const detail = MOCK_PATIENT_DETAILS[patientId];
-    if (detail && detail.consents) {
-      const target = detail.consents.find((c) => c.category === category);
-      if (target) target.granted = granted;
-    }
-
-    return NextResponse.json({
-      success: true,
-      category,
-      granted,
-      updatedAt: new Date().toISOString(),
-    });
+    const updated = store.updateConsent(patientId, category, granted);
+    return NextResponse.json(updated);
   } catch {
-    return NextResponse.json(
-      { error: 'Failed to update consent' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update consent" }, { status: 500 });
   }
 }

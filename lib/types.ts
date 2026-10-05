@@ -13,12 +13,19 @@ export interface Patient {
   age: number;
   language: 'hi' | 'kn' | 'en' | 'Hindi' | 'Kannada' | 'English' | string;
   conditions: string[];
+<<<<<<< HEAD
   doctorId?: string;
   doctor_id?: string;
   familyId?: string;
   family_id?: string;
   createdAt?: string;
   created_at?: string;
+=======
+  doctor_id: string;
+  family_id: string;
+  discharged_at?: string | null;
+  created_at: string;
+>>>>>>> origin/main
 }
 
 export interface Doctor {
@@ -150,6 +157,20 @@ export interface Brief {
   };
 }
 
+<<<<<<< HEAD
+=======
+// Risk Engine Snapshot Structure
+export interface PatientSnapshot {
+  patient: Patient;
+  medLogs: MedLog[];
+  vitals: Vital[];
+  consents?: Consent[];
+  currentScore?: number;
+}
+
+// API DTOs
+
+>>>>>>> origin/main
 export interface PatientListItem {
   id: string;
   name: string;
@@ -163,6 +184,7 @@ export interface PatientListItem {
 
 export interface PatientDetail {
   profile: Patient;
+  medicines?: Medicine[];
   vitals: Vital[];
   medLogs: MedLog[];
   risk: {
@@ -211,17 +233,46 @@ export interface FamilyFeedResponse {
   patient: {
     id: string;
     name: string;
-    age: number;
-    band: RiskBand;
-    score: number;
-    lastSeen: string;
+    conditions?: string[];
+    band?: RiskBand;
+    score?: number;
+    lastSeen?: string;
   };
   today: {
-    adherencePct: number;
+    adherencePct?: number;
     medicinesTaken: number;
     medicinesTotal: number;
-    latestBp: string | null;
-    latestSteps: number;
+    latestBp?: string | null;
+    latestSteps?: number;
+    steps?: number;
+    statusBand?: RiskBand;
   };
   alerts: Alert[];
+}
+
+export interface SimEventRequest {
+  patientId: string;
+  kind: "miss_dose" | "bp_spike" | "steps_drop" | "recover";
+  params?: {
+    systolic?: number;
+    diastolic?: number;
+    medicineId?: string;
+    steps?: number;
+  };
+}
+
+export interface SimEventResponse {
+  success: boolean;
+  message: string;
+  newRisk: {
+    score: number;
+    band: RiskBand;
+    reasons: RiskReason[];
+  };
+  alertCreated?: Alert | null;
+}
+
+export interface EscalationTickResponse {
+  fired: Alert[];
+  pendingCount: number;
 }

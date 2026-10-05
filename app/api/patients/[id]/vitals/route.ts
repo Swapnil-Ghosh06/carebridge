@@ -1,36 +1,49 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
+import { store } from "@/lib/supabase/localStore";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    const rawId = params.id;
+    const patientId = rawId === "patient-ramesh" ? "p1" : rawId;
     const body = await request.json();
     const { type, valueA, valueB } = body;
 
-    if (!type || typeof valueA !== 'number') {
+    if (!type || typeof valueA !== "number" || !["bp", "steps", "glucose"].includes(type)) {
       return NextResponse.json(
-        { error: 'type and numeric valueA are required' },
+        { error: "Valid type ('bp' | 'steps' | 'glucose') and numeric valueA are required." },
         { status: 400 }
       );
     }
 
-    const vitalEntry = {
-      id: `vital-${Date.now()}`,
-      patientId: params.id,
-      type,
-      valueA,
-      valueB: valueB ?? null,
-      recordedAt: new Date().toISOString(),
-    };
-
-    return NextResponse.json({
-      success: true,
-      vital: vitalEntry,
-    });
-  } catch {
+    try {
+      const result = store.logVital(patientId, type as "bp" | "steps" | "glucose", valueA, valueB ?? null);
+      return NextResponse.json({
+        success: true,
+        vital: result.vital,
+        risk: result.risk,
+      });
+    } catch {
+      const vitalEntry = {
+        id: `vital-${Date.now()}`,
+        patientId: rawId,
+        type,
+        valueA,
+        valueB: valueB ?? null,
+        recordedAt: new Date().toISOString(),
+      };
+      return NextResponse.json({
+        success: true,
+        vital: vitalEntry,
+      });
+    }
+  } catch (err: any) {
     return NextResponse.json(
-      { error: 'Failed to process vitals' },
+      { error: err.message || "Failed to log vitals" },
       { status: 500 }
     );
   }
