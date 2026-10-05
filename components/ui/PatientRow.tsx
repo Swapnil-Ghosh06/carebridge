@@ -47,7 +47,7 @@ export const PatientRow: React.FC<PatientRowProps> = ({
               {patient.name}
             </h4>
             <span className="font-body text-xs text-ink-500">
-              Age {patient.age} • {patient.conditions.join(", ")}
+              Age {patient.age}{patient.conditions?.length ? ` • ${patient.conditions.join(", ")}` : ""}
             </span>
           </div>
         </div>

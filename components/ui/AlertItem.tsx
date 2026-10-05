@@ -7,7 +7,7 @@ export interface AlertItemProps {
   level: AlertLevel;
   audience: AlertAudience;
   message: string;
-  createdAt: string;
+  createdAt?: string;
   acknowledgedAt?: string | null;
   onAcknowledge?: (id: string) => void;
   className?: string;
@@ -18,7 +18,7 @@ export function AlertItem({
   level,
   audience,
   message,
-  createdAt,
+  createdAt = 'Just now',
   acknowledgedAt,
   onAcknowledge,
   className = '',

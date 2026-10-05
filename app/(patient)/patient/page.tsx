@@ -155,7 +155,7 @@ export default function PatientHomePage() {
               id={nextMedicine.id}
               name={nextMedicine.name}
               dose={nextMedicine.dose}
-              time={nextLog.scheduledAt}
+              time={nextLog.scheduledAt || nextLog.scheduled_at || 'Scheduled'}
               instructions={nextMedicine.instructions}
               status="pending"
               isLoading={isLoading}
@@ -184,7 +184,7 @@ export default function PatientHomePage() {
             {/* Steps Tile */}
             <StatTile
               label={t('steps_today', locale)}
-              value={latestSteps ? latestSteps.valueA.toLocaleString() : '4,210'}
+              value={(latestSteps?.valueA ?? latestSteps?.value_a ?? 4210).toLocaleString()}
               unit="steps"
               target="Goal: 6,000"
               variant="teal"
@@ -208,7 +208,7 @@ export default function PatientHomePage() {
             {/* Blood Pressure Tile */}
             <StatTile
               label={t('latest_bp', locale)}
-              value={latestBp ? `${latestBp.valueA}/${latestBp.valueB}` : '138/88'}
+              value={latestBp ? `${latestBp.valueA ?? latestBp.value_a ?? 138}/${latestBp.valueB ?? latestBp.value_b ?? 88}` : '138/88'}
               unit="mmHg"
               target="Target <130/80"
               variant="amber"

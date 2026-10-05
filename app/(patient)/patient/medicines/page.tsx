@@ -134,7 +134,7 @@ export default function PatientMedicinesPage() {
                 id={med.id}
                 name={med.name}
                 dose={med.dose}
-                time={log.scheduledAt}
+                time={log.scheduledAt || log.scheduled_at || 'Scheduled'}
                 instructions={med.instructions}
                 status={log.status}
                 isLoading={loadingId === med.id}

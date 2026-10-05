@@ -288,7 +288,7 @@ export default function FamilyFeedPage() {
                   level={alert.level}
                   audience={alert.audience}
                   message={alert.message}
-                  createdAt={alert.createdAt}
+                  createdAt={alert.createdAt || alert.created_at || 'Just now'}
                   acknowledgedAt={alert.acknowledgedAt}
                 />
               ))

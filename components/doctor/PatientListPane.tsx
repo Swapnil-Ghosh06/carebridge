@@ -52,8 +52,8 @@ export const PatientListPane: React.FC = () => {
         const query = search.toLowerCase();
         return (
           p.name.toLowerCase().includes(query) ||
-          p.conditions.some((c) => c.toLowerCase().includes(query)) ||
-          p.topReason.toLowerCase().includes(query)
+          (p.conditions?.some((c) => c.toLowerCase().includes(query)) ?? false) ||
+          (p.topReason?.toLowerCase().includes(query) ?? false)
         );
       }
       return true;

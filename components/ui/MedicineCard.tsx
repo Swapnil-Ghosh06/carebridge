@@ -8,7 +8,7 @@ export interface MedicineCardProps {
   id: string;
   name: string;
   dose: string;
-  time: string;
+  time?: string;
   instructions?: string;
   status: 'taken' | 'missed' | 'pending';
   onMarkTaken?: (id: string) => void;
@@ -20,7 +20,7 @@ export function MedicineCard({
   id,
   name,
   dose,
-  time,
+  time = 'Scheduled',
   instructions,
   status,
   onMarkTaken,

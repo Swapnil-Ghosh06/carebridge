@@ -26,22 +26,24 @@ export const ReasonList: React.FC<ReasonListProps> = ({ reasons }) => {
     );
   }
 
-  const getRuleIcon = (ruleId: string) => {
-    if (ruleId.includes("MED")) return Pill;
-    if (ruleId.includes("BP")) return Heart;
-    if (ruleId.includes("STEPS")) return Footprints;
-    if (ruleId.includes("GLUCOSE")) return Droplet;
-    if (ruleId.includes("DATA") || ruleId.includes("TIME")) return Clock;
+  const getRuleIcon = (ruleId?: string) => {
+    const rule = (ruleId || "").toUpperCase();
+    if (rule.includes("MED")) return Pill;
+    if (rule.includes("BP")) return Heart;
+    if (rule.includes("STEPS")) return Footprints;
+    if (rule.includes("GLUCOSE")) return Droplet;
+    if (rule.includes("DATA") || rule.includes("TIME")) return Clock;
     return AlertTriangle;
   };
 
   return (
     <div className="space-y-2.5">
       {reasons.map((reason, idx) => {
-        const IconComponent = getRuleIcon(reason.rule_id);
+        const ruleId = reason.ruleId || reason.rule_id || "";
+        const IconComponent = getRuleIcon(ruleId);
         return (
           <div
-            key={reason.id || reason.rule_id || idx}
+            key={reason.id || ruleId || idx}
             className="flex items-start justify-between gap-3 p-3.5 rounded-md bg-surface-50 border border-ink-300/30 hover:border-ink-300 transition-colors"
           >
             <div className="flex items-start gap-3">
@@ -53,7 +55,7 @@ export const ReasonList: React.FC<ReasonListProps> = ({ reasons }) => {
                   {reason.text}
                 </p>
                 <span className="font-data text-xs text-ink-500">
-                  Rule ID: {reason.rule_id}
+                  Rule ID: {ruleId || "ALERT"}
                 </span>
               </div>
             </div>

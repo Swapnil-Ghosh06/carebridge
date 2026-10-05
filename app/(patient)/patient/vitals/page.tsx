@@ -246,7 +246,7 @@ export default function PatientVitalsPage() {
                     </div>
                     <div>
                       <p className="font-data font-bold text-xl text-navy-900">
-                        {item.valueA} / {item.valueB}{' '}
+                        {item.valueA ?? item.value_a ?? '-'} / {item.valueB ?? item.value_b ?? '-'}{' '}
                         <span className="text-xs text-gray-400 font-normal">mmHg</span>
                       </p>
                       <p className="font-body text-xs text-gray-400">
