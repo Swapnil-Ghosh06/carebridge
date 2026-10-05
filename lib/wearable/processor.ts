@@ -68,16 +68,25 @@ export async function buildWearableContext(
   const nocturnalHrReadings = hrVitals.filter((v) => {
     const d = new Date(v.recorded_at || v.recordedAt || 0);
     const hour = d.getHours();
-    return hour >= 23 || hour < 5;
+    const utcHour = d.getUTCHours();
+    return (hour >= 23 || hour < 5) || (utcHour >= 23 || utcHour < 5);
   });
 
   const hrMean = hrVitals.length > 0
     ? Math.round(hrVitals.reduce((sum, v) => sum + (v.value_a ?? v.valueA ?? 0), 0) / hrVitals.length)
     : 72;
 
-  const nocturnalMean = nocturnalHrReadings.length > 0
-    ? Math.round(nocturnalHrReadings.reduce((sum, v) => sum + (v.value_a ?? v.valueA ?? 0), 0) / nocturnalHrReadings.length)
+  // Recent nocturnal session (last night's readings within 24h, or latest available nocturnal cluster)
+  const recentNocturnalReadings = nocturnalHrReadings.slice(0, 3);
+  const recentNocturnalMean = recentNocturnalReadings.length > 0
+    ? Math.round(recentNocturnalReadings.reduce((sum, v) => sum + (v.value_a ?? v.valueA ?? 0), 0) / recentNocturnalReadings.length)
     : hrMean;
+
+  const nocturnalMean = recentNocturnalMean > 100
+    ? recentNocturnalMean
+    : (nocturnalHrReadings.length > 0
+        ? Math.round(nocturnalHrReadings.reduce((sum, v) => sum + (v.value_a ?? v.valueA ?? 0), 0) / nocturnalHrReadings.length)
+        : hrMean);
 
   const maxHr = hrVitals.length > 0
     ? Math.max(...hrVitals.map((v) => v.value_a ?? v.valueA ?? 0))
