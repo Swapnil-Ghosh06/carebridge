@@ -3,67 +3,16 @@
  * ─────────────────────────────────────────
  * 1. Google Fonts direct import (Montserrat, DM Sans, Sora)
  * 2. Import design tokens (source of truth)
- * 3. Tailwind v4 @theme — maps tokens into utility classes
+ * 3. Tailwind directives
  * 4. Base typography & element resets
  */
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap');
-@import "tailwindcss";
 @import "../design/tokens.css";
 
-@theme inline {
-  /* ── Font families ──────────────────────────────────────────── */
-  --font-display: var(--font-display), "Montserrat", sans-serif;
-  --font-body:    var(--font-body), "DM Sans", sans-serif;
-  --font-data:    var(--font-data), "Sora", sans-serif;
-
-  /* Tailwind utility aliases */
-  --font-family-display: var(--font-display), "Montserrat", sans-serif;
-  --font-family-body:    var(--font-body), "DM Sans", sans-serif;
-  --font-family-data:    var(--font-data), "Sora", sans-serif;
-
-  /* ── Colors ─────────────────────────────────────────────────── */
-  --color-ink-900:    var(--ink-900);
-  --color-ink-800:    var(--ink-800);
-  --color-ink-700:    var(--ink-700);
-  --color-ink-500:    var(--ink-500);
-  --color-ink-300:    var(--ink-300);
-  --color-ink-200:    var(--ink-200);
-
-  --color-surface-0:     var(--surface-0);
-  --color-surface-paper: var(--surface-paper);
-  --color-surface-50:    var(--surface-50);
-  --color-surface-100:   var(--surface-100);
-  --color-surface-warm:  var(--surface-warm);
-
-  --color-brand-teal:        var(--brand-teal);
-  --color-brand-teal-600:    var(--brand-teal-600);
-  --color-brand-teal-50:     var(--brand-teal-50);
-  --color-brand-mint:        var(--brand-mint);
-  --color-brand-indigo:      var(--brand-indigo);
-  --color-brand-indigo-dark: var(--brand-indigo-dark);
-  --color-brand-indigo-50:   var(--brand-indigo-50);
-
-  /* Risk */
-  --color-risk-red:       var(--risk-red);
-  --color-risk-red-bg:    var(--risk-red-bg);
-  --color-risk-amber:     var(--risk-amber);
-  --color-risk-amber-bg:  var(--risk-amber-bg);
-  --color-risk-green:     var(--risk-green);
-  --color-risk-green-bg:  var(--risk-green-bg);
-
-  /* ── Border radius ──────────────────────────────────────────── */
-  --radius-sm:   var(--r-sm);
-  --radius-md:   var(--r-md);
-  --radius-lg:   var(--r-lg);
-  --radius-xl:   var(--r-xl);
-  --radius-pill: var(--r-pill);
-
-  /* ── Box shadows ────────────────────────────────────────────── */
-  --shadow-card:  var(--shadow-card);
-  --shadow-hover: var(--shadow-hover);
-  --shadow-float: var(--shadow-float);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* ── Base resets & explicit font rules ───────────────────────── */
 html {
