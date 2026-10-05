@@ -37,12 +37,14 @@ Family: Ramesh's son Karan (Bengaluru). Doctor: Dr. Meera Rao, Sunrise Clinic (f
 - 2026-10-05 22:45, team, one Next.js monorepo, role-switcher instead of real auth, to save time.
 - 2026-10-05 22:45, team, rule-based risk engine, LLM only for the brief, so the score is explainable.
 - 2026-10-05 22:42, Vedesh, switched AI layer from Gemini/Anthropic to Ollama (llama3.2, local). No API key needed, works offline, fallback template if Ollama is down. OLLAMA_BASE_URL=http://localhost:11434.
+- 2026-10-05 23:20, Vedesh, implemented components/ui primitives (Button, Card, StatTile, RiskBadge, MedicineCard, AlertItem) and API handlers so Patient & Family apps work end-to-end with zero blockers.
 
 ## Dependencies added
 (next, react, tailwindcss, @supabase/supabase-js, recharts, lucide-react, framer-motion by default. Add others here.)
 
 ## Status log
 (Newest first. One line each: time, who, done/blocked.)
+- 2026-10-05 23:22, Vedesh, Phase 1 DONE: Patient home (greeting + 3 StatTiles + next dose card), Medicines schedule with adherence progress bar + optimistic taken log, BP vitals entry form with classification chips, Family feed with 3s polling + F1 status card + F2 alert timeline, en/hi/kn i18n support, components/ui primitives, API route handlers. Build clean (12/12 routes).
 - 2026-10-05 22:39, Vedesh, Phase 0 DONE: Next.js 14 scaffolded, all route groups created, fonts (Montserrat/DM Sans/Sora) wired, Tailwind tokens set, landing page + role cookie/redirect built, lib/i18n + lib/voice stubs, .env.example + README. Build clean (9/9 routes). Pushed to origin/main + origin/vedesh/patient.
 
 ## Known issues / blockers

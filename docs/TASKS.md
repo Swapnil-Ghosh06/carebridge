@@ -16,11 +16,11 @@ Time boxes assume you start about 22:30 tonight. Shift to match your real submis
 
 ## Phase 1: Core build (23:15-01:30, ~2h15)
 V (patient + family):
-- [ ] Patient home: greeting, steps/medicines/BP tiles, next medicine card
-- [ ] Medicine list and "Taken" action wired to `POST /med-log`
-- [ ] BP entry form wired to `POST /vitals`
-- [ ] Family feed screen wired to `GET /family/:id/feed`
-- [ ] i18n scaffold with en/hi/kn for ~30 key strings
+- [x] Patient home: greeting, steps/medicines/BP tiles, next medicine card
+- [x] Medicine list and "Taken" action wired to `POST /med-log`
+- [x] BP entry form wired to `POST /vitals`
+- [x] Family feed screen wired to `GET /family/:id/feed`
+- [x] i18n scaffold with en/hi/kn for ~30 key strings
 
 A (doctor):
 - [ ] Patient list with `PatientRow` + `RiskBadge`, sorted by score
