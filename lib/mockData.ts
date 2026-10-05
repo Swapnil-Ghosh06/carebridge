@@ -178,3 +178,55 @@ export const INITIAL_FAMILY_FEED: FamilyFeedResponse = {
     },
   ],
 };
+
+export const INITIAL_CONSENTS: { category: 'vitals' | 'medicines' | 'steps' | 'glucose'; granted: boolean; title: string; description: string }[] = [
+  {
+    category: 'vitals',
+    granted: true,
+    title: 'Blood Pressure & Heart Rate',
+    description: 'Share systolic, diastolic readings and pulse logs with Dr. Rao and family.',
+  },
+  {
+    category: 'medicines',
+    granted: true,
+    title: 'Daily Medication Schedule',
+    description: 'Share dose times, morning/evening confirmations, and adherence streak with family.',
+  },
+  {
+    category: 'steps',
+    granted: true,
+    title: 'Daily Step Count & Activity',
+    description: 'Share pedometer steps to evaluate mobility and physical recovery.',
+  },
+  {
+    category: 'glucose',
+    granted: false,
+    title: 'Blood Sugar & Glucose Tests',
+    description: 'Share fasting and post-meal glucose records (currently restricted by patient).',
+  },
+];
+
+export const INITIAL_AUDIT_LOGS = [
+  {
+    id: 'audit-1',
+    actor: 'Dr. Meera Rao (Sunrise Clinic)',
+    action: 'Viewed patient dashboard & BP trend',
+    category: 'vitals',
+    at: 'Today, 10:14 AM',
+  },
+  {
+    id: 'audit-2',
+    actor: 'Karan K. (Family)',
+    action: 'Received medicine adherence update',
+    category: 'medicines',
+    at: 'Today, 08:45 AM',
+  },
+  {
+    id: 'audit-3',
+    actor: 'CareBridge Engine',
+    action: 'Generated decision support pre-consult brief',
+    category: 'vitals',
+    at: 'Yesterday, 06:30 PM',
+  },
+];
+

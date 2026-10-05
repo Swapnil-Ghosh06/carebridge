@@ -8,3 +8,4 @@ export * from './RiskBadge';
 export * from './MedicineCard';
 export * from './AlertItem';
 export * from './VoiceButton';
+export * from './ConsentToggle';

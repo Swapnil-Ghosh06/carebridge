@@ -63,7 +63,7 @@ S:
 ## Phase 3: P1 extras + polish (03:30-05:00, optional if tired)
 - [ ] A: Consent dashboard + audit log UI (needs R's `/consents`, `/audit`)
 - [ ] R: Audit writes on every doctor view; consent filtering in `GET /patients/:id`
-- [ ] V: Consent settings screen for patient (P5)
+- [x] V: Consent settings screen for patient (P5)
 - [ ] S: Empty/loading/error states across all screens; mobile responsiveness pass
 - [ ] R (stretch): Prescription scan with a vision model
 - Hard stop on new features at 05:00. Then sleep 3-4 hours in shifts if possible.

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Phone, ChevronLeft } from 'lucide-react';
+import { Phone, ChevronLeft, Shield } from 'lucide-react';
 import { Locale } from '@/lib/i18n';
 
 export interface PatientHeaderProps {
@@ -80,6 +80,15 @@ export function PatientHeader({
               ಕನ್ನಡ
             </button>
           </div>
+
+          {/* Privacy & Consent Settings (P5) */}
+          <Link
+            href="/patient/consent"
+            title="Privacy & Consent Settings"
+            className="p-2 rounded-full bg-gray-50 text-gray-600 hover:text-teal-600 hover:bg-teal-50 transition-colors flex items-center justify-center min-h-[40px] min-w-[40px]"
+          >
+            <Shield className="w-4 h-4" />
+          </Link>
 
           {/* Quick Clinic Contact */}
           <a
