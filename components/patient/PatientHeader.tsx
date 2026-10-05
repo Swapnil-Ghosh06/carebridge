@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Phone, ChevronLeft, Shield } from 'lucide-react';
 import { Locale } from '@/lib/i18n';
-import { DoodleDaisy } from '@/components/ui/Doodles';
+import { CareBridgeLogo } from '@/components/ui';
 
 export interface PatientHeaderProps {
   locale: Locale;
@@ -33,14 +33,7 @@ export function PatientHeader({
               <ChevronLeft className="w-6 h-6 stroke-[2.5]" />
             </Link>
           ) : (
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-7 h-7 rounded-full border-2 border-ink-900 bg-white flex items-center justify-center shadow-[1.5px_1.5px_0px_#121214] group-hover:rotate-12 transition-transform">
-                <DoodleDaisy size={16} color="#121214" centerColor="#FEE159" />
-              </div>
-              <span className="font-display font-bold text-xl text-ink-900 tracking-tight">
-                carebridge
-              </span>
-            </Link>
+            <CareBridgeLogo size="sm" />
           )}
 
           {title && (

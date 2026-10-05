@@ -5,6 +5,16 @@ export const metadata: Metadata = {
   title: "CareBridge — Give Chronic Care a Glow Up",
   description:
     "CareBridge turns daily patient health data into an explainable, risk-ranked clinical loop for doctors, families, and seniors across India.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({
