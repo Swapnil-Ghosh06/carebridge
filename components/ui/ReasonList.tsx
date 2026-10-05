@@ -1,138 +1,72 @@
-/**
- * ReasonList component (owner: Swapin)
- * ─────────────────────────────────────────────────────────
- * "Why flagged" panel — shows risk rule reasons.
- * Used inside the doctor patient detail page.
- *
- * Rules:
- *  - Rule text: DM Sans (font-body)
- *  - Weight chip: Sora (font-data)
- *  - Icon: lucide-react, matches rule category
- *  - Empty state must be shown when reasons = []
- *  - No data fetching inside
- */
-
-import * as React from "react";
+import React from "react";
 import {
+  AlertTriangle,
   Pill,
-  HeartPulse,
+  Heart,
   Footprints,
   Droplet,
-  Hospital,
-  WifiOff,
-  AlertCircle,
-  CheckCircle2,
+  Clock,
+  ShieldCheck,
 } from "lucide-react";
+import { RiskReason } from "@/lib/types";
 
-export interface RiskReason {
-  ruleId?: string;
-  text: string;
-  weight: number;
-}
+export type { RiskReason };
 
 export interface ReasonListProps {
   reasons: RiskReason[];
-  className?: string;
 }
 
-// Map rule IDs from ARCHITECTURE.md §4 to icons
-const ruleIcon: Record<string, React.ElementType> = {
-  MED_ADHERENCE_LOW:  Pill,
-  MED_MISSED_STREAK:  Pill,
-  BP_TREND_UP:        HeartPulse,
-  BP_HIGH_ABS:        HeartPulse,
-  STEPS_DROP:         Footprints,
-  GLUCOSE_HIGH:       Droplet,
-  RECENT_DISCHARGE:   Hospital,
-  NO_DATA_48H:        WifiOff,
-};
-
-// Weight chip colour — brand/ink tokens, NEVER risk tokens
-function weightChipClass(weight: number): string {
-  if (weight >= 20) return "bg-[var(--surface-100)] text-[var(--ink-700)]";
-  if (weight >= 15) return "bg-[var(--surface-100)] text-[var(--ink-500)]";
-  return "bg-[var(--surface-50)] text-[var(--ink-300)]";
-}
-
-export const ReasonList: React.FC<ReasonListProps> = ({
-  reasons = [],
-  className = "",
-}) => {
+export const ReasonList: React.FC<ReasonListProps> = ({ reasons }) => {
   if (!reasons || reasons.length === 0) {
     return (
-      <div
-        className={[
-          "flex flex-col items-center justify-center py-10 gap-3",
-          "text-center",
-          className,
-        ].join(" ")}
-        role="status"
-        aria-label="No active risk flags"
-      >
-        <CheckCircle2
-          size={32}
-          className="text-[var(--risk-green)]"
-          aria-hidden="true"
-        />
-        <p className="font-body text-sm text-[var(--ink-500)]">
-          No active flags
-        </p>
-        <p className="font-body text-xs text-[var(--ink-300)]">
-          Patient metrics are within normal ranges.
-        </p>
+      <div className="flex items-center gap-2 p-4 rounded-md bg-risk-green-bg/40 border border-risk-green/20 text-risk-green">
+        <ShieldCheck className="w-5 h-5 shrink-0" />
+        <span className="font-body text-sm font-medium">
+          No active flags. Patient is currently stable within prescribed parameters.
+        </span>
       </div>
     );
   }
 
-  // Sort by weight descending — highest weight first
-  const sorted = [...reasons].sort((a, b) => b.weight - a.weight);
+  const getRuleIcon = (ruleId?: string) => {
+    const rule = (ruleId || "").toUpperCase();
+    if (rule.includes("MED")) return Pill;
+    if (rule.includes("BP")) return Heart;
+    if (rule.includes("STEPS")) return Footprints;
+    if (rule.includes("GLUCOSE")) return Droplet;
+    if (rule.includes("DATA") || rule.includes("TIME")) return Clock;
+    return AlertTriangle;
+  };
 
   return (
-    <ul
-      className={["space-y-2", className].filter(Boolean).join(" ")}
-      aria-label="Risk reasons"
-    >
-      {sorted.map((reason, index) => {
-        const Icon = (reason.ruleId ? ruleIcon[reason.ruleId] : null) ?? AlertCircle;
+    <div className="space-y-2.5">
+      {reasons.map((reason, idx) => {
+        const ruleId = reason.rule_id || reason.ruleId;
+        const IconComponent = getRuleIcon(ruleId);
         return (
-          <li
-            key={`${reason.ruleId || "rule"}-${index}`}
-            className={[
-              "flex items-start gap-3 p-3",
-              "bg-[var(--surface-0)] rounded-[var(--r-md)]",
-              "border border-[var(--ink-300)]",
-            ].join(" ")}
+          <div
+            key={reason.id || ruleId || idx}
+            className="flex items-start justify-between gap-3 p-3.5 rounded-md bg-surface-50 border border-ink-300/30 hover:border-ink-300 transition-colors"
           >
-            {/* Rule icon */}
-            <span
-              className="mt-0.5 shrink-0 text-[var(--ink-500)]"
-              aria-hidden="true"
-            >
-              <Icon size={16} />
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-pill bg-risk-amber-bg text-risk-amber flex items-center justify-center shrink-0 mt-0.5">
+                <IconComponent className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="font-body font-medium text-ink-900 text-sm leading-snug">
+                  {reason.text}
+                </p>
+                <span className="font-data text-xs text-ink-500">
+                  Rule ID: {ruleId}
+                </span>
+              </div>
+            </div>
+            <span className="shrink-0 font-data text-xs font-semibold px-2 py-0.5 rounded-pill bg-ink-100 text-ink-700">
+              +{reason.weight} pts
             </span>
-
-            {/* Reason text */}
-            <span className="flex-1 font-body text-sm text-[var(--ink-700)] leading-relaxed">
-              {reason.text}
-            </span>
-
-            {/* Weight chip — Sora, shows rule severity */}
-            <span
-              className={[
-                "shrink-0 font-data text-[10px] font-semibold",
-                "px-1.5 py-0.5 rounded-[var(--r-sm)]",
-                weightChipClass(reason.weight),
-              ].join(" ")}
-              aria-label={`weight ${reason.weight}`}
-              title={`Contributes ${reason.weight} points to risk score`}
-            >
-              +{reason.weight}
-            </span>
-          </li>
+          </div>
         );
       })}
-    </ul>
+    </div>
   );
 };
-
-ReasonList.displayName = "ReasonList";
