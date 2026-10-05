@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
-import { MOCK_ADMIN_ROI } from "@/lib/mockData";
+import { store } from "@/lib/supabase/localStore";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
-  return NextResponse.json(MOCK_ADMIN_ROI);
+  try {
+    const roi = store.getAdminROI();
+    return NextResponse.json(roi);
+  } catch {
+    return NextResponse.json({ error: "Failed to compute admin ROI" }, { status: 500 });
+  }
 }

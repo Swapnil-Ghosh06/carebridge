@@ -34,6 +34,7 @@ Family: Ramesh's son Karan (Bengaluru). Doctor: Dr. Meera Rao, Sunrise Clinic (f
 
 ## Decisions log
 (Format: date time, who, decision, why)
+- 2026-10-05 23:15, Aryan, implemented localStore with in-memory reactivity & Supabase fallback, so demo operates flawlessly offline or during venue network instability.
 - 2026-10-05 22:45, team, one Next.js monorepo, role-switcher instead of real auth, to save time.
 - 2026-10-05 22:45, team, rule-based risk engine, LLM only for the brief, so the score is explainable.
 
@@ -42,8 +43,8 @@ Family: Ramesh's son Karan (Bengaluru). Doctor: Dr. Meera Rao, Sunrise Clinic (f
 
 ## Status log
 (Newest first. One line each: time, who, done/blocked.)
+- 2026-10-05 23:18, Aryan, completed Phase 0-3 backend: Postgres schema, seed, types, risk engine (8 rules), 14 API routes, escalation ladder, AI brief fallback, simulator (/sim), lint & build clean.
 - 2026-10-05 22:45, Aman, built Doctor Portal (list, details, trends, why-flagged, brief, actions, audit) & Admin ROI; lint and build clean.
-- (empty)
 
 ## Known issues / blockers
 - (empty)

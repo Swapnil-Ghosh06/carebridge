@@ -10,6 +10,7 @@ export interface Patient {
   conditions: string[];
   doctor_id: string;
   family_id: string;
+  discharged_at?: string | null;
   created_at: string;
 }
 
@@ -114,6 +115,15 @@ export interface Brief {
   };
 }
 
+// Risk Engine Snapshot Structure
+export interface PatientSnapshot {
+  patient: Patient;
+  medLogs: MedLog[];
+  vitals: Vital[];
+  consents?: Consent[];
+  currentScore?: number;
+}
+
 // API DTOs
 
 export interface PatientListItem {
@@ -129,6 +139,7 @@ export interface PatientListItem {
 
 export interface PatientDetail {
   profile: Patient;
+  medicines?: Medicine[];
   vitals: Vital[];
   medLogs: MedLog[];
   risk: {
@@ -167,4 +178,48 @@ export interface AdminROIResponse {
     date: string;
     count: number;
   }[];
+}
+
+export interface FamilyFeedResponse {
+  patient: {
+    id: string;
+    name: string;
+    age: number;
+    conditions: string[];
+  };
+  today: {
+    steps: number;
+    medicinesTaken: number;
+    medicinesTotal: number;
+    latestBp?: string;
+    statusBand: RiskBand;
+  };
+  alerts: Alert[];
+}
+
+export interface SimEventRequest {
+  patientId: string;
+  kind: "miss_dose" | "bp_spike" | "steps_drop" | "recover";
+  params?: {
+    systolic?: number;
+    diastolic?: number;
+    medicineId?: string;
+    steps?: number;
+  };
+}
+
+export interface SimEventResponse {
+  success: boolean;
+  message: string;
+  newRisk: {
+    score: number;
+    band: RiskBand;
+    reasons: RiskReason[];
+  };
+  alertCreated?: Alert | null;
+}
+
+export interface EscalationTickResponse {
+  fired: Alert[];
+  pendingCount: number;
 }

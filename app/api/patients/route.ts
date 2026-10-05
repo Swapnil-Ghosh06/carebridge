@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
-import { MOCK_PATIENT_LIST } from "@/lib/mockData";
+import { store } from "@/lib/supabase/localStore";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
-  // Return sorted by risk score descending
-  const sorted = [...MOCK_PATIENT_LIST].sort((a, b) => b.score - a.score);
-  return NextResponse.json(sorted);
+  try {
+    const list = store.getPatientsList();
+    return NextResponse.json(list);
+  } catch {
+    return NextResponse.json({ error: "Failed to fetch patients" }, { status: 500 });
+  }
 }

@@ -7,11 +7,11 @@ Time boxes assume you start about 22:30 tonight. Shift to match your real submis
 ## Phase 0: Foundations (22:30-23:15, ~45 min, everyone together)
 - [ ] V: Create repo, Next.js 14 + TS + Tailwind, push to GitHub, invite team, set up Vercel
 - [ ] V: Add `app/fonts.ts` with Montserrat, DM Sans, Sora via `next/font/google`
-- [ ] R: Create Supabase project, run `schema.sql`, `seed.sql`, share env vars privately
-- [ ] R: Write `lib/types.ts` and freeze the API contract (ARCHITECTURE section 7)
+- [x] R: Create Supabase project, run `schema.sql`, `seed.sql`, share env vars privately
+- [x] R: Write `lib/types.ts` and freeze the API contract (ARCHITECTURE section 7)
 - [ ] S: Push `design/tokens.css` and Tailwind theme extension from DESIGN.md
 - [x] A: Create doctor route skeleton, layout and role-switcher on landing
-- [ ] ALL: Read RULES.md and MEMORY.md; create your branch
+- [x] ALL: Read RULES.md and MEMORY.md; create your branch
 - Checkpoint 0: `main` deploys to Vercel and shows the landing page in all three fonts.
 
 ## Phase 1: Core build (23:15-01:30, ~2h15)
@@ -35,17 +35,17 @@ S (UI/UX):
 - [ ] Review V and A screens at 01:00 and give a fix list
 
 R (backend):
-- [ ] All routes in the API contract returning real data
-- [ ] `lib/risk` engine with the 8 rules and unit-style quick tests
-- [ ] Recompute risk on every med-log and vitals write; store reasons
-- [ ] `/api/sim/event` and `/api/sim/reset`
+- [x] R: All routes in the API contract returning real data
+- [x] R: `lib/risk` engine with the 8 rules and unit-style quick tests
+- [x] R: Recompute risk on every med-log and vitals write; store reasons
+- [x] R: `/api/sim/event` and `/api/sim/reset`
 - Checkpoint 1 (01:30): Patient logs medicine -> doctor list updates. If this fails, stop everything else and fix it.
 
 ## Phase 2: The wow features (01:30-03:30, ~2h)
 R:
-- [ ] Escalation ladder + `/api/escalation/tick` + demo-mode delays
-- [ ] `lib/ai` brief generator with fallback + `POST /brief`
-- [ ] `/api/admin/roi` computed from seeded counters plus live alerts actioned
+- [x] R: Escalation ladder + `/api/escalation/tick` + demo-mode delays
+- [x] R: `lib/ai` brief generator with fallback + `POST /brief`
+- [x] R: `/api/admin/roi` computed from seeded counters plus live alerts actioned
 V:
 - [ ] Voice logging hook (`lib/voice`) with hi-IN/kn-IN/en-IN + intent parser + typed fallback
 - [ ] Voice screen UI (listening, recognised text, confirm)
@@ -62,7 +62,7 @@ S:
 
 ## Phase 3: P1 extras + polish (03:30-05:00, optional if tired)
 - [x] A: Consent dashboard + audit log UI (needs R's `/consents`, `/audit`)
-- [ ] R: Audit writes on every doctor view; consent filtering in `GET /patients/:id`
+- [x] R: Audit writes on every doctor view; consent filtering in `GET /patients/:id`
 - [ ] V: Consent settings screen for patient (P5)
 - [ ] S: Empty/loading/error states across all screens; mobile responsiveness pass
 - [ ] R (stretch): Prescription scan with a vision model
@@ -70,7 +70,7 @@ S:
 
 ## Phase 4: Demo hardening (morning, before submission)
 - [ ] ALL: Run the demo script 3 times from `/sim` reset; fix only blockers
-- [ ] R: Seed data sanity and `USE_LOCAL_STORE` fallback verified
+- [x] R: Seed data sanity and `USE_LOCAL_STORE` fallback verified
 - [ ] V: Test on a real phone with mic permission; test the venue network
 - [ ] A: Test on the presentation laptop and projector resolution
 - [ ] S: Final visual QA, check fonts are only the three allowed
