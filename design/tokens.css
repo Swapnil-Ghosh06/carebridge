@@ -7,10 +7,16 @@
  */
 
 :root {
-  /* ── Typography Fallbacks ───────────────────────────────────── */
-  --font-serif-name: "Playfair Display", Georgia, serif;
-  --font-mono-name:  "Space Mono", "Courier New", monospace;
-  --font-sans-name:  "Plus Jakarta Sans", -apple-system, sans-serif;
+  /* ── Typography (Primary: Montserrat, Secondary: DM Sans, Tertiary: Sora) ── */
+  --font-primary-name: "Montserrat", sans-serif;
+  --font-secondary-name: "DM Sans", sans-serif;
+  --font-sora-name: "Sora", sans-serif;
+  --font-serif-name: "Montserrat", sans-serif;
+  --font-display-name: "Montserrat", sans-serif;
+  --font-mono-name:  "Sora", sans-serif;
+  --font-data-name:  "Sora", sans-serif;
+  --font-sans-name:  "DM Sans", sans-serif;
+  --font-body-name:  "DM Sans", sans-serif;
 
   /* ── Canvas & Ink ───────────────────────────────────────────── */
   --canvas-paper:    #FBF9F4; /* warm ivory artist canvas */
