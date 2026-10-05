@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CareBridge Design Tokens (CSS variables) ─── */
+/* Swapin will fill design/tokens.css; these are the boot defaults */
+:root {
+  /* Fonts */
+  --font-display: 'Montserrat', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-data: 'Sora', sans-serif;
+
+  /* Colours */
+  --color-navy-900: #0A1628;
+  --color-teal-600: #0D9488;
+  --color-teal-500: #14B8A6;
+  --color-indigo-600: #4F46E5;
+
+  /* Risk */
+  --color-risk-red: #EF4444;
+  --color-risk-yellow: #F59E0B;
+  --color-risk-green: #10B981;
+
+  /* Blob tokens (illustrations) */
+  --blob-teal: #99F6E4;
+  --blob-indigo: #C7D2FE;
+  --blob-amber: #FDE68A;
+  --blob-rose: #FECDD3;
+}
+
+/* ─── Base styles ─── */
+@layer base {
+  body {
+    @apply font-body text-navy-900 bg-white;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+
+  /* Stat numbers, badges, risk scores */
+  .font-data {
+    font-family: var(--font-data);
+  }
+}
+
+/* ─── Utility shortcuts ─── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
