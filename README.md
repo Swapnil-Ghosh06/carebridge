@@ -12,7 +12,7 @@
 | Aryan | Backend · Risk engine · AI · Simulator | `app/api`, `lib/risk`, `lib/ai`, `lib/escalation`, `supabase/` |
 
 ## Stack
-- **Framework**: Next.js 14 (App Router) + TypeScript
+- **Framework**: Next.js (App Router) + TypeScript
 - **Styling**: Tailwind CSS + CSS variables (`design/tokens.css`)
 - **DB + Realtime**: Supabase (Postgres + Realtime)
 - **Charts**: Recharts

@@ -4,8 +4,9 @@ import { generateFhirR4Bundle } from "@/lib/fhir/export";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params;
   const patientId = params.id;
   const detail = MOCK_PATIENT_DETAILS[patientId];
 

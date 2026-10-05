@@ -6,9 +6,10 @@ export const dynamic = "force-dynamic";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const id = params.id;
     // Map family member id (e.g. f1) to patient id (p1) if needed
     const familyMember = store.getState().familyMembers.find((f) => f.id === id);

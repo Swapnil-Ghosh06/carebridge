@@ -1,96 +1,154 @@
-import React from 'react';
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+/**
+ * StatTile component (owner: Swapin)
+ * ─────────────────────────────────────────────────────────
+ * Displays a health metric tile: big Sora number, DM Sans label,
+ * optional unit, optional trend arrow.
+ *
+ * Used on: Patient home (steps, medicines, BP), Admin ROI panel.
+ *
+ * Rules:
+ *  - Stat number: Sora 700 (font-data)
+ *  - Label: DM Sans 500 (font-body)
+ *  - Trend arrow: only up/down/neutral — no risk colours
+ *  - Trend colouring: brand-teal for positive, ink-500 for neutral,
+ *    ink-700 for negative (risk colours reserved for RiskBadge only)
+ *  - No hardcoded patient data — props only
+ */
+
+import * as React from "react";
+import { TrendingUp, TrendingDown, Minus } from "lucide-react";
+
+export type TrendDirection = "up" | "down" | "neutral";
 
 export interface StatTileProps {
-  label: string;
+  /** Primary statistic value */
   value: string | number;
-  subValue?: string;
+  /** Descriptive label shown below the value */
+  label: string;
+  /** Unit shown after value (e.g. "steps", "mmHg", "/10") */
   unit?: string;
-  target?: string;
-  icon?: React.ReactNode;
-  trend?: 'up' | 'down' | 'neutral';
+  subValue?: string;
+  /** Optional trend direction */
+  trend?: TrendDirection;
+  /** Short description of the trend (e.g. "+12% vs last week") */
+  trendLabel?: string;
   trendText?: string;
-  variant?: 'teal' | 'indigo' | 'amber' | 'green' | 'default';
+  target?: string;
+  variant?: string;
+  /**
+   * Whether the "up" trend is positive (e.g. steps = good when up)
+   * or negative (e.g. BP = bad when up). Affects icon colour.
+   * Defaults to true (up is positive).
+   */
+  upIsGood?: boolean;
+  /** Icon to show in the top-left corner */
+  icon?: React.ReactNode;
+  size?: "sm" | "md" | "lg";
   className?: string;
 }
 
-export function StatTile({
-  label,
+const trendIcon: Record<TrendDirection, React.ElementType> = {
+  up: TrendingUp,
+  down: TrendingDown,
+  neutral: Minus,
+};
+
+const valueSize = {
+  sm: "text-2xl",
+  md: "text-4xl",
+  lg: "text-5xl",
+};
+
+const labelSize = {
+  sm: "text-xs",
+  md: "text-sm",
+  lg: "text-base",
+};
+
+export const StatTile: React.FC<StatTileProps> = ({
   value,
-  subValue,
+  label,
   unit,
-  target,
-  icon,
+  subValue,
   trend,
+  trendLabel,
   trendText,
-  variant = 'default',
-  className = '',
-}: StatTileProps) {
-  const iconBgMap = {
-    teal: 'bg-teal-50 text-teal-600',
-    indigo: 'bg-indigo-50 text-indigo-600',
-    amber: 'bg-amber-50 text-amber-600',
-    green: 'bg-emerald-50 text-emerald-600',
-    default: 'bg-gray-100 text-navy-700',
-  };
+  target,
+  variant,
+  upIsGood = true,
+  icon,
+  size = "md",
+  className = "",
+}) => {
+  const TrendIcon = trend ? trendIcon[trend] : null;
+  const activeTrendLabel = trendText || trendLabel;
+  const displayUnit = unit || subValue;
+
+  // Trend colour logic — uses brand/ink tokens, never risk tokens
+  const trendColor =
+    trend === "neutral"
+      ? "text-[var(--ink-500)]"
+      : trend === "up"
+      ? upIsGood
+        ? "text-[var(--brand-teal)]"
+        : "text-[var(--ink-700)]"
+      : upIsGood
+      ? "text-[var(--ink-700)]"
+      : "text-[var(--brand-teal)]";
 
   return (
     <div
-      className={`bg-white rounded-2xl border border-gray-100 shadow-card p-4 sm:p-5 flex flex-col justify-between ${className}`}
+      className={[
+        "bg-[var(--surface-0)] rounded-[var(--r-lg)] shadow-[var(--shadow-card)]",
+        "p-5 flex flex-col gap-1",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
-      <div className="flex items-center justify-between mb-2">
-        <span className="font-body text-sm font-medium text-gray-500 line-clamp-1">
-          {label}
+      {/* Optional icon */}
+      {icon && (
+        <span className="text-[var(--ink-500)] mb-1" aria-hidden="true">
+          {icon}
         </span>
-        {icon && (
-          <div className={`p-2 rounded-xl flex items-center justify-center ${iconBgMap[variant]}`}>
-            {icon}
-          </div>
+      )}
+
+      {/* Value row */}
+      <div className="flex items-baseline gap-1.5 flex-wrap">
+        <span
+          className={["font-data font-bold text-[var(--ink-900)]", valueSize[size]].join(" ")}
+          aria-label={`${label}: ${value}${displayUnit ? " " + displayUnit : ""}`}
+        >
+          {value}
+        </span>
+        {displayUnit && (
+          <span className="font-body text-[var(--ink-500)] text-sm">{displayUnit}</span>
         )}
       </div>
 
-      <div className="mt-1">
-        <div className="flex items-baseline gap-1.5 flex-wrap">
-          <span className="font-data font-bold text-2xl sm:text-3xl text-navy-900 tracking-tight">
-            {value}
-          </span>
-          {unit && (
-            <span className="font-body text-xs font-semibold text-gray-400">
-              {unit}
-            </span>
-          )}
-          {subValue && (
-            <span className="font-data text-xs font-medium text-gray-500">
-              {subValue}
-            </span>
+      {/* Label */}
+      <span className={["font-body font-medium text-[var(--ink-500)]", labelSize[size]].join(" ")}>
+        {label}
+      </span>
+
+      {/* Target/Goal secondary note */}
+      {target && (
+        <span className="font-body text-xs text-[var(--ink-500)] mt-0.5">
+          {target}
+        </span>
+      )}
+
+      {/* Trend */}
+      {trend && TrendIcon && (
+        <div className={["flex items-center gap-1 mt-1", trendColor].join(" ")}>
+          <TrendIcon size={14} aria-hidden="true" />
+          {activeTrendLabel && (
+            <span className="font-body text-xs">{activeTrendLabel}</span>
           )}
         </div>
-
-        {target && (
-          <p className="font-body text-xs text-gray-400 mt-0.5">
-            {target}
-          </p>
-        )}
-
-        {trend && (
-          <div className="flex items-center gap-1 mt-2 text-xs font-data">
-            {trend === 'up' && <TrendingUp className="w-3.5 h-3.5 text-risk-red" />}
-            {trend === 'down' && <TrendingDown className="w-3.5 h-3.5 text-risk-green" />}
-            {trend === 'neutral' && <Minus className="w-3.5 h-3.5 text-gray-500" />}
-            <span
-              className={
-                trend === 'up'
-                  ? 'text-risk-red font-semibold'
-                  : trend === 'down'
-                  ? 'text-risk-green font-semibold'
-                  : 'text-gray-500'
-              }
-            >
-              {trendText}
-            </span>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
-}
+};
+
+StatTile.displayName = "StatTile";

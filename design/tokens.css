@@ -1,44 +1,88 @@
+/**
+ * CareBridge Design Tokens (owner: Swapin)
+ * ─────────────────────────────────────────
+ * Source of truth for every CSS custom property.
+ * Inspired by the "Where Work Happens" and editorial design agency aesthetics:
+ * Warm organic paper canvas, deep navy ink, flat offset color shapes,
+ * and high-character typography.
+ */
+
 :root {
-  /* Fonts */
-  --font-display: var(--font-montserrat, 'Montserrat', sans-serif);
-  --font-body: var(--font-dm-sans, 'DM Sans', sans-serif);
-  --font-data: var(--font-sora, 'Sora', sans-serif);
+  /* ── Typography ─────────────────────────────────────────────── */
+  --font-display: var(--font-display); /* Montserrat — headings, hero, buttons */
+  --font-body: var(--font-body);       /* DM Sans — body text, forms, labels   */
+  --font-data: var(--font-data);       /* Sora — numbers, stats, badges, charts */
 
-  /* Ink and surface */
-  --ink-900: #0B1F4B;     /* headlines, primary text (deep navy) */
+  /* ── Ink (text + hand-drawn strokes) ────────────────────────── */
+  --ink-900: #0B1F4B; /* headlines, primary hand-drawn stroke (deep midnight navy) */
+  --ink-800: #1B2A56;
   --ink-700: #2B3C66;
-  --ink-500: #5B6B8C;     /* secondary text */
-  --ink-300: #B7C0D4;     /* borders */
-  --surface-0: #FFFFFF;
-  --surface-50: #F7F9FC;  /* app background */
-  --surface-100: #EEF2F8;
+  --ink-500: #5B6B8C; /* secondary text — min contrast on surface-0: WCAG AA OK */
+  --ink-300: #CBD5E1; /* delicate borders, dividers */
+  --ink-200: #E2E8F0;
 
-  /* Brand */
-  --brand-teal: #14B8A6;      /* primary action, links */
-  --brand-teal-600: #0F9B8C;  /* hover */
-  --brand-mint: #5EEAD4;      /* highlights on dark */
-  --brand-indigo: #4B3FB8;    /* secondary action, CTA */
+  /* ── Surfaces (Warm Editorial Paper) ────────────────────────── */
+  --surface-0:    #FFFFFF;
+  --surface-paper: #FCFBF8; /* warm artist paper canvas */
+  --surface-50:   #F8F9FC; /* app background */
+  --surface-100:  #EEF2F8;
+  --surface-warm: #F6F3ED; /* warm card contrast */
 
-  /* Illustration blocks (decorative only) */
-  --blob-coral: #FF6B35;
-  --blob-sun: #F2B01E;
-  --blob-leaf: #5B8C2A;
-  --blob-sky: #7FD6E8;
-  --blob-indigo: #4B3FB8;
-  --blob-teal: #2CC3A8;
+  /* ── Brand ──────────────────────────────────────────────────── */
+  --brand-teal:        #14B8A6; /* primary action, clinical links */
+  --brand-teal-600:    #0F9B8C; /* hover state for teal */
+  --brand-teal-50:     #E6F8F6;
+  --brand-mint:        #5EEAD4; /* highlights on dark backgrounds */
+  --brand-indigo:      #4B3FB8; /* signature CTA & clinical accent */
+  --brand-indigo-dark: #372E94;
+  --brand-indigo-50:   #F0EFFC;
 
-  /* Risk (reserved) */
-  --risk-red: #E5484D;   
-  --risk-red-bg: #FDECEC;
-  --risk-amber: #F5A524; 
-  --risk-amber-bg: #FEF3DC;
-  --risk-green: #30A46C; 
-  --risk-green-bg: #E6F6EE;
+  /* ── Editorial Illustration Blobs (Flat offset color shapes) ── */
+  --blob-coral:    #FF6B35;
+  --blob-sun:      #F5B726;
+  --blob-leaf:     #489838;
+  --blob-sky:      #56CCF2;
+  --blob-indigo:   #4B3FB8;
+  --blob-teal:     #2CC3A8;
+  --blob-berry:    #E01E5A;
+  --blob-lavender: #8A7CF8;
 
-  /* Radius, shadow */
-  --r-sm: 8px; 
-  --r-md: 14px; 
-  --r-lg: 22px; 
+  /* ── Risk (RESERVED — RiskBadge use only, never decoration) ─── */
+  --risk-red:       #E5484D;
+  --risk-red-bg:    #FDECEC;
+  --risk-amber:     #F5A524;
+  --risk-amber-bg:  #FEF3DC;
+  --risk-green:     #30A46C;
+  --risk-green-bg:  #E6F6EE;
+
+  /* ── Border radius ──────────────────────────────────────────── */
+  --r-sm:   8px;
+  --r-md:   14px;
+  --r-lg:   22px;
+  --r-xl:   32px;
   --r-pill: 999px;
-  --shadow-card: 0 1px 2px rgba(11,31,75,.06), 0 8px 24px rgba(11,31,75,.06);
+
+  /* ── Shadow ─────────────────────────────────────────────────── */
+  --shadow-card:
+    0 1px 3px rgba(11, 31, 75, 0.04),
+    0 10px 30px -5px rgba(11, 31, 75, 0.06);
+  --shadow-hover:
+    0 4px 6px -1px rgba(11, 31, 75, 0.06),
+    0 20px 40px -10px rgba(11, 31, 75, 0.12);
+  --shadow-float:
+    0 25px 50px -12px rgba(11, 31, 75, 0.15);
+
+  /* ── Spacing scale (4px base grid) ─────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-18: 72px;
+
+  /* ── Layout widths ──────────────────────────────────────────── */
+  --max-portal:  1200px;
+  --max-patient: 440px;
 }

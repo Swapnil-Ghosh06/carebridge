@@ -5,9 +5,10 @@ export const dynamic = "force-dynamic";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const rawId = params.id;
     const patientId = rawId === "patient-ramesh" ? "p1" : rawId;
     const body = await request.json();

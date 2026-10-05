@@ -1,64 +1,130 @@
-import React from 'react';
-import { AlertTriangle, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { RiskBand } from '@/lib/types';
+/**
+ * RiskBadge component (owner: Swapin)
+ * ─────────────────────────────────────────────────────────
+ * Displays the patient risk level.
+ *
+ * STRICT RULES (from RULES.md and DESIGN.md):
+ *  1. ALWAYS shows icon + text label. Never colour alone.
+ *  2. Risk colours (--risk-*) are ONLY used here and nowhere else.
+ *  3. Font: Sora, uppercase, tracking-wide (font-data)
+ *  4. Accessible: aria-label includes the band name in full
+ *
+ * Risk bands (from ARCHITECTURE.md):
+ *   Green  = 0–39
+ *   Yellow/Amber = 40–69 (displayed as "MODERATE" per DESIGN.md)
+ *   Red    = 70–100
+ */
+
+import * as React from "react";
+import { AlertCircle, AlertTriangle, CheckCircle2 } from "lucide-react";
+
+export type RiskBand = "green" | "amber" | "yellow" | "red";
 
 export interface RiskBadgeProps {
   band: RiskBand;
+  /** Numeric score (0–100). Shown alongside badge if provided. */
   score?: number;
-  label?: string;
-  size?: 'sm' | 'md' | 'lg';
-  showScore?: boolean;
+  size?: "sm" | "md" | "lg";
   className?: string;
 }
 
-export function RiskBadge({
+const bandConfig: Record<
+  "red" | "amber" | "green",
+  {
+    label: string;
+    icon: React.ElementType;
+    textColor: string;
+    bgColor: string;
+    ariaLabel: string;
+  }
+> = {
+  red: {
+    label: "HIGH RISK",
+    icon: AlertCircle,
+    textColor: "text-[var(--risk-red)]",
+    bgColor: "bg-[var(--risk-red-bg)]",
+    ariaLabel: "High risk — urgent attention needed",
+  },
+  amber: {
+    label: "MODERATE",
+    icon: AlertTriangle,
+    textColor: "text-[var(--risk-amber)]",
+    bgColor: "bg-[var(--risk-amber-bg)]",
+    ariaLabel: "Moderate risk — monitor closely",
+  },
+  green: {
+    label: "LOW RISK",
+    icon: CheckCircle2,
+    textColor: "text-[var(--risk-green)]",
+    bgColor: "bg-[var(--risk-green-bg)]",
+    ariaLabel: "Low risk — stable",
+  },
+};
+
+const sizeConfig = {
+  sm: {
+    iconSize: 12,
+    textClass: "text-[11px] tracking-[0.06em]",
+    padding: "px-2 py-0.5 gap-1",
+  },
+  md: {
+    iconSize: 14,
+    textClass: "text-[12px] tracking-[0.04em]",
+    padding: "px-3 py-1 gap-1.5",
+  },
+  lg: {
+    iconSize: 16,
+    textClass: "text-[13px] tracking-[0.04em]",
+    padding: "px-4 py-1.5 gap-2",
+  },
+};
+
+export const RiskBadge: React.FC<RiskBadgeProps> = ({
   band,
   score,
-  label,
-  size = 'md',
-  showScore = true,
-  className = '',
-}: RiskBadgeProps) {
-  const bandConfig = {
-    green: {
-      defaultLabel: 'STABLE',
-      bgColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      dotColor: 'bg-emerald-500',
-      Icon: CheckCircle2,
-    },
-    yellow: {
-      defaultLabel: 'ELEVATED',
-      bgColor: 'bg-amber-50 text-amber-700 border-amber-200',
-      dotColor: 'bg-amber-500',
-      Icon: AlertCircle,
-    },
-    red: {
-      defaultLabel: 'HIGH RISK',
-      bgColor: 'bg-rose-50 text-rose-700 border-rose-200',
-      dotColor: 'bg-rose-500',
-      Icon: AlertTriangle,
-    },
-  };
-
-  const current = bandConfig[band] || bandConfig.green;
-  const displayLabel = label ?? current.defaultLabel;
-  const IconComponent = current.Icon;
-
-  const sizeClasses = {
-    sm: 'text-[11px] px-2 py-0.5 gap-1',
-    md: 'text-xs px-2.5 py-1 gap-1.5',
-    lg: 'text-sm px-3.5 py-1.5 gap-2',
-  };
+  size = "md",
+  className = "",
+}) => {
+  const normalizedBand = (band === "yellow" ? "amber" : band) || "green";
+  const config = bandConfig[normalizedBand as "red" | "amber" | "green"] || bandConfig.green;
+  const { iconSize, textClass, padding } = sizeConfig[size];
+  const Icon = config.icon;
 
   return (
     <span
-      className={`inline-flex items-center font-data font-semibold tracking-wider uppercase border rounded-full ${current.bgColor} ${sizeClasses[size]} ${className}`}
+      role="status"
+      aria-label={`${config.ariaLabel}${score !== undefined ? `, score ${score}` : ""}`}
+      className={[
+        "inline-flex items-center rounded-[var(--r-pill)]",
+        "font-data font-semibold uppercase",
+        config.bgColor,
+        config.textColor,
+        padding,
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
-      <IconComponent className={size === 'sm' ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
-      <span>{displayLabel}</span>
-      {showScore && typeof score === 'number' && (
-        <span className="opacity-90 font-bold">({score})</span>
+      {/* Icon is always present — colour alone is not sufficient for accessibility */}
+      <Icon
+        size={iconSize}
+        aria-hidden="true"
+        className="shrink-0"
+        strokeWidth={2.5}
+      />
+      {/* Text label is always present — never rely on colour alone */}
+      <span className={textClass}>{config.label}</span>
+      {/* Optional score — uses Sora font */}
+      {score !== undefined && (
+        <span
+          className={[textClass, "opacity-70 ml-0.5"].join(" ")}
+          aria-hidden="true"
+        >
+          {score}
+        </span>
       )}
     </span>
   );
-}
+};
+
+RiskBadge.displayName = "RiskBadge";

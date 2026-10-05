@@ -6,8 +6,9 @@ export const dynamic = "force-dynamic";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params;
   const rawId = params.id;
   const patientId = rawId === "patient-ramesh" ? "p1" : rawId;
   const url = new URL(request.url);

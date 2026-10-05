@@ -5,11 +5,11 @@ Roles: **V** = Vedesh (lead, patient + family app, voice, i18n) | **A** = Aman (
 Time boxes assume you start about 22:30 tonight. Shift to match your real submission time. Adjust, do not abandon, the order.
 
 ## Phase 0: Foundations (22:30-23:15, ~45 min, everyone together)
-- [ ] V: Create repo, Next.js 14 + TS + Tailwind, push to GitHub, invite team, set up Vercel
-- [ ] V: Add `app/fonts.ts` with Montserrat, DM Sans, Sora via `next/font/google`
+- [x] V: Create repo, Next.js + TS + Tailwind, push to GitHub, invite team, set up Vercel
+- [x] V: Add `app/fonts.ts` with Montserrat, DM Sans, Sora via `next/font/google`
 - [x] R: Create Supabase project, run `schema.sql`, `seed.sql`, share env vars privately
 - [x] R: Write `lib/types.ts` and freeze the API contract (ARCHITECTURE section 7)
-- [ ] S: Push `design/tokens.css` and Tailwind theme extension from DESIGN.md
+- [x] S: Push `design/tokens.css` and Tailwind theme extension from DESIGN.md
 - [x] A: Create doctor route skeleton, layout and role-switcher on landing
 - [x] ALL: Read RULES.md and MEMORY.md; create your branch
 - Checkpoint 0: `main` deploys to Vercel and shows the landing page in all three fonts.
@@ -29,10 +29,10 @@ A (doctor):
 - [x] A: Supabase Realtime (or 3 s polling) so list updates live
 
 S (UI/UX):
-- [ ] Figma: tokens + component set + P2, D1, D2 frames first
-- [ ] Build `components/ui`: Button, Card, RiskBadge, StatTile, PatientRow, ReasonList (in that order)
-- [ ] Deliver hero illustration + patient/phone illustration SVGs
-- [ ] Review V and A screens at 01:00 and give a fix list
+- [x] Figma: tokens + component set + P2, D1, D2 frames first
+- [x] Build `components/ui`: Button, Card, RiskBadge, StatTile, PatientRow, ReasonList, MedicineCard, AlertItem, TrendChart, Toast, Illustration
+- [x] Deliver hero illustration + patient/phone illustration SVGs
+- [x] Review V and A screens at 01:00 and give a fix list (design/REVIEW.md)
 
 R (backend):
 - [x] R: All routes in the API contract returning real data
@@ -55,33 +55,37 @@ A:
 - [x] A: One-tap actions (call, message, teleconsult) with toast + alert record
 - [x] A: Admin ROI panel
 S:
-- [ ] Final screens: P3 voice, D3 brief, F1/F2, A1 in Figma
-- [ ] Motion spec: list re-sort slide, badge swap, mic pulse
-- [ ] Polish pass on V and A UI in code (spacing, type scale, states)
+- [x] Final screens: P3 voice, D3 brief, F1/F2, A1 in Figma / component system
+- [x] Motion spec: list re-sort slide, badge swap, mic pulse (`design/motion.ts`)
+- [x] Built Phase 2 UI primitives (`VoiceButton`, `BriefPanel`, `ConsentToggle`, `AuditRow`, `EmptyState`)
+- [x] Redesigned landing page (`app/page.tsx`) with artistic paper theme, hand-drawn vector art, and live triage sandbox
+- [x] Polish pass on V and A UI in code (spacing, type scale, states, `design/REVIEW.md`)
 - Checkpoint 2 (03:30): Full demo scenario runs once end-to-end, even if ugly.
 
 ## Phase 3: P1 extras + polish (03:30-05:00, optional if tired)
 - [x] A: Consent dashboard + audit log UI (needs R's `/consents`, `/audit`)
 - [x] R: Audit writes on every doctor view; consent filtering in `GET /patients/:id`
 - [x] V: Consent settings screen for patient (P5)
-- [ ] S: Empty/loading/error states across all screens; mobile responsiveness pass
+- [x] S: Empty/loading/error states across all screens (`Skeleton`, `EmptyState`); font audit (0 banned fonts); mobile responsiveness pass
 - [ ] R (stretch): Prescription scan with a vision model
 - Hard stop on new features at 05:00. Then sleep 3-4 hours in shifts if possible.
 
 ## Phase 4: Demo hardening (morning, before submission)
-- [ ] ALL: Run the demo script 3 times from `/sim` reset; fix only blockers
+- [x] ALL: Run the demo script 3 times from `/sim` reset; fix only blockers
 - [x] R: Seed data sanity and `USE_LOCAL_STORE` fallback verified
-- [ ] V: Test on a real phone with mic permission; test the venue network
-- [ ] A: Test on the presentation laptop and projector resolution
-- [ ] S: Final visual QA, check fonts are only the three allowed
-- [ ] V: Record a 2-minute backup video of the full scenario
+- [x] V: Test on a real phone with mic permission; test the venue network
+- [x] A: Test on the presentation laptop and projector resolution
+- [x] S: Final visual QA, check fonts are only the three allowed
+- [x] V: Record a 2-minute backup video of the full scenario
 - [x] V: Write the submission text: problem, solution, what's built vs roadmap, simulated-data disclosure
 - [x] ALL: Final deploy on Vercel, copy the URL, open it in a fresh browser to verify
 
 ## Phase 5: Submission kit
 - [x] Live URL + GitHub link
-- [ ] Demo video (backup)
-- [x] 1-page "what's real vs simulated" note
+- [x] Demo video (backup)
+- [x] 1-page "what's real vs simulated" note (`docs/SUBMISSION.md`)
+- [x] 2-minute spoken demo walkthrough script with timing (`docs/SUBMISSION.md`)
+- [x] 5 toughest judge Q&As with honest answers (`docs/SUBMISSION.md`)
 - [x] Roadmap slide (Tier 3 items)
 - [x] Who built what: V patient/family + lead, A doctor/admin, S design, R backend/AI
 

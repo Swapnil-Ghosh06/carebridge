@@ -1,28 +1,153 @@
+/**
+ * CareBridge global styles
+ * ─────────────────────────────────────────
+ * 1. Import design tokens (source of truth)
+ * 2. Tailwind v4 @theme — maps tokens into utility classes
+ * 3. Base resets & editorial styling
+ */
+
+@import "tailwindcss";
 @import "../design/tokens.css";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-@layer base {
-  body {
-    background-color: var(--surface-50);
-    color: var(--ink-900);
-    font-family: var(--font-body);
-    -webkit-font-smoothing: antialiased;
+@theme inline {
+  /* ── Font families ──────────────────────────────────────────── */
+  --font-display: var(--font-display);
+  --font-body:    var(--font-body);
+  --font-data:    var(--font-data);
+
+  /* Tailwind utility aliases */
+  --font-family-display: var(--font-display);
+  --font-family-body:    var(--font-body);
+  --font-family-data:    var(--font-data);
+
+  /* ── Colors ─────────────────────────────────────────────────── */
+  --color-ink-900:    var(--ink-900);
+  --color-ink-800:    var(--ink-800);
+  --color-ink-700:    var(--ink-700);
+  --color-ink-500:    var(--ink-500);
+  --color-ink-300:    var(--ink-300);
+  --color-ink-200:    var(--ink-200);
+
+  --color-surface-0:     var(--surface-0);
+  --color-surface-paper: var(--surface-paper);
+  --color-surface-50:    var(--surface-50);
+  --color-surface-100:   var(--surface-100);
+  --color-surface-warm:  var(--surface-warm);
+
+  --color-brand-teal:        var(--brand-teal);
+  --color-brand-teal-600:    var(--brand-teal-600);
+  --color-brand-teal-50:     var(--brand-teal-50);
+  --color-brand-mint:        var(--brand-mint);
+  --color-brand-indigo:      var(--brand-indigo);
+  --color-brand-indigo-dark: var(--brand-indigo-dark);
+  --color-brand-indigo-50:   var(--brand-indigo-50);
+
+  /* Risk */
+  --color-risk-red:       var(--risk-red);
+  --color-risk-red-bg:    var(--risk-red-bg);
+  --color-risk-amber:     var(--risk-amber);
+  --color-risk-amber-bg:  var(--risk-amber-bg);
+  --color-risk-green:     var(--risk-green);
+  --color-risk-green-bg:  var(--risk-green-bg);
+
+  /* ── Border radius ──────────────────────────────────────────── */
+  --radius-sm:   var(--r-sm);
+  --radius-md:   var(--r-md);
+  --radius-lg:   var(--r-lg);
+  --radius-xl:   var(--r-xl);
+  --radius-pill: var(--r-pill);
+
+  /* ── Box shadows ────────────────────────────────────────────── */
+  --shadow-card:  var(--shadow-card);
+  --shadow-hover: var(--shadow-hover);
+  --shadow-float: var(--shadow-float);
+}
+
+/* ── Base resets ─────────────────────────────────────────────── */
+html {
+  font-family: var(--font-body), sans-serif;
+  color: var(--ink-900);
+  background-color: var(--surface-paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--surface-paper);
+}
+
+/* Headings use display font */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), sans-serif;
+}
+
+/* Stats / data elements use data font */
+.font-data,
+[class*="stat"],
+[class*="badge-text"],
+[class*="score"] {
+  font-family: var(--font-data), sans-serif;
+}
+
+/* Focus ring — accessible, uses brand teal */
+*:focus-visible {
+  outline: 2px solid var(--brand-teal);
+  outline-offset: 2px;
+}
+
+/* Micro-animations for artistic feel */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
   }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display);
-    color: var(--ink-900);
-  }
-
-  .font-data {
-    font-family: var(--font-data);
+  50% {
+    transform: translateY(-5px) rotate(1deg);
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@keyframes pulseDoodle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
   }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 4s ease-in-out infinite;
+}
+
+.animate-pulse-doodle {
+  animation: pulseDoodle 3s ease-in-out infinite;
+}
+
+/* Custom highlight flourish */
+.highlight-brush {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.highlight-brush::after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: 4px;
+  height: 14px;
+  background: var(--blob-sun);
+  opacity: 0.45;
+  z-index: -1;
+  border-radius: 4px;
+  transform: rotate(-1.2deg);
+}
+
+/* Custom selection */
+::selection {
+  background-color: var(--brand-mint);
+  color: var(--ink-900);
 }

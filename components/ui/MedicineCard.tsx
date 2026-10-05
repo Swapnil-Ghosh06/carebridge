@@ -1,109 +1,158 @@
-'use client';
+/**
+ * MedicineCard component (owner: Swapin)
+ * ─────────────────────────────────────────────────────────
+ * Displays a scheduled medication for the patient portal.
+ *
+ * Rules:
+ *  - Font: Montserrat (name), DM Sans (dose, timing, instructions), Sora (time/status)
+ *  - Large, easily-tappable "Taken" button (>= 48px height for elderly accessibility)
+ *  - Status badge: pending (teal/neutral), taken (green), missed (amber/red)
+ *  - No embedded data fetching — purely driven by props
+ */
 
-import React from 'react';
-import { Pill, Check, Clock } from 'lucide-react';
-import { Button } from './Button';
+"use client";
+
+import * as React from "react";
+import { Pill, Check, Clock, AlertCircle } from "lucide-react";
+import { Card } from "./Card";
+import { Button } from "./Button";
+
+export type MedicineStatus = "pending" | "taken" | "missed";
 
 export interface MedicineCardProps {
-  id: string;
+  id?: string;
   name: string;
   dose: string;
-  time?: string;
+  time: string;
   instructions?: string;
-  status: 'taken' | 'missed' | 'pending';
-  onMarkTaken?: (id: string) => void;
+  status?: MedicineStatus;
+  takenAt?: string;
+  loading?: boolean;
   isLoading?: boolean;
+  onTake?: () => void;
+  onMarkTaken?: (id: string) => void;
+  onUndo?: () => void;
   className?: string;
 }
 
 export function MedicineCard({
-  id,
+  id = "",
   name,
   dose,
-  time = 'Scheduled',
-  instructions,
-  status,
-  onMarkTaken,
+  time,
+  instructions = "With water",
+  status = "pending",
+  takenAt,
+  loading = false,
   isLoading = false,
-  className = '',
+  onTake,
+  onMarkTaken,
+  onUndo,
+  className = "",
 }: MedicineCardProps) {
-  const isTaken = status === 'taken';
-  const isMissed = status === 'missed';
+  const isTaken = status === "taken";
+  const isMissed = status === "missed";
+  const isBusy = loading || isLoading;
+
+  const handleTake = () => {
+    if (onTake) onTake();
+    if (onMarkTaken) onMarkTaken(id);
+  };
 
   return (
-    <div
-      className={`bg-white rounded-2xl border p-5 transition-all duration-200 ${
-        isTaken
-          ? 'border-emerald-200 bg-emerald-50/30'
-          : isMissed
-          ? 'border-rose-200 bg-rose-50/20'
-          : 'border-gray-100 shadow-card'
+    <Card
+      variant={isTaken ? "flat" : "default"}
+      className={`p-5 transition-all duration-200 ${
+        isTaken ? "opacity-90 border-[var(--risk-green-bg)]" : ""
       } ${className}`}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-start gap-3">
+      <div className="flex items-start justify-between gap-4">
+        {/* Medicine details */}
+        <div className="flex items-start gap-3.5">
           <div
-            className={`p-3 rounded-2xl flex-shrink-0 ${
+            className={`w-11 h-11 rounded-[var(--r-md)] flex items-center justify-center shrink-0 ${
               isTaken
-                ? 'bg-emerald-100 text-emerald-700'
-                : 'bg-teal-50 text-teal-600'
+                ? "bg-[var(--risk-green-bg)] text-[var(--risk-green)]"
+                : isMissed
+                ? "bg-[var(--risk-amber-bg)] text-[var(--risk-amber)]"
+                : "bg-[var(--surface-100)] text-[var(--brand-indigo)]"
             }`}
+            aria-hidden="true"
           >
-            {isTaken ? <Check className="w-6 h-6" /> : <Pill className="w-6 h-6" />}
+            {isTaken ? (
+              <Check className="w-6 h-6 stroke-[2.5]" />
+            ) : isMissed ? (
+              <AlertCircle className="w-6 h-6 stroke-[2.2]" />
+            ) : (
+              <Pill className="w-6 h-6 stroke-[2]" />
+            )}
           </div>
 
           <div>
-            <h3 className="font-display font-bold text-xl sm:text-2xl text-navy-900 leading-tight">
-              {name}
-            </h3>
-            <p className="font-body text-base sm:text-lg font-medium text-navy-700 mt-0.5">
-              {dose}
-            </p>
-            <div className="flex items-center gap-2 mt-1.5 text-sm sm:text-base text-gray-500 font-body">
-              <span className="flex items-center gap-1">
-                <Clock className="w-4 h-4 text-teal-600" />
-                <span>{time}</span>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="font-display font-bold text-lg text-[var(--ink-900)] leading-tight">
+                {name}
+              </h3>
+              <span className="font-body text-sm text-[var(--ink-500)] font-medium">
+                ({dose})
               </span>
-              {instructions && (
-                <>
-                  <span>•</span>
-                  <span>{instructions}</span>
-                </>
-              )}
             </div>
+
+            <div className="flex items-center gap-2 mt-1 text-sm text-[var(--ink-500)] font-body">
+              <Clock className="w-4 h-4 text-[var(--ink-300)]" aria-hidden="true" />
+              <span className="font-data font-semibold text-[var(--ink-700)]">
+                {time}
+              </span>
+              <span>•</span>
+              <span>{instructions}</span>
+            </div>
+
+            {isTaken && takenAt && (
+              <p className="font-body text-xs text-[var(--risk-green)] font-medium mt-1">
+                ✓ Logged as taken at {takenAt}
+              </p>
+            )}
+
+            {isMissed && (
+              <p className="font-body text-xs text-[var(--risk-amber)] font-medium mt-1">
+                ⚠️ Scheduled dose was missed
+              </p>
+            )}
           </div>
         </div>
 
-        {/* Status Chip if already processed */}
-        {isTaken && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-body text-sm font-semibold">
-            <Check className="w-4 h-4" /> Taken
-          </span>
-        )}
-
-        {isMissed && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-100 text-rose-800 font-body text-sm font-semibold">
-            Missed
-          </span>
-        )}
-      </div>
-
-      {/* Action button if pending */}
-      {!isTaken && !isMissed && (
-        <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-end">
-          <Button
-            variant="primary"
-            size="md"
-            fullWidth
-            isLoading={isLoading}
-            onClick={() => onMarkTaken && onMarkTaken(id)}
-            className="text-base sm:text-lg min-h-[50px] shadow-sm flex items-center gap-2"
-          >
-            <Check className="w-5 h-5 stroke-[2.5]" />
-            <span>Mark as Taken</span>
-          </Button>
+        {/* Action Button */}
+        <div className="shrink-0 flex items-center">
+          {isTaken ? (
+            <div className="flex items-center gap-2">
+              <span className="font-data text-xs font-bold uppercase tracking-wider text-[var(--risk-green)] bg-[var(--risk-green-bg)] px-3 py-1.5 rounded-[var(--r-pill)]">
+                Taken
+              </span>
+              {onUndo && (
+                <button
+                  type="button"
+                  onClick={onUndo}
+                  className="font-body text-xs text-[var(--ink-500)] hover:text-[var(--ink-700)] underline ml-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-teal)] rounded"
+                >
+                  Undo
+                </button>
+              )}
+            </div>
+          ) : (
+            <Button
+              variant="primary"
+              size="md"
+              loading={isBusy}
+              onClick={handleTake}
+              className="min-w-[110px] min-h-[48px] shadow-sm"
+              aria-label={`Mark ${name} ${dose} as taken`}
+            >
+              <Check className="w-5 h-5 stroke-[2.5]" />
+              Taken
+            </Button>
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    </Card>
   );
 }

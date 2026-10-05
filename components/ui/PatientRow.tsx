@@ -1,73 +1,185 @@
-"use client";
+/**
+ * PatientRow component (owner: Swapin)
+ * ─────────────────────────────────────────────────────────
+ * Doctor portal patient list row.
+ * Props typed to match GET /api/patients → list item shape.
+ *
+ * Rules:
+ *  - Avatar: initials, no photo (privacy)
+ *  - Name + age: Montserrat (font-display)
+ *  - Top reason, last seen: DM Sans (font-body)
+ *  - Risk badge: always from <RiskBadge> — never inline colour
+ *  - No data fetching inside
+ *  - Supports both nested `patient` object and flattened props
+ */
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Clock, ChevronRight } from "lucide-react";
-import { PatientListItem } from "@/lib/types";
-import { RiskBadge } from "./RiskBadge";
+import * as React from "react";
+import { Clock } from "lucide-react";
+import { RiskBadge, type RiskBand } from "./RiskBadge";
 
-interface PatientRowProps {
-  patient: PatientListItem;
-  isSelected?: boolean;
-  onClick?: () => void;
+export interface PatientRowData {
+  id: string;
+  name: string;
+  age: number;
+  score?: number;
+  riskScore?: number;
+  band?: RiskBand;
+  riskBand?: RiskBand;
+  topReason?: string;
+  lastSeen?: string; // ISO date string or relative text
 }
 
-export const PatientRow: React.FC<PatientRowProps> = ({
-  patient,
-  isSelected = false,
-  onClick,
-}) => {
-  // Initials for avatar
-  const initials = patient.name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .slice(0, 2);
+export type PatientRowProps =
+  | {
+      patient: PatientRowData;
+      id?: never;
+      name?: never;
+      age?: never;
+      score?: never;
+      riskScore?: never;
+      band?: never;
+      riskBand?: never;
+      topReason?: never;
+      lastSeen?: never;
+      isSelected?: boolean;
+      onClick?: (id: string) => void;
+      className?: string;
+    }
+  | {
+      patient?: never;
+      id: string;
+      name: string;
+      age: number;
+      score?: number;
+      riskScore?: number;
+      band?: RiskBand;
+      riskBand?: RiskBand;
+      topReason?: string;
+      lastSeen?: string;
+      isSelected?: boolean;
+      onClick?: (id: string) => void;
+      className?: string;
+    };
 
-  const getBorderColor = () => {
-    if (isSelected) return "border-brand-teal ring-2 ring-brand-teal/20 bg-surface-100";
-    if (patient.band === "red") return "border-risk-red/40 hover:border-risk-red bg-risk-red-bg/20";
-    return "border-ink-300/30 hover:border-ink-300 bg-surface-0";
+function initials(name: string): string {
+  return name
+    .split(" ")
+    .slice(0, 2)
+    .map((n) => n[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
+function formatLastSeen(val?: string): string {
+  if (!val) return "recently";
+  if (val.includes("ago") || val.includes("just now")) return val;
+  const diff = Date.now() - new Date(val).getTime();
+  if (isNaN(diff)) return val;
+  const minutes = Math.floor(diff / 60_000);
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
+}
+
+const avatarBg: Record<string, string> = {
+  red: "bg-[var(--surface-100)] text-[var(--ink-700)]",
+  amber: "bg-[var(--surface-100)] text-[var(--ink-700)]",
+  yellow: "bg-[var(--surface-100)] text-[var(--ink-700)]",
+  green: "bg-[var(--surface-100)] text-[var(--ink-700)]",
+};
+
+export const PatientRow: React.FC<PatientRowProps> = (props) => {
+  const patientData = props.patient || {
+    id: props.id!,
+    name: props.name!,
+    age: props.age!,
+    score: props.score ?? props.riskScore,
+    band: props.band ?? props.riskBand ?? "green",
+    topReason: props.topReason,
+    lastSeen: props.lastSeen,
+  };
+
+  const id = patientData.id;
+  const name = patientData.name;
+  const age = patientData.age;
+  const band = patientData.band ?? patientData.riskBand ?? "green";
+  const score = patientData.score ?? patientData.riskScore;
+  const topReason = patientData.topReason || "No active flags";
+  const lastSeen = patientData.lastSeen;
+  const isSelected = props.isSelected || false;
+  const onClick = props.onClick;
+
+  const handleClick = () => onClick?.(id);
+  const handleKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick?.(id);
+    }
   };
 
   return (
-    <motion.div
-      layout
-      transition={{ type: "spring", stiffness: 350, damping: 25 }}
-      onClick={onClick}
-      className={`p-4 rounded-md border cursor-pointer transition-all duration-200 shadow-sm relative ${getBorderColor()}`}
+    <div
+      role="button"
+      tabIndex={0}
+      aria-pressed={isSelected}
+      aria-label={`${name}, ${age} years old. ${band} risk. ${topReason}`}
+      onClick={handleClick}
+      onKeyDown={handleKey}
+      className={[
+        "flex items-center gap-4 px-5 py-4",
+        "border-b border-[var(--ink-300)] last:border-b-0",
+        "cursor-pointer select-none",
+        "transition-colors duration-[180ms] ease-out",
+        isSelected
+          ? "bg-[var(--surface-100)]"
+          : "bg-[var(--surface-0)] hover:bg-[var(--surface-50)]",
+        "focus-visible:outline-2 focus-visible:outline-[var(--brand-teal)] focus-visible:outline-offset-[-2px]",
+        props.className || "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
-      <div className="flex items-start justify-between gap-3 mb-2">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-pill bg-brand-indigo/10 text-brand-indigo font-display font-bold flex items-center justify-center text-sm">
-            {initials}
-          </div>
-          <div>
-            <h4 className="font-display font-bold text-ink-900 text-base leading-tight">
-              {patient.name}
-            </h4>
-            <span className="font-body text-xs text-ink-500">
-              Age {patient.age}{patient.conditions?.length ? ` • ${patient.conditions.join(", ")}` : ""}
-            </span>
-          </div>
-        </div>
-        <RiskBadge band={patient.band} score={patient.score} size="sm" />
+      {/* Avatar */}
+      <div
+        className={[
+          "w-10 h-10 rounded-[var(--r-pill)] shrink-0",
+          "flex items-center justify-center",
+          "font-display font-bold text-sm",
+          avatarBg[band] || avatarBg.green,
+        ].join(" ")}
+        aria-hidden="true"
+      >
+        {initials(name)}
       </div>
 
-      <div className="mt-2.5 pt-2 border-t border-ink-300/20 flex flex-col gap-1.5">
-        <div className="text-xs font-body text-ink-700 flex items-start gap-1.5">
-          <span className="font-semibold text-ink-900 shrink-0">Flag:</span>
-          <span className="truncate">{patient.topReason || "Stable adherence"}</span>
-        </div>
-
-        <div className="flex items-center justify-between text-xs text-ink-500 font-data">
-          <span className="flex items-center gap-1">
-            <Clock className="w-3 h-3 text-ink-500" />
-            <span>Seen {patient.lastSeen}</span>
+      {/* Name + reason */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-baseline gap-2">
+          <span className="font-display font-semibold text-sm text-[var(--ink-900)] truncate">
+            {name}
           </span>
-          <ChevronRight className="w-4 h-4 text-ink-500" />
+          <span className="font-body text-xs text-[var(--ink-500)] shrink-0">
+            {age}y
+          </span>
+        </div>
+        <p className="font-body text-xs text-[var(--ink-500)] truncate mt-0.5">
+          {topReason}
+        </p>
+      </div>
+
+      {/* Badge + last seen */}
+      <div className="flex flex-col items-end gap-1.5 shrink-0">
+        <RiskBadge band={band} score={score} size="sm" />
+        <div className="flex items-center gap-1 text-[var(--ink-300)]">
+          <Clock size={10} aria-hidden="true" />
+          <span className="font-body text-[10px]">
+            {formatLastSeen(lastSeen)}
+          </span>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
+
+PatientRow.displayName = "PatientRow";

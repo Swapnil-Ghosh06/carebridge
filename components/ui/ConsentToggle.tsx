@@ -1,90 +1,124 @@
-'use client';
+/**
+ * ConsentToggle component (owner: Swapin)
+ * ─────────────────────────────────────────────────────────
+ * Granular patient privacy toggle for data category sharing.
+ *
+ * Rules:
+ *  - Clear plain language explanations ("You decide what your doctor can see")
+ *  - Categories: vitals | medicines | steps | glucose
+ *  - Accessible switch role with aria-checked
+ *  - Optimistic UI compatible
+ */
 
-import React from 'react';
-import { Shield, ShieldOff } from 'lucide-react';
+"use client";
+
+import * as React from "react";
+import { Activity, Pill, Footprints, Heart, Shield } from "lucide-react";
+import { Card } from "./Card";
+
+export type ConsentCategory = "vitals" | "medicines" | "steps" | "glucose" | string;
 
 export interface ConsentToggleProps {
-  id: string;
-  category: 'vitals' | 'medicines' | 'steps' | 'glucose';
-  title: string;
+  id?: string;
+  category: ConsentCategory;
+  label?: string;
+  title?: string;
   description: string;
-  granted: boolean;
-  onToggle: (category: 'vitals' | 'medicines' | 'steps' | 'glucose', granted: boolean) => void;
+  enabled?: boolean;
+  granted?: boolean;
+  onChange?: (enabled: boolean) => void;
+  onToggle?: (category: any, granted: boolean) => void;
   icon?: React.ReactNode;
   disabled?: boolean;
+  className?: string;
 }
+
+const categoryIcons: Record<string, React.ElementType> = {
+  vitals: Activity,
+  medicines: Pill,
+  steps: Footprints,
+  glucose: Heart,
+};
 
 export function ConsentToggle({
   category,
+  label,
   title,
   description,
+  enabled,
   granted,
+  onChange,
   onToggle,
   icon,
   disabled = false,
+  className = "",
 }: ConsentToggleProps) {
-  return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-card flex items-start justify-between gap-4 transition-all">
-      <div className="flex items-start gap-3.5">
-        {icon && (
-          <div
-            className={`p-2.5 rounded-xl flex-shrink-0 ${
-              granted
-                ? 'bg-teal-50 text-teal-600'
-                : 'bg-gray-100 text-gray-400'
-            }`}
-          >
-            {icon}
-          </div>
-        )}
-        <div>
-          <div className="flex items-center gap-2">
-            <h4 className="font-display font-bold text-base text-navy-900 leading-snug">
-              {title}
-            </h4>
-            <span
-              className={`font-data text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 ${
-                granted
-                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                  : 'bg-gray-100 text-gray-600 border border-gray-200'
-              }`}
-            >
-              {granted ? (
-                <>
-                  <Shield className="w-3 h-3 text-emerald-600" />
-                  Shared
-                </>
-              ) : (
-                <>
-                  <ShieldOff className="w-3 h-3 text-gray-500" />
-                  Private
-                </>
-              )}
-            </span>
-          </div>
-          <p className="font-body text-xs text-gray-500 mt-1 leading-relaxed">
-            {description}
-          </p>
-        </div>
-      </div>
+  const isEnabled = enabled !== undefined ? enabled : Boolean(granted);
+  const displayTitle = label || title || category;
+  const DefaultIcon = categoryIcons[category] || Shield;
 
-      {/* Accessible Toggle Button (min 48px touch target) */}
-      <button
-        type="button"
-        role="switch"
-        aria-checked={granted}
-        disabled={disabled}
-        onClick={() => onToggle(category, !granted)}
-        className={`relative inline-flex flex-shrink-0 items-center h-8 w-14 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 p-1 ${
-          granted ? 'bg-teal-600' : 'bg-gray-300'
-        } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-      >
-        <span
-          className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
-            granted ? 'translate-x-6' : 'translate-x-0'
-          }`}
-        />
-      </button>
-    </div>
+  const handleToggle = () => {
+    if (!disabled) {
+      const nextState = !isEnabled;
+      if (onChange) onChange(nextState);
+      if (onToggle) onToggle(category, nextState);
+    }
+  };
+
+  return (
+    <Card
+      variant="default"
+      className={`p-4 transition-all duration-200 ${
+        disabled ? "opacity-60" : "hover:border-[var(--ink-300)]"
+      } ${className}`}
+    >
+      <div className="flex items-center justify-between gap-4">
+        {/* Icon & Details */}
+        <div className="flex items-start gap-3.5">
+          <div
+            className={`w-10 h-10 rounded-[var(--r-md)] flex items-center justify-center shrink-0 ${
+              isEnabled
+                ? "bg-[var(--brand-teal)]/15 text-[var(--brand-teal-600)]"
+                : "bg-[var(--surface-100)] text-[var(--ink-500)]"
+            }`}
+            aria-hidden="true"
+          >
+            {icon ? (
+              <span className="shrink-0">{icon}</span>
+            ) : (
+              <DefaultIcon className="w-5 h-5 stroke-[2.2]" />
+            )}
+          </div>
+
+          <div>
+            <h4 className="font-display font-semibold text-base text-[var(--ink-900)]">
+              {displayTitle}
+            </h4>
+            <p className="font-body text-xs text-[var(--ink-500)] mt-0.5 leading-snug">
+              {description}
+            </p>
+          </div>
+        </div>
+
+        {/* Toggle Switch */}
+        <button
+          type="button"
+          role="switch"
+          aria-checked={isEnabled}
+          disabled={disabled}
+          onClick={handleToggle}
+          aria-label={`Allow doctor to view ${displayTitle}`}
+          className={`relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-teal)] focus-visible:ring-offset-2 ${
+            isEnabled ? "bg-[var(--brand-teal)]" : "bg-[var(--ink-300)]"
+          } ${disabled ? "cursor-not-allowed" : ""}`}
+        >
+          <span
+            className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-[var(--surface-0)] shadow-md ring-0 transition duration-200 ease-in-out ${
+              isEnabled ? "translate-x-5" : "translate-x-0"
+            }`}
+          />
+        </button>
+      </div>
+    </Card>
   );
 }
