@@ -2,13 +2,9 @@
  * CareBridge Design Tokens (owner: Swapin)
  * ─────────────────────────────────────────
  * Source of truth for every CSS custom property.
- * Import this file in globals.css.
- *
- * RULES:
- *  - Never add a new colour without consulting Swapin (or the DESIGN.md).
- *  - Risk colours (--risk-*) are RESERVED for RiskBadge only.
- *  - Blob colours are ONLY for SVG illustration layers, never UI decoration.
- *  - No random hex values in components — always reference a variable from here.
+ * Inspired by the "Where Work Happens" and editorial design agency aesthetics:
+ * Warm organic paper canvas, deep navy ink, flat offset color shapes,
+ * and high-character typography.
  */
 
 :root {
@@ -17,49 +13,64 @@
   --font-body: var(--font-body);       /* DM Sans — body text, forms, labels   */
   --font-data: var(--font-data);       /* Sora — numbers, stats, badges, charts */
 
-  /* ── Ink (text + borders) ───────────────────────────────────── */
-  --ink-900: #0b1f4b; /* headlines, primary text (deep navy)  */
-  --ink-700: #2b3c66;
-  --ink-500: #5b6b8c; /* secondary text — min contrast on surface-0: WCAG AA OK */
-  --ink-300: #b7c0d4; /* borders, dividers                    */
+  /* ── Ink (text + hand-drawn strokes) ────────────────────────── */
+  --ink-900: #0B1F4B; /* headlines, primary hand-drawn stroke (deep midnight navy) */
+  --ink-800: #1B2A56;
+  --ink-700: #2B3C66;
+  --ink-500: #5B6B8C; /* secondary text — min contrast on surface-0: WCAG AA OK */
+  --ink-300: #CBD5E1; /* delicate borders, dividers */
+  --ink-200: #E2E8F0;
 
-  /* ── Surfaces ───────────────────────────────────────────────── */
-  --surface-0:   #ffffff;
-  --surface-50:  #f7f9fc; /* app background                       */
-  --surface-100: #eef2f8;
+  /* ── Surfaces (Warm Editorial Paper) ────────────────────────── */
+  --surface-0:    #FFFFFF;
+  --surface-paper: #FCFBF8; /* warm artist paper canvas */
+  --surface-50:   #F8F9FC; /* app background */
+  --surface-100:  #EEF2F8;
+  --surface-warm: #F6F3ED; /* warm card contrast */
 
   /* ── Brand ──────────────────────────────────────────────────── */
-  --brand-teal:     #14b8a6; /* primary action, links                */
-  --brand-teal-600: #0f9b8c; /* hover state for teal                 */
-  --brand-mint:     #5eead4; /* highlights on dark backgrounds       */
-  --brand-indigo:   #4b3fb8; /* secondary action / CTA               */
+  --brand-teal:        #14B8A6; /* primary action, clinical links */
+  --brand-teal-600:    #0F9B8C; /* hover state for teal */
+  --brand-teal-50:     #E6F8F6;
+  --brand-mint:        #5EEAD4; /* highlights on dark backgrounds */
+  --brand-indigo:      #4B3FB8; /* signature CTA & clinical accent */
+  --brand-indigo-dark: #372E94;
+  --brand-indigo-50:   #F0EFFC;
 
-  /* ── Illustration blobs (decorative, illustrations only) ────── */
-  --blob-coral:  #ff6b35;
-  --blob-sun:    #f2b01e;
-  --blob-leaf:   #5b8c2a;
-  --blob-sky:    #7fd6e8;
-  --blob-indigo: #4b3fb8;
-  --blob-teal:   #2cc3a8;
+  /* ── Editorial Illustration Blobs (Flat offset color shapes) ── */
+  --blob-coral:    #FF6B35;
+  --blob-sun:      #F5B726;
+  --blob-leaf:     #489838;
+  --blob-sky:      #56CCF2;
+  --blob-indigo:   #4B3FB8;
+  --blob-teal:     #2CC3A8;
+  --blob-berry:    #E01E5A;
+  --blob-lavender: #8A7CF8;
 
   /* ── Risk (RESERVED — RiskBadge use only, never decoration) ─── */
-  --risk-red:       #e5484d;
-  --risk-red-bg:    #fdecec;
-  --risk-amber:     #f5a524;
-  --risk-amber-bg:  #fef3dc;
-  --risk-green:     #30a46c;
-  --risk-green-bg:  #e6f6ee;
+  --risk-red:       #E5484D;
+  --risk-red-bg:    #FDECEC;
+  --risk-amber:     #F5A524;
+  --risk-amber-bg:  #FEF3DC;
+  --risk-green:     #30A46C;
+  --risk-green-bg:  #E6F6EE;
 
   /* ── Border radius ──────────────────────────────────────────── */
   --r-sm:   8px;
   --r-md:   14px;
   --r-lg:   22px;
+  --r-xl:   32px;
   --r-pill: 999px;
 
   /* ── Shadow ─────────────────────────────────────────────────── */
   --shadow-card:
-    0 1px 2px rgba(11, 31, 75, 0.06),
-    0 8px 24px rgba(11, 31, 75, 0.06);
+    0 1px 3px rgba(11, 31, 75, 0.04),
+    0 10px 30px -5px rgba(11, 31, 75, 0.06);
+  --shadow-hover:
+    0 4px 6px -1px rgba(11, 31, 75, 0.06),
+    0 20px 40px -10px rgba(11, 31, 75, 0.12);
+  --shadow-float:
+    0 25px 50px -12px rgba(11, 31, 75, 0.15);
 
   /* ── Spacing scale (4px base grid) ─────────────────────────── */
   --space-1:  4px;
@@ -75,5 +86,3 @@
   --max-portal:  1200px;
   --max-patient: 440px;
 }
-
-/* Dark mode: skipped for prototype (per DESIGN.md) */

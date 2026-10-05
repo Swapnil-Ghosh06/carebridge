@@ -1,6 +1,6 @@
 /**
  * components/ui barrel export (owner: Swapin)
- * Import all UI primitives from here.
+ * Import all UI primitives and artistic doodles from here.
  */
 
 export { Button } from "./Button";
@@ -40,12 +40,24 @@ export type { ToastProps, ToastType } from "./Toast";
 
 export {
   Illustration,
+  MasterpieceHeroArt,
   ElderlyPhoneArt,
   DoctorTabletArt,
   FamilyCallArt,
-  HeroSceneArt,
+  DataFunnelArt,
 } from "./Illustration";
 export type { IllustrationProps, IllustrationName } from "./Illustration";
+
+export {
+  DoodleSparkle,
+  DoodleStar,
+  DoodleUnderline,
+  DoodleCircle,
+  DoodleArrowCurved,
+  DoodleHeart,
+  DoodleSleepingCat,
+  DoodleRibbonWave,
+} from "./Doodles";
 
 export { VoiceButton } from "./VoiceButton";
 export type { VoiceButtonProps, VoiceState, VoiceLanguage } from "./VoiceButton";
