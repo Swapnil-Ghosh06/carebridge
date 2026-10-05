@@ -49,6 +49,7 @@ import { WhatIfSimulator } from "@/components/doctor/WhatIfSimulator";
 import { FhirExportDrawer } from "@/components/doctor/FhirExportDrawer";
 import { AuditRow } from "@/components/ui/AuditRow";
 import { resolveWearableContext } from "@/lib/wearable/resolve";
+import { useBriefStream } from "@/lib/voice";
 
 export default function PatientDetailPage() {
   const params = useParams();
@@ -68,12 +69,16 @@ export default function PatientDetailPage() {
   const [isFhirOpen, setIsFhirOpen] = useState(false);
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
 
-  // Brief Streaming & Citations Wire-up
-  const [streamText, setStreamText] = useState("");
-  const [citations, setCitations] = useState<CitationItem[]>([]);
-  const [isStreaming, setIsStreaming] = useState(false);
-  const [briefSource, setBriefSource] = useState<"llm" | "fallback" | null>(null);
-  const [briefError, setBriefError] = useState<string | null>(null);
+  // Brief Streaming via SSE (Phase 5a)
+  const {
+    streamText,
+    citations,
+    isStreaming,
+    source: briefSource,
+    error: briefError,
+    startStream,
+    reset: resetBrief,
+  } = useBriefStream();
 
   // Global Toast for Doctor Actions
   const [toastMsg, setToastMsg] = useState<string | null>(null);
@@ -115,28 +120,9 @@ export default function PatientDetailPage() {
   }, [fetchPatientDetail, fetchAuditLogs]);
 
   // Brief Wire-up trigger
-  const handleStartBrief = async () => {
-    setIsStreaming(true);
-    setStreamText("");
-    setCitations([]);
-    setBriefError(null);
+  const handleStartBrief = () => {
     setIsBriefOpen(true);
-
-    try {
-      const res = await fetch(`/api/patients/${patientId}/brief`, {
-        method: "POST",
-      });
-      if (!res.ok) throw new Error("Brief generation unavailable");
-      const data = await res.json();
-
-      setStreamText(data.text ?? "");
-      setCitations(data.citations ?? []);
-      setBriefSource(data.source ?? "llm");
-    } catch {
-      setBriefError("Brief generation timed out. Please try again.");
-    } finally {
-      setIsStreaming(false);
-    }
+    startStream(patientId);
   };
 
   const handleCarePlanSuccess = (msg: string) => {

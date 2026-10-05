@@ -287,12 +287,30 @@ function createInitialState(): CareBridgeState {
 
   const alerts: Alert[] = [
     {
+      id: "alt-doc-1",
+      patient_id: "p1",
+      level: "doctor_note",
+      audience: "family",
+      message: "Dr. Rao has updated the care plan.",
+      created_at: new Date(now - 30 * 60 * 1000).toISOString(),
+      acknowledged_at: null,
+    },
+    {
+      id: "alt-wearable-1",
+      patient_id: "p1",
+      level: "wearable_anomaly",
+      audience: "family",
+      message: "Ramesh ji's heart rate was a bit high during sleep.",
+      created_at: new Date(now - 60 * 60 * 1000).toISOString(),
+      acknowledged_at: null,
+    },
+    {
       id: "alt-1",
       patient_id: "p1",
       level: "reminder",
       audience: "patient",
       message: "Time for morning Metformin (500mg)",
-      created_at: new Date(now - 60 * 60 * 1000).toISOString(),
+      created_at: new Date(now - 90 * 60 * 1000).toISOString(),
       acknowledged_at: null,
     },
     {
@@ -686,7 +704,39 @@ class CareBridgeStore {
     const takenToday = patientLogs.filter((m) => m.status === "taken").length;
     const totalToday = Math.max(takenToday, 2);
 
-    const alerts = this.state.alerts.filter((a) => a.patient_id === patientId);
+    const alerts = [
+      ...this.state.alerts.filter((a) => a.patient_id === patientId || (a as any).patientId === patientId),
+    ];
+
+    // Ensure doctor note alert is represented in feed if latest note exists
+    const latestNote = this.state.doctorNotes.find((n) => n.patient_id === patientId || (n as any).patientId === patientId);
+    if (latestNote && !alerts.some((a) => a.level === "doctor_note")) {
+      alerts.unshift({
+        id: `feed-doc-${latestNote.id}`,
+        patient_id: patientId,
+        level: "doctor_note",
+        audience: "family",
+        message: "Dr. Rao has updated the care plan.",
+        created_at: latestNote.created_at,
+        acknowledged_at: null,
+      });
+    }
+
+    // Check for wearable anomaly flags (e.g. nocturnal HR spike or steps drop)
+    const hasHrSpike = this.state.vitals.some(
+      (v) => (v.patient_id === patientId || (v as any).patientId === patientId) && v.type === "hr" && (v.value_a || 0) > 95
+    );
+    if (hasHrSpike && !alerts.some((a) => a.level === "wearable_anomaly")) {
+      alerts.unshift({
+        id: `feed-wearable-hr-${Date.now()}`,
+        patient_id: patientId,
+        level: "wearable_anomaly",
+        audience: "family",
+        message: "Ramesh ji's heart rate was a bit high during sleep.",
+        created_at: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
+        acknowledged_at: null,
+      });
+    }
 
     return {
       patient: {
@@ -956,9 +1006,9 @@ class CareBridgeStore {
     this.state.alerts.unshift({
       id: `alt-plan-${Date.now()}`,
       patient_id: patientId,
-      level: "reminder",
-      audience: "patient",
-      message: "Dr. Rao updated your care plan. Tap to review.",
+      level: "doctor_note",
+      audience: "family",
+      message: "Dr. Rao has updated the care plan.",
       created_at: new Date().toISOString(),
       acknowledged_at: null,
     });
@@ -1008,10 +1058,16 @@ class CareBridgeStore {
 }
 
 // Global variable so state persists across hot module reloads in Next.js development
-const globalForStore = globalThis as unknown as { careBridgeStore?: CareBridgeStore };
+const globalForStore = globalThis as unknown as { careBridgeStore?: CareBridgeStore; careBridgeStoreVersion?: number };
+const STORE_VERSION = 4;
 
-if (!globalForStore.careBridgeStore || typeof (globalForStore.careBridgeStore as any).getPatientGoals !== "function") {
+if (
+  !globalForStore.careBridgeStore ||
+  globalForStore.careBridgeStoreVersion !== STORE_VERSION ||
+  typeof (globalForStore.careBridgeStore as any).getPatientGoals !== "function"
+) {
   globalForStore.careBridgeStore = new CareBridgeStore();
+  globalForStore.careBridgeStoreVersion = STORE_VERSION;
 }
 
 export const store = globalForStore.careBridgeStore;

@@ -125,7 +125,7 @@ export interface Alert {
   id: string;
   patient_id?: string;
   patientId?: string;
-  level: "reminder" | "family" | "doctor";
+  level: "reminder" | "family" | "doctor" | "wearable_anomaly" | "doctor_note";
   audience: "patient" | "family" | "doctor";
   message: string;
   created_at?: string;
