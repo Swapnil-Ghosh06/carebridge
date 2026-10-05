@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Pill, Activity, Users } from 'lucide-react';
+import { Home, Pill, Mic, Activity, Users } from 'lucide-react';
 import { Locale, t } from '@/lib/i18n';
 
 export interface BottomNavProps {
@@ -23,6 +23,12 @@ export function BottomNav({ locale = 'en' }: BottomNavProps) {
       href: '/patient/medicines',
       label: t('nav_medicines', locale),
       icon: Pill,
+    },
+    {
+      href: '/patient/voice',
+      label: t('nav_voice', locale),
+      icon: Mic,
+      isSpecial: true,
     },
     {
       href: '/patient/vitals',
@@ -47,23 +53,33 @@ export function BottomNav({ locale = 'en' }: BottomNavProps) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center min-h-[48px] min-w-[64px] px-2 py-1 rounded-xl transition-all duration-200 select-none ${
-                isActive
+              className={`flex flex-col items-center justify-center min-h-[48px] min-w-[56px] px-1 py-1 rounded-xl transition-all duration-200 select-none ${
+                item.isSpecial
+                  ? isActive
+                    ? 'text-teal-600 scale-105'
+                    : 'text-teal-600'
+                  : isActive
                   ? 'text-teal-600 font-bold scale-105'
                   : 'text-gray-500 hover:text-navy-900 font-medium'
               }`}
             >
-              <div className="relative">
+              <div
+                className={`relative flex items-center justify-center ${
+                  item.isSpecial
+                    ? 'w-10 h-10 -mt-3 rounded-full bg-teal-600 text-white shadow-md'
+                    : ''
+                }`}
+              >
                 <Icon
-                  className={`w-6 h-6 transition-transform duration-200 ${
+                  className={`${item.isSpecial ? 'w-5 h-5 text-white' : 'w-6 h-6'} transition-transform duration-200 ${
                     isActive ? 'stroke-[2.5]' : 'stroke-[1.8]'
                   }`}
                 />
-                {isActive && (
+                {!item.isSpecial && isActive && (
                   <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-teal-600 rounded-full" />
                 )}
               </div>
-              <span className="font-body text-xs mt-1 tracking-tight">
+              <span className={`font-body text-[11px] mt-1 tracking-tight ${item.isSpecial ? 'font-bold text-teal-700' : ''}`}>
                 {item.label}
               </span>
             </Link>

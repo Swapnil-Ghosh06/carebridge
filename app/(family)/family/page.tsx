@@ -223,13 +223,60 @@ export default function FamilyFeedPage() {
             <div className="flex items-center gap-2">
               <Bell className="w-4 h-4 text-teal-600" />
               <h3 className="font-display font-bold text-lg text-navy-900">
-                Care Timeline & Alerts
+                Care Timeline & Escalation
               </h3>
             </div>
             <span className="font-data text-xs text-gray-400">
               Auto-syncs 3s
             </span>
           </div>
+
+          {/* Visual 3-Stage Escalation Ladder */}
+          <Card className="p-4 bg-white border-gray-100 shadow-sm">
+            <p className="font-body text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+              Escalation Protocol Progress
+            </p>
+            <div className="grid grid-cols-3 gap-2 text-center relative">
+              {/* Step 1: Patient */}
+              <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200">
+                <span className="font-data text-[10px] font-bold uppercase tracking-wider text-blue-700 block">
+                  Stage 1 (T+0)
+                </span>
+                <span className="font-display font-bold text-xs text-navy-900 block mt-0.5">
+                  Patient Ping
+                </span>
+                <span className="text-[10px] text-gray-500 font-body block mt-0.5">
+                  Gentle reminder
+                </span>
+              </div>
+
+              {/* Step 2: Family */}
+              <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 ring-2 ring-amber-400/50">
+                <span className="font-data text-[10px] font-bold uppercase tracking-wider text-amber-700 block">
+                  Stage 2 (Active)
+                </span>
+                <span className="font-display font-bold text-xs text-navy-900 block mt-0.5">
+                  Family Loop
+                </span>
+                <span className="text-[10px] text-gray-500 font-body block mt-0.5">
+                  Karan notified
+                </span>
+              </div>
+
+              {/* Step 3: Doctor */}
+              <div className="p-2.5 rounded-xl bg-gray-50 border border-gray-200 opacity-70">
+                <span className="font-data text-[10px] font-bold uppercase tracking-wider text-gray-500 block">
+                  Stage 3 (+25s)
+                </span>
+                <span className="font-display font-bold text-xs text-navy-900 block mt-0.5">
+                  Clinic Alert
+                </span>
+                <span className="text-[10px] text-gray-500 font-body block mt-0.5">
+                  Dr. Rao briefed
+                </span>
+              </div>
+            </div>
+          </Card>
 
           {/* Alert Feed Items */}
           <div className="space-y-3">

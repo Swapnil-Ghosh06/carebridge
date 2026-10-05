@@ -44,6 +44,7 @@ Family: Ramesh's son Karan (Bengaluru). Doctor: Dr. Meera Rao, Sunrise Clinic (f
 
 ## Status log
 (Newest first. One line each: time, who, done/blocked.)
+- 2026-10-05 23:45, Vedesh, Phase 2 DONE: Web Speech API hook (lib/voice/useSpeech.ts) for hi-IN/kn-IN/en-IN, deterministic intent parser (lib/voice/intent.ts) extracting medicine logs & BP values, VoiceButton with pulsing rings, full P3 Voice Logging screen with live transcription + intent confirmation + typed fallback, Family feed 3-stage visual escalation ladder. Build clean (13/13 routes).
 - 2026-10-05 23:22, Vedesh, Phase 1 DONE: Patient home (greeting + 3 StatTiles + next dose card), Medicines schedule with adherence progress bar + optimistic taken log, BP vitals entry form with classification chips, Family feed with 3s polling + F1 status card + F2 alert timeline, en/hi/kn i18n support, components/ui primitives, API route handlers. Build clean (12/12 routes).
 - 2026-10-05 22:39, Vedesh, Phase 0 DONE: Next.js 14 scaffolded, all route groups created, fonts (Montserrat/DM Sans/Sora) wired, Tailwind tokens set, landing page + role cookie/redirect built, lib/i18n + lib/voice stubs, .env.example + README. Build clean (9/9 routes). Pushed to origin/main + origin/vedesh/patient.
 

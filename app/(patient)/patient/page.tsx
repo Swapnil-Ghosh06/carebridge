@@ -119,19 +119,21 @@ export default function PatientHomePage() {
           </div>
 
           {/* Quick Voice Log Prompt Pill */}
-          <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs text-gray-300">
-              <Mic className="w-4 h-4 text-teal-400" />
+          <Link
+            href="/patient/voice"
+            className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between hover:opacity-90 transition-opacity"
+          >
+            <div className="flex items-center gap-2 text-xs text-gray-200">
+              <span className="p-1.5 rounded-full bg-teal-500/20 text-teal-400">
+                <Mic className="w-3.5 h-3.5" />
+              </span>
               <span>{t('voice_hint', locale)}</span>
             </div>
-            <Link
-              href="/patient/medicines"
-              className="text-xs font-display font-bold text-teal-400 hover:text-teal-300 flex items-center gap-1"
-            >
-              <span>Schedule</span>
+            <span className="text-xs font-display font-bold text-teal-400 flex items-center gap-1">
+              <span>Try voice</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
+            </span>
+          </Link>
         </section>
 
         {/* Next Medicine Dose Card (Phase 1 core requirement) */}

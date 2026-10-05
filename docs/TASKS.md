@@ -47,9 +47,9 @@ R:
 - [ ] `lib/ai` brief generator with fallback + `POST /brief`
 - [ ] `/api/admin/roi` computed from seeded counters plus live alerts actioned
 V:
-- [ ] Voice logging hook (`lib/voice`) with hi-IN/kn-IN/en-IN + intent parser + typed fallback
-- [ ] Voice screen UI (listening, recognised text, confirm)
-- [ ] Family alert feed shows escalation messages live
+- [x] Voice logging hook (`lib/voice`) with hi-IN/kn-IN/en-IN + intent parser + typed fallback
+- [x] Voice screen UI (listening, recognised text, confirm)
+- [x] Family alert feed shows escalation messages live
 A:
 - [ ] Brief drawer (`BriefPanel`) with loading and fallback states
 - [ ] One-tap actions (call, message, teleconsult) with toast + alert record
