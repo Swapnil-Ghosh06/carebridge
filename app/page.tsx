@@ -1,13 +1,15 @@
 /**
- * CareBridge — Award-Winning Artistic Landing Page (owner: Swapin)
- * ─────────────────────────────────────────────────────────────────
- * Faithfully crafted in the boutique designer aesthetic of "Belle":
- *  - Spacious warm artist paper canvas (--surface-paper: #FCFBF8)
- *  - Symmetrical hand-drawn doodle canopies arching over the hero
- *  - Elegant editorial typography (Montserrat 800 + DM Sans + Sora)
- *  - Centerpiece ground line with sleeping cat on left and sitting person on right
- *  - High-contrast visual showcase cards with rich application interfaces
- *  - Tactile live interactive triage sandbox widget right on the page
+ * CareBridge — Daisy × Claud Neo-Editorial Landing Page
+ * ─────────────────────────────────────────────────────────────
+ * Meticulously crafted to embody the artistic high-craft of "Daisy"
+ * and the whimsical tactile brutalism of "Claud":
+ *  - Warm ivory graph paper grid canvas
+ *  - High-impact fluorescent pink highlighter strokes
+ *  - Overlapping tilted scrapbook polaroids & rotated sticky note tags
+ *  - 2px carbon ink borders and crisp drop shadows
+ *  - Interactive feature pills with surrealist medical art collage
+ *  - Real-time interactive clinical triage sandbox
+ *  - Claud-style #1-#4 pastel portal showcase cards
  */
 
 "use client";
@@ -29,524 +31,959 @@ import {
   Activity,
   Heart,
   Pill,
+  Clock,
+  Send,
+  Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { RiskBadge, type RiskBand } from "@/components/ui/RiskBadge";
 import {
+  DoodleDaisy,
+  DoodleClaudCloud,
+  DoodleHandPress,
   DoodleSparkle,
   DoodleStar,
   DoodleUnderline,
-  DoodleSleepingCat,
-  DoodleSittingPerson,
-  DoodleCanopyLeft,
-  DoodleCanopyRight,
+  DoodleHeart,
 } from "@/components/ui/Doodles";
 
 export default function LandingPage() {
-  // Mini interactive live demo on landing page
-  const [simRiskBand, setSimRiskBand] = React.useState<RiskBand>("amber");
-  const [simScore, setSimScore] = React.useState<number>(52);
-  const [simReasons, setSimReasons] = React.useState<string[]>([
-    "Missed 2 evening doses of Metformin 500mg (Adherence: 71%)",
-    "Systolic BP trending upward (+8% in 4 days)",
-  ]);
-  const [simStatusMsg, setSimStatusMsg] = React.useState<string>(
-    "Moderate Risk — Monitoring closely"
-  );
+  // Feature Tab selection for Section 2 (Daisy "Transform chaos into creativity" clone)
+  const [activeFeature, setActiveFeature] = React.useState<number>(0);
 
-  const triggerSimSpike = () => {
+  // Live Sandbox Simulation state for Section 3 (Daisy "Turn midnight musings..." clone)
+  const [simRiskBand, setSimRiskBand] = React.useState<RiskBand>("amber");
+  const [simScore, setSimScore] = React.useState<number>(54);
+  const [simPatientName, setSimPatientName] = React.useState<string>("Ramesh Sharma (68y)");
+  const [simReasons, setSimReasons] = React.useState<string[]>([
+    "Missed 2 evening doses of Metformin 500mg in 72 hours (Adherence: 71%)",
+    "Systolic BP trending upward (+9% vs 14-day baseline)",
+  ]);
+  const [simAlertMsg, setSimAlertMsg] = React.useState<string>(
+    "Moderate Risk — Automated WhatsApp reminder scheduled for family at 8:00 PM."
+  );
+  const [simActionFired, setSimActionFired] = React.useState<string | null>(null);
+
+  const handleSimSpike = () => {
     setSimRiskBand("red");
-    setSimScore(84);
+    setSimScore(86);
     setSimReasons([
-      "Critical systolic BP spike: 155/95 mmHg (above threshold 140 mmHg)",
+      "Critical Systolic BP spike: 155/95 mmHg (Threshold: >140 mmHg)",
       "Missed 3 consecutive doses of Metformin 500mg in 48h",
-      "Daily steps dropped by 45% vs 14-day rolling average",
+      "Daily steps dropped -48% vs 14-day rolling average (frailty marker)",
     ]);
-    setSimStatusMsg("URGENT: Patient flipped to HIGH RISK. Doctor outreach required.");
+    setSimAlertMsg("URGENT ESCALATION: Patient flipped to HIGH RISK. Doctor outreach triggered.");
+    setSimActionFired("Stage 2 Family WhatsApp + Doctor SMS Dispatched!");
+    setTimeout(() => setSimActionFired(null), 4000);
   };
 
-  const triggerSimRecover = () => {
+  const handleSimRecover = () => {
     setSimRiskBand("green");
     setSimScore(18);
     setSimReasons([
-      "All vitals within baseline (BP 120/80 mmHg)",
-      "100% adherence over the last 7 days",
+      "All vitals within healthy baseline (BP 118/78 mmHg, Glucose 104 mg/dL)",
+      "100% medication adherence recorded over last 7 days",
+      "Daily physical activity normal (4,210 steps)",
     ]);
-    setSimStatusMsg("STABLE: Patient returned to LOW RISK.");
+    setSimAlertMsg("STABLE: Patient returned to LOW RISK. Daily logs verified.");
+    setSimActionFired("Dose confirmed via Hindi Voice: 'Maine dawai le li'");
+    setTimeout(() => setSimActionFired(null), 4000);
   };
 
-  return (
-    <div className="min-h-screen bg-[var(--surface-paper)] text-[var(--ink-900)] flex flex-col selection:bg-[var(--blob-sun)] selection:text-[var(--ink-900)] overflow-x-hidden">
-      {/* ─── 1. MINIMALIST BOUTIQUE HEADER ────────────────────── */}
-      <header className="sticky top-0 z-50 bg-[var(--surface-paper)]/95 backdrop-blur-md px-6 sm:px-12 py-5 transition-all">
-        <div className="max-w-[1200px] mx-auto flex items-center justify-between">
-          {/* Left Navigation Links */}
-          <nav className="flex items-center gap-6 text-sm font-body font-medium text-[var(--ink-700)]">
-            <a
-              href="#story"
-              className="hover:text-[var(--ink-900)] transition-colors hover:underline underline-offset-4"
-            >
-              Story
-            </a>
-            <a
-              href="#showcase"
-              className="hover:text-[var(--ink-900)] transition-colors hover:underline underline-offset-4"
-            >
-              Portals
-            </a>
-          </nav>
+  const handleSimWearableDrop = () => {
+    setSimRiskBand("amber");
+    setSimScore(62);
+    setSimReasons([
+      "Wearable mobility drop: 1,840 steps (down 52% from patient 14-day baseline)",
+      "Resting heart rate elevated: 88 bpm (+12 bpm above baseline)",
+    ]);
+    setSimAlertMsg("ALERT: Frailty or fatigue pattern detected. Nurse callback queued.");
+    setSimActionFired("Passive wearable anomaly logged.");
+    setTimeout(() => setSimActionFired(null), 4000);
+  };
 
-          {/* Center Brand Identity (Belle Organic Script Style) */}
-          <Link href="/" className="group flex items-center gap-1.5 select-none">
-            <span
-              className="font-display font-black text-2xl sm:text-3xl text-[var(--ink-900)] tracking-tight group-hover:scale-105 transition-transform"
-              style={{ letterSpacing: "-0.04em" }}
-            >
-              carebridge
-            </span>
-            <DoodleSparkle size={16} color="var(--blob-coral)" className="animate-pulse-doodle" />
+  const features = [
+    {
+      title: "Turn scattered home logs into a 15-second pre-consult brief",
+      desc: "Doctors don't have 10 minutes to scroll raw vitals. Our engine synthesizes 14 days of glucose, BP, and missed doses into an actionable longitudinal clinical brief.",
+      tag: "DOCTOR COCKPIT",
+      stat: "15 SEC",
+      statLabel: "Average doctor review time",
+      color: "bg-[#D4F77C]",
+    },
+    {
+      title: "Score clinical risk deterministically (0–100) with 8 explainable rules",
+      desc: "No black-box hallucinating AI. Every risk score is calculated via 8 hard deterministic clinical rules (BP delta, medication adherence gap, glucose variability, wearable mobility drop).",
+      tag: "EXPLAINABLE TRIAGE",
+      stat: "8 RULES",
+      statLabel: "Deterministic clinical heuristics",
+      color: "bg-[#EDE9FE]",
+    },
+    {
+      title: "Log medications by voice in Hindi, Kannada, or English without typing",
+      desc: "Elderly patients struggle with small touch targets and complex drop-downs. With one tap on the microphone, seniors speak in their mother tongue and intent is extracted in 1 second.",
+      tag: "VOICE LOGGING",
+      stat: "1 TAP",
+      statLabel: "Hindi / Kannada / English",
+      color: "bg-[#FEE159]",
+    },
+    {
+      title: "Prevent hospital readmissions with multi-tier WhatsApp family escalations",
+      desc: "A continuous 3-stage escalation ladder: Patient voice reminder → Family WhatsApp nudge → Doctor clinical alert. Catch decompensation before an emergency room visit.",
+      tag: "CARE CIRCLE",
+      stat: "14",
+      statLabel: "Readmissions averted this month",
+      color: "bg-[#BAE6FD]",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-grid-paper text-ink-900 flex flex-col selection:bg-[#FEE159] selection:text-ink-900 overflow-x-hidden">
+      {/* ─────────────────────────────────────────────────────────────
+          1. DAISY-INSPIRED TACTILE HEADER
+      ───────────────────────────────────────────────────────────── */}
+      <header className="sticky top-0 z-50 bg-[#FBF9F4]/90 backdrop-blur-md border-b-2 border-ink-900 px-6 sm:px-12 py-4">
+        <div className="max-w-[1240px] mx-auto flex items-center justify-between">
+          {/* Left: Daisy Logo & Brand */}
+          <Link href="/" className="group flex items-center gap-3 select-none">
+            <div className="w-8 h-8 rounded-full border-2 border-ink-900 bg-white flex items-center justify-center shadow-[2px_2px_0px_#121214] group-hover:rotate-12 transition-transform">
+              <DoodleDaisy size={20} color="#121214" centerColor="#FEE159" />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-serif font-black text-2xl tracking-tight text-ink-900">
+                carebridge
+              </span>
+              <span className="hidden sm:inline-block font-mono text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-[#EDE9FE] border border-ink-900 text-ink-900">
+                crce • 2026
+              </span>
+            </div>
           </Link>
 
-          {/* Right Navigation / Portals */}
-          <div className="flex items-center gap-4 sm:gap-6 text-sm font-body font-medium text-[var(--ink-700)]">
+          {/* Center Navigation Links */}
+          <nav className="hidden md:flex items-center gap-6 font-mono text-xs font-bold text-ink-700">
+            <a
+              href="#problem"
+              className="hover:text-ink-900 hover:underline underline-offset-4 decoration-2"
+            >
+              How It Works
+            </a>
+            <a
+              href="#triage-engine"
+              className="hover:text-ink-900 hover:underline underline-offset-4 decoration-2"
+            >
+              8-Rule Engine
+            </a>
             <a
               href="#sandbox"
-              className="hidden sm:inline-block hover:text-[var(--ink-900)] transition-colors hover:underline underline-offset-4"
+              className="hover:text-ink-900 hover:underline underline-offset-4 decoration-2"
             >
               Live Sandbox
             </a>
-            <Link
-              href="/doctor"
-              className="px-4 py-1.5 rounded-[var(--r-pill)] bg-[var(--ink-900)] text-[var(--surface-0)] hover:bg-[var(--brand-indigo)] transition-all font-display font-bold text-xs tracking-wide shadow-sm"
+            <a
+              href="#portals"
+              className="hover:text-ink-900 hover:underline underline-offset-4 decoration-2"
             >
-              Doctor Portal →
+              4 Portals
+            </a>
+          </nav>
+
+          {/* Right Action: Daisy-style Pistachio Green Button */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/sim"
+              className="hidden lg:inline-flex items-center font-mono text-xs font-bold text-ink-700 hover:text-ink-900 px-3 py-1.5 rounded-full border-2 border-transparent hover:border-ink-900 transition-all"
+            >
+              <Sliders className="w-3.5 h-3.5 mr-1.5" />
+              Event Sim
+            </Link>
+            <Link href="/doctor">
+              <button className="bg-[#D4F77C] text-ink-900 font-mono text-xs font-bold px-4 sm:px-5 py-2 rounded-full border-2 border-ink-900 shadow-[2px_2px_0px_#121214] hover:shadow-[3px_3px_0px_#121214] hover:-translate-y-0.5 active:translate-y-0.5 active:translate-x-0.5 active:shadow-[1px_1px_0px_#121214] transition-all flex items-center gap-1.5">
+                <span>Doctor Cockpit</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </Link>
           </div>
         </div>
       </header>
 
-      {/* ─── 2. BELLE-INSPIRED HERO CENTERPIECE ───────────────── */}
-      <section className="relative max-w-[1200px] mx-auto w-full px-6 sm:px-12 pt-8 pb-4 lg:pt-14 flex flex-col items-center text-center">
-        {/* Symmetrical Doodle Canopies */}
-        <div className="absolute top-2 left-0 sm:left-4 w-44 sm:w-64 pointer-events-none opacity-90 select-none">
-          <DoodleCanopyLeft />
+      {/* ─────────────────────────────────────────────────────────────
+          2. HERO SECTION: DAISY SCREENSHOT 4 ADAPTED FOR CAREBRIDGE
+      ───────────────────────────────────────────────────────────── */}
+      <section className="relative max-w-[1240px] mx-auto w-full px-6 sm:px-12 pt-12 pb-16 lg:pt-20 lg:pb-24 flex flex-col items-center text-center">
+        {/* Top Tag Pill */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border-2 border-ink-900 bg-white shadow-[2px_2px_0px_#121214] mb-6">
+          <DoodleDaisy size={14} color="#121214" />
+          <span className="font-mono text-xs font-bold text-ink-900 tracking-wide uppercase">
+            Continuous Explainable Chronic Care Loop
+          </span>
         </div>
-        <div className="absolute top-2 right-0 sm:right-4 w-44 sm:w-64 pointer-events-none opacity-90 select-none">
-          <DoodleCanopyRight />
+
+        {/* Big High-Impact Serif Headline with Fluorescent Pink Marker Highlight */}
+        <h1 className="font-serif font-black text-ink-900 tracking-tight leading-[1.08] max-w-4xl mb-6 text-4xl sm:text-6xl lg:text-7xl">
+          Give chronic care a glow up. Meet your new{" "}
+          <span className="highlight-pink relative inline-block text-ink-900">
+            clinical copilot.
+          </span>
+        </h1>
+
+        {/* Monospace Typewriter Subheading */}
+        <p className="font-mono text-sm sm:text-base text-ink-700 max-w-2xl mx-auto mb-10 leading-relaxed">
+          Capture, triage, and elevate home health data across patients, family caregivers, and physicians across India.
+        </p>
+
+        {/* Quick CTA Actions */}
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-16 z-10">
+          <Link href="/doctor">
+            <button className="bg-[#D4F77C] text-ink-900 font-mono text-sm font-bold px-7 py-3 rounded-full border-2 border-ink-900 shadow-[3px_3px_0px_#121214] hover:shadow-[4px_4px_0px_#121214] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_#121214] transition-all flex items-center gap-2">
+              <Stethoscope className="w-4 h-4 stroke-[2.5]" />
+              <span>EXPLORE DOCTOR COCKPIT</span>
+            </button>
+          </Link>
+          <Link href="/patient">
+            <button className="bg-white text-ink-900 font-mono text-sm font-bold px-6 py-3 rounded-full border-2 border-ink-900 shadow-[3px_3px_0px_#121214] hover:bg-[#FBF9F4] hover:shadow-[4px_4px_0px_#121214] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_#121214] transition-all flex items-center gap-2">
+              <Mic className="w-4 h-4 text-[#FF5C98] stroke-[2.5]" />
+              <span>Try Patient Voice App (Hindi/Kannada)</span>
+            </button>
+          </Link>
         </div>
 
-        {/* Central Welcoming Statement */}
-        <div className="max-w-2xl mx-auto z-10 pt-10 sm:pt-12 mb-6">
-          <h2 className="font-display font-medium text-xl sm:text-2xl text-[var(--ink-700)] mb-3 tracking-tight">
-            Hello! We&apos;re CareBridge,
-          </h2>
-          <h1
-            className="font-display font-black text-[var(--ink-900)] leading-[1.12] tracking-[-0.03em] mb-6"
-            style={{ fontSize: "clamp(34px, 4.8vw, 56px)" }}
-          >
-            We turn everyday home health logs into{" "}
-            <span className="relative inline-block text-[var(--brand-indigo)]">
-              timely clinical care.
-              <span className="absolute left-0 -bottom-2.5 w-full pointer-events-none">
-                <DoodleUnderline width="100%" color="var(--blob-sun)" />
-              </span>
-            </span>
-          </h1>
-
-          <p className="font-body text-base sm:text-lg text-[var(--ink-500)] leading-relaxed max-w-lg mx-auto mb-8">
-            A continuous, explainable care loop connecting patients, family caregivers, and physicians across India.
-          </p>
-
-          {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-6">
-            <Link href="/doctor">
-              <Button
-                variant="secondary"
-                size="md"
-                className="!bg-[var(--ink-900)] hover:!bg-[var(--brand-indigo)] text-sm font-display font-bold px-7 !min-h-[48px] rounded-[var(--r-pill)] shadow-sm"
-              >
-                <Stethoscope className="w-4 h-4 mr-2" />
-                EXPLORE DOCTOR COCKPIT
-              </Button>
-            </Link>
-            <Link href="/patient">
-              <Button
-                variant="ghost"
-                size="md"
-                className="border border-[var(--ink-300)] hover:bg-[var(--surface-0)] text-sm font-display font-semibold px-6 !min-h-[48px] rounded-[var(--r-pill)]"
-              >
-                <Smartphone className="w-4 h-4 mr-2 text-[var(--brand-teal-600)]" />
-                Try Patient Voice App
-              </Button>
-            </Link>
+        {/* ─── THE FAN DECK / SCRAPBOOK CAROUSEL (FAITHFUL TO DAISY HERO) ─── */}
+        <div className="relative w-full max-w-[1100px] mx-auto pt-4 pb-12 select-none">
+          {/* Floating Rotated Sticky Notes */}
+          <div className="absolute -top-3 left-4 sm:left-12 z-30 transform -rotate-6">
+            <div className="sticky-tag bg-[#FEE159] text-ink-900 text-xs shadow-[3px_3px_0px_#121214]">
+              <span>🗣️ Hindi Voice: &quot;Maine dawai le li&quot;</span>
+            </div>
           </div>
 
-          {/* Live Status Subtext Pill */}
-          <div className="inline-flex items-center gap-2 text-xs font-data font-medium text-[var(--ink-500)] bg-[var(--surface-0)] border border-[var(--ink-300)]/80 px-3.5 py-1.5 rounded-[var(--r-pill)] shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-[var(--risk-green)] animate-ping" />
-            <span>Simulated Data • 1,240 Monitored Patients • CRCE Hackathon</span>
+          <div className="absolute -top-6 right-6 sm:right-16 z-30 transform rotate-6">
+            <div className="sticky-tag bg-[#FF5C98] text-ink-900 text-xs shadow-[3px_3px_0px_#121214]">
+              <span>⚡ BP Spike Alert: 155/95 mmHg</span>
+            </div>
           </div>
-        </div>
 
-        {/* ─── THE ICONIC GROUND LINE: CAT & SITTING PERSON ────── */}
-        <div className="w-full relative mt-8 sm:mt-12">
-          {/* Edge to Edge Horizontal Line */}
-          <div className="w-full border-b-2 border-[var(--ink-900)] relative">
-            {/* Sleeping Cat on the Left */}
-            <div className="absolute left-4 sm:left-16 -bottom-[2px] transform translate-y-0 select-none">
-              <DoodleSleepingCat width={100} height={46} />
+          {/* Overlapping Fan of 5 Tilted Polaroid Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-0 items-center justify-center">
+            {/* Card 1: Patient Voice Log Polaroid (Tilted Left -4deg) */}
+            <div className="lg:transform lg:-rotate-6 lg:translate-y-3 z-10 transition-transform duration-300 hover:rotate-0 hover:z-40 hover:scale-105">
+              <div className="bg-white border-2 border-ink-900 rounded-2xl p-4 shadow-[4px_4px_0px_#121214] text-left">
+                <div className="w-full h-32 rounded-xl bg-[#FEE159]/20 border border-ink-900 flex flex-col items-center justify-center p-3 text-center mb-3 relative overflow-hidden">
+                  <span className="font-mono text-[10px] font-bold text-ink-500 uppercase tracking-widest">
+                    PATIENT • RAMESH (68y)
+                  </span>
+                  <div className="w-12 h-12 rounded-full border-2 border-ink-900 bg-white flex items-center justify-center my-1.5 shadow-[2px_2px_0px_#121214]">
+                    <Mic className="w-6 h-6 text-[#FF5C98]" />
+                  </div>
+                  <p className="font-serif italic text-xs text-ink-900 font-bold">
+                    &quot;Maine subah ki dawai le li&quot;
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between text-[11px] font-mono font-bold">
+                    <span>Metformin 500mg</span>
+                    <span className="text-emerald-700">✓ LOGGED</span>
+                  </div>
+                  <p className="text-[10px] font-sans text-ink-500">
+                    Voice intent parsed in 0.8s
+                  </p>
+                </div>
+                <div className="mt-3 pt-2 border-t border-ink-300 flex justify-between items-center text-[10px] font-mono text-ink-700">
+                  <span>Hindi (hi-IN)</span>
+                  <span className="font-bold text-[#FF5C98]">Streak: 14d</span>
+                </div>
+              </div>
             </div>
 
-            {/* Sitting Character with Device on the Right */}
-            <div className="absolute right-4 sm:right-16 -bottom-[2px] transform translate-y-0 select-none">
-              <DoodleSittingPerson width={105} height={92} />
+            {/* Card 2: Book of Clinical Rules (Tilted Left -2.5deg) */}
+            <div className="lg:transform lg:-rotate-3 lg:-translate-y-1 z-20 transition-transform duration-300 hover:rotate-0 hover:z-40 hover:scale-105">
+              <div className="bg-ink-900 text-white border-2 border-ink-900 rounded-2xl p-4 shadow-[4px_4px_0px_#121214] text-left">
+                <div className="w-full h-32 rounded-xl bg-ink-800 border border-white/20 flex flex-col items-center justify-center p-3 mb-3 relative">
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-[#D4F77C]">
+                    CLINICAL HEURISTICS
+                  </span>
+                  <h3 className="font-serif font-black text-2xl text-white tracking-tight my-1">
+                    Book of Rules
+                  </h3>
+                  <span className="font-mono text-[10px] text-ink-300">
+                    8 Explainable Checks
+                  </span>
+                  <div className="absolute bottom-1 right-2 text-xs opacity-60">
+                    ⚕
+                  </div>
+                </div>
+                <div className="space-y-1 text-xs">
+                  <p className="font-mono font-bold text-[#D4F77C]">
+                    Rule #1: BP Surge (&gt;15%)
+                  </p>
+                  <p className="font-mono text-[10px] text-ink-300">
+                    Rule #4: Adherence Drop
+                  </p>
+                </div>
+                <div className="mt-3 pt-2 border-t border-white/20 flex justify-between items-center text-[10px] font-mono text-ink-300">
+                  <span>Zero Hallucination</span>
+                  <span className="text-[#D4F77C] font-bold">100% Explainable</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3: "Let It Flow" Daisy Floral Poster (Center Upright, Elevated) */}
+            <div className="lg:transform lg:scale-105 lg:-translate-y-4 z-30 transition-transform duration-300 hover:scale-110 hover:z-40">
+              <div className="bg-[#FAF8F5] border-2 border-ink-900 rounded-2xl p-4 shadow-[5px_5px_0px_#121214] text-left">
+                <div className="w-full h-36 rounded-xl bg-[#EDE9FE] border-2 border-ink-900 flex flex-col items-center justify-center p-3 text-center mb-3 relative overflow-hidden">
+                  <span className="font-serif italic font-bold text-lg text-ink-900">
+                    Let It Flow
+                  </span>
+                  {/* Daisy Flower Doodle */}
+                  <div className="my-1.5 animate-pulse">
+                    <DoodleDaisy size={40} color="#121214" centerColor="#FEE159" />
+                  </div>
+                  <span className="font-mono text-[10px] font-bold uppercase text-ink-700 bg-white px-2 py-0.5 rounded-full border border-ink-900">
+                    Daily Vital Harmony
+                  </span>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between font-mono text-xs font-bold">
+                    <span>Baseline BP</span>
+                    <span className="text-emerald-700">120/80 mmHg</span>
+                  </div>
+                  <div className="flex items-center justify-between font-mono text-xs font-bold">
+                    <span>Fasting Glucose</span>
+                    <span className="text-ink-900">108 mg/dL</span>
+                  </div>
+                </div>
+                <div className="mt-3 pt-2 border-t border-ink-300 flex justify-between items-center text-[10px] font-mono text-ink-600">
+                  <span>Dr. Meera Rao</span>
+                  <span className="bg-[#D4F77C] px-1.5 py-0.5 rounded border border-ink-900 text-ink-900 font-bold">
+                    STABLE
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4: Doctor AI Pre-Consult Brief (Tilted Right +2.5deg) */}
+            <div className="lg:transform lg:rotate-3 lg:-translate-y-1 z-20 transition-transform duration-300 hover:rotate-0 hover:z-40 hover:scale-105">
+              <div className="bg-white border-2 border-ink-900 rounded-2xl p-4 shadow-[4px_4px_0px_#121214] text-left">
+                <div className="w-full h-32 rounded-xl bg-[#D4F77C]/20 border border-ink-900 flex flex-col justify-between p-3 mb-3 relative">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[9px] uppercase tracking-wider font-bold text-ink-700">
+                      PRE-CONSULT BRIEF
+                    </span>
+                    <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping" />
+                  </div>
+                  <div>
+                    <h4 className="font-serif font-black text-sm text-ink-900 leading-tight">
+                      15s Longitudinal Clinical Synthesis
+                    </h4>
+                    <p className="font-sans text-[10px] text-ink-600 mt-1">
+                      14-day history ready before patient walks in.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1 font-mono text-[9px] font-bold text-ink-800">
+                    <Sparkles className="w-3 h-3 text-[#FF5C98]" />
+                    <span>Instant Synthesis</span>
+                  </div>
+                </div>
+                <div className="space-y-1 text-[11px] font-mono">
+                  <div className="flex justify-between">
+                    <span className="text-ink-600">Review time:</span>
+                    <span className="font-bold text-ink-900">&lt; 15 seconds</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-ink-600">FHIR R4:</span>
+                    <span className="font-bold text-emerald-700">Compliant</span>
+                  </div>
+                </div>
+                <div className="mt-3 pt-2 border-t border-ink-300 flex justify-between items-center text-[10px] font-mono text-ink-700">
+                  <span>Dr. Cockpit</span>
+                  <span className="text-indigo-600 font-bold">1-Click Export</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 5: Family WhatsApp Escalation & Hospital ROI (Tilted Right +5deg) */}
+            <div className="lg:transform lg:rotate-6 lg:translate-y-3 z-10 transition-transform duration-300 hover:rotate-0 hover:z-40 hover:scale-105">
+              <div className="bg-white border-2 border-ink-900 rounded-2xl p-4 shadow-[4px_4px_0px_#121214] text-left">
+                <div className="w-full h-32 rounded-xl bg-[#FF5C98]/15 border border-ink-900 flex flex-col justify-between p-3 mb-3 relative overflow-hidden">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[9px] font-bold uppercase text-ink-700">
+                      FAMILY CARE CIRCLE
+                    </span>
+                    <span className="text-[10px]">🟢</span>
+                  </div>
+                  <div className="bg-white/90 p-2 rounded-lg border border-ink-900 text-[10px] font-mono leading-tight">
+                    <span className="font-bold text-emerald-800">WhatsApp Nudge:</span>
+                    <p className="text-ink-700 mt-0.5">&quot;Uncle skipped Metformin dose. Gentle reminder sent.&quot;</p>
+                  </div>
+                  <div className="font-mono text-[9px] text-ink-600 flex items-center justify-between">
+                    <span>3-Stage Ladder</span>
+                    <span className="font-bold text-emerald-700">Auto-Resolved</span>
+                  </div>
+                </div>
+                <div className="space-y-1 text-[11px] font-mono">
+                  <div className="flex justify-between">
+                    <span className="text-ink-600">Readmissions:</span>
+                    <span className="font-bold text-emerald-700">-34% Averted</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-ink-600">Response:</span>
+                    <span className="font-bold text-ink-900">&lt; 8 mins</span>
+                  </div>
+                </div>
+                <div className="mt-3 pt-2 border-t border-ink-300 flex justify-between items-center text-[10px] font-mono text-ink-700">
+                  <span>Caregivers in Loop</span>
+                  <span className="font-bold text-ink-900">100% Peace</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Sticky Note Pill */}
+          <div className="mt-8 flex justify-center">
+            <div className="sticky-tag bg-[#D4F77C] text-ink-900 text-xs shadow-[3px_3px_0px_#121214] transform -rotate-1">
+              <span>★ 1,240 Monitored Patients Across Bangalore & Mumbai • CRCE Hackathon 2026</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── 3. SHOWCASE GALLERY CARDS (LIKE BELLE'S PORTFOLIO) ─ */}
-      <section id="showcase" className="max-w-[1200px] mx-auto w-full px-6 sm:px-12 py-16 sm:py-24">
-        {/* Top 2 Primary Showcase Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Card 1: Patient Voice & Daily Care */}
-          <Link
-            href="/patient"
-            className="group block bg-[var(--surface-0)] rounded-[var(--r-xl)] border border-[var(--ink-300)]/80 p-8 sm:p-10 shadow-[var(--shadow-card)] hover:shadow-xl transition-all duration-300 relative overflow-hidden"
-          >
-            {/* Background Blob Layer */}
-            <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[var(--blob-teal)]/10 blur-2xl pointer-events-none group-hover:scale-110 transition-transform duration-500" />
-
-            <div className="flex items-center justify-between mb-6">
-              <span className="font-data text-xs font-bold uppercase tracking-wider text-[var(--brand-teal-600)] bg-[var(--surface-100)] px-3 py-1 rounded-[var(--r-pill)]">
-                01 • Senior-First Patient App
-              </span>
-              <span className="font-data text-xs text-[var(--ink-500)] flex items-center gap-1 group-hover:text-[var(--ink-900)]">
-                Launch Experience <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </div>
-
-            <h3 className="font-display font-black text-2xl sm:text-3xl text-[var(--ink-900)] mb-3 leading-tight">
-              Voice-First Health Logging for Seniors
-            </h3>
-            <p className="font-body text-sm sm:text-base text-[var(--ink-700)] mb-8 leading-relaxed">
-              No complicated typing. Seniors tap the big microphone and speak naturally in <strong>Hindi, Kannada, or English</strong>. Intent parser logs medication in 1 second.
-            </p>
-
-            {/* Visual UI Simulation Container */}
-            <div className="bg-[var(--surface-paper)] rounded-[var(--r-lg)] border border-[var(--ink-200)] p-5 space-y-3 shadow-inner">
-              <div className="flex items-center justify-between pb-3 border-b border-[var(--ink-200)]">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-[var(--blob-teal)]/20 text-[var(--brand-teal-600)] flex items-center justify-center font-bold text-xs">
-                    RS
-                  </div>
-                  <div>
-                    <h4 className="font-display font-bold text-sm text-[var(--ink-900)]">Ramesh K. (68y)</h4>
-                    <p className="font-body text-xs text-[var(--ink-500)]">Morning Dose Schedule</p>
-                  </div>
-                </div>
-                <span className="font-data text-xs font-bold text-[var(--risk-green)] bg-[var(--risk-green-bg)] px-2.5 py-1 rounded-[var(--r-pill)]">
-                  ✓ TAKEN
+      {/* ─────────────────────────────────────────────────────────────
+          3. SECTION 2: "TRANSFORM CHAOS INTO CREATIVITY / CLINICAL CLARITY"
+             (FAITHFUL TO DAISY'S 2ND SECTION + CLAUD WHIMSICAL COLLAGE)
+      ───────────────────────────────────────────────────────────── */}
+      <section id="problem" className="max-w-[1240px] mx-auto w-full px-6 sm:px-12 py-16">
+        <div className="bg-white/80 border-2 border-ink-900 rounded-3xl p-8 sm:p-14 shadow-[6px_6px_0px_#121214] relative overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left Column: Heading and 4 Monospace Interactive Feature Pills */}
+            <div className="lg:col-span-6 space-y-6">
+              <div>
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-500 bg-[#EDE9FE] px-3 py-1 rounded-full border border-ink-900">
+                  The CareBridge Breakthrough
                 </span>
+                <h2 className="font-serif font-black text-3xl sm:text-5xl text-ink-900 tracking-tight mt-3 leading-tight">
+                  Transform chaos into clinical clarity
+                </h2>
+                <p className="font-mono text-xs sm:text-sm text-ink-600 mt-2">
+                  Click through the capabilities below to explore how the loop operates.
+                </p>
               </div>
 
-              <div className="flex items-center justify-between bg-[var(--surface-0)] p-3 rounded-[var(--r-md)] border border-[var(--ink-200)]">
-                <div className="flex items-center gap-3">
-                  <Pill className="w-5 h-5 text-[var(--brand-teal)]" />
-                  <div>
-                    <p className="font-display font-bold text-sm text-[var(--ink-900)]">Metformin 500mg</p>
-                    <p className="font-body text-xs text-[var(--ink-500)]">8:00 AM • After Breakfast</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5 text-xs font-data text-[var(--ink-500)]">
-                  <Mic className="w-3.5 h-3.5 text-[var(--brand-teal)]" />
-                  <span>&quot;Maine dawai le li&quot;</span>
-                </div>
-              </div>
-            </div>
-          </Link>
-
-          {/* Card 2: Doctor Clinical Cockpit & AI Brief */}
-          <Link
-            href="/doctor"
-            className="group block bg-[var(--surface-0)] rounded-[var(--r-xl)] border border-[var(--ink-300)]/80 p-8 sm:p-10 shadow-[var(--shadow-card)] hover:shadow-xl transition-all duration-300 relative overflow-hidden"
-          >
-            {/* Background Blob Layer */}
-            <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[var(--blob-sun)]/15 blur-2xl pointer-events-none group-hover:scale-110 transition-transform duration-500" />
-
-            <div className="flex items-center justify-between mb-6">
-              <span className="font-data text-xs font-bold uppercase tracking-wider text-[var(--brand-indigo)] bg-[var(--surface-100)] px-3 py-1 rounded-[var(--r-pill)]">
-                02 • Clinical Triage & AI Synthesis
-              </span>
-              <span className="font-data text-xs text-[var(--ink-500)] flex items-center gap-1 group-hover:text-[var(--ink-900)]">
-                Launch Cockpit <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </div>
-
-            <h3 className="font-display font-black text-2xl sm:text-3xl text-[var(--ink-900)] mb-3 leading-tight">
-              Explainable Risk Triage & Pre-Consult Briefs
-            </h3>
-            <p className="font-body text-sm sm:text-base text-[var(--ink-700)] mb-8 leading-relaxed">
-              Prioritize acute patients instantly. 8 deterministic clinical rules score risk (0–100) and generate a 15-second longitudinal pre-consult summary.
-            </p>
-
-            {/* Visual UI Simulation Container */}
-            <div className="bg-[var(--surface-paper)] rounded-[var(--r-lg)] border border-[var(--ink-200)] p-5 space-y-3 shadow-inner">
-              <div className="flex items-center justify-between pb-3 border-b border-[var(--ink-200)]">
-                <div className="flex items-center gap-2">
-                  <RiskBadge band="red" score={84} size="sm" />
-                  <span className="font-display font-bold text-sm text-[var(--ink-900)]">Ramesh K.</span>
-                </div>
-                <span className="font-data text-xs text-[var(--risk-red)] font-bold">
-                  ⚡ Blood Pressure Spike (155/95)
-                </span>
-              </div>
-
-              <div className="bg-[var(--surface-0)] p-3 rounded-[var(--r-md)] border border-[var(--ink-200)] text-xs font-body text-[var(--ink-700)] leading-relaxed">
-                <div className="flex items-center gap-1.5 font-display font-bold text-[var(--ink-900)] mb-1">
-                  <Sparkles className="w-3.5 h-3.5 text-[var(--blob-sun)]" />
-                  <span>14-Day AI Synthesis:</span>
-                </div>
-                <p>Systolic BP +15 mmHg above baseline; 2 missed evening doses. Suggested check: review antihypertensive adherence.</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Bottom 3 Ecosystem Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 3: Family Care Circle */}
-          <Link
-            href="/family"
-            className="group p-6 rounded-[var(--r-lg)] bg-[var(--surface-0)] border border-[var(--ink-300)]/80 hover:border-[var(--blob-coral)] hover:shadow-md transition-all duration-200 flex flex-col justify-between"
-          >
-            <div>
-              <div className="w-10 h-10 rounded-[var(--r-md)] bg-[var(--blob-coral)]/15 text-[var(--blob-coral)] flex items-center justify-center mb-4">
-                <Users className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <h4 className="font-display font-bold text-lg text-[var(--ink-900)] mb-1.5 group-hover:text-[var(--brand-indigo)] transition-colors">
-                Family Escalation Feed
-              </h4>
-              <p className="font-body text-xs text-[var(--ink-700)] leading-relaxed">
-                Automatic 3-stage escalation ladder: patient reminder → family WhatsApp nudge → doctor consult before an ER visit is needed.
-              </p>
-            </div>
-            <div className="mt-6 pt-3 border-t border-[var(--ink-200)] flex items-center justify-between text-xs font-display font-bold text-[var(--ink-900)]">
-              <span>View Family Feed</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </Link>
-
-          {/* Card 4: Admin ROI & Clinical Impact */}
-          <Link
-            href="/admin"
-            className="group p-6 rounded-[var(--r-lg)] bg-[var(--surface-0)] border border-[var(--ink-300)]/80 hover:border-[var(--blob-leaf)] hover:shadow-md transition-all duration-200 flex flex-col justify-between"
-          >
-            <div>
-              <div className="w-10 h-10 rounded-[var(--r-md)] bg-[var(--blob-leaf)]/15 text-[var(--blob-leaf)] flex items-center justify-center mb-4">
-                <BarChart3 className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <h4 className="font-display font-bold text-lg text-[var(--ink-900)] mb-1.5 group-hover:text-[var(--brand-indigo)] transition-colors">
-                Admin & Hospital ROI
-              </h4>
-              <p className="font-body text-xs text-[var(--ink-700)] leading-relaxed">
-                Quantified clinical impact: 14 readmissions prevented this month, 87% alert response velocity, and 120 clinical hours saved.
-              </p>
-            </div>
-            <div className="mt-6 pt-3 border-t border-[var(--ink-200)] flex items-center justify-between text-xs font-display font-bold text-[var(--ink-900)]">
-              <span>View Admin ROI</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </Link>
-
-          {/* Card 5: Interactive Event Simulator */}
-          <Link
-            href="/sim"
-            className="group p-6 rounded-[var(--r-lg)] bg-[var(--surface-0)] border border-[var(--ink-300)]/80 hover:border-[var(--blob-sun)] hover:shadow-md transition-all duration-200 flex flex-col justify-between"
-          >
-            <div>
-              <div className="w-10 h-10 rounded-[var(--r-md)] bg-[var(--blob-sun)]/25 text-[var(--ink-900)] flex items-center justify-center mb-4">
-                <Sliders className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <h4 className="font-display font-bold text-lg text-[var(--ink-900)] mb-1.5 group-hover:text-[var(--brand-indigo)] transition-colors">
-                Live Simulator Panel
-              </h4>
-              <p className="font-body text-xs text-[var(--ink-700)] leading-relaxed">
-                Real-time event injection for hackathon judges: trigger missed doses, wearable drops, and blood pressure spikes in 1 tap.
-              </p>
-            </div>
-            <div className="mt-6 pt-3 border-t border-[var(--ink-200)] flex items-center justify-between text-xs font-display font-bold text-[var(--ink-900)]">
-              <span>Open Simulator</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </Link>
-        </div>
-      </section>
-
-      {/* ─── 4. TACTILE INTERACTIVE LIVE SANDBOX WIDGET ──────── */}
-      <section id="sandbox" className="bg-[var(--surface-0)] border-y border-[var(--ink-300)]/80 py-20 px-6 sm:px-12">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Left Column Description */}
-            <div className="lg:col-span-5 space-y-4">
-              <div className="inline-flex items-center gap-1.5 text-xs font-data font-bold uppercase tracking-wider text-[var(--brand-teal)]">
-                <Sparkles size={14} />
-                <span>Interactive Live Sandbox</span>
-              </div>
-              <h2 className="font-display font-black text-3xl sm:text-4xl text-[var(--ink-900)] tracking-tight">
-                Try the Live Doctor Triage Sandbox
-              </h2>
-              <p className="font-body text-base text-[var(--ink-700)] leading-relaxed">
-                Click the test scenario buttons below to see how our explainable 8-rule engine recalculates risk score and generates clinical reasons in real time.
-              </p>
-            </div>
-
-            {/* Right Column Interactive Cockpit Widget */}
-            <div className="lg:col-span-7">
-              <Card className="p-6 sm:p-8 bg-[var(--surface-paper)] border border-[var(--ink-300)] shadow-sm">
-                {/* Patient Header */}
-                <div className="flex items-start justify-between gap-4 pb-4 border-b border-[var(--ink-300)]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-full bg-[var(--ink-900)] text-[var(--surface-0)] flex items-center justify-center font-display font-bold text-sm">
-                      RS
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-lg text-[var(--ink-900)]">
-                        Ramesh Sharma (68y)
-                      </h3>
-                      <p className="font-body text-xs text-[var(--ink-500)]">
-                        Hypertension, Type-2 Diabetes • Dr. Meera Rao
-                      </p>
-                    </div>
-                  </div>
-
-                  <RiskBadge band={simRiskBand} score={simScore} size="lg" />
-                </div>
-
-                {/* Status Message Banner */}
-                <div
-                  className={`my-4 p-3 rounded-[var(--r-md)] font-body text-xs font-medium border flex items-center gap-2 ${
-                    simRiskBand === "red"
-                      ? "bg-[var(--risk-red-bg)] text-[var(--risk-red)] border-[var(--risk-red)]/30"
-                      : simRiskBand === "green"
-                      ? "bg-[var(--risk-green-bg)] text-[var(--risk-green)] border-[var(--risk-green)]/30"
-                      : "bg-[var(--risk-amber-bg)] text-[var(--ink-900)] border-[var(--risk-amber)]/30"
-                  }`}
-                >
-                  {simRiskBand === "red" ? (
-                    <AlertTriangle className="w-4 h-4 shrink-0" />
-                  ) : (
-                    <CheckCircle2 className="w-4 h-4 shrink-0" />
-                  )}
-                  <span>{simStatusMsg}</span>
-                </div>
-
-                {/* Why Flagged Reasons */}
-                <div className="space-y-2 mb-6">
-                  <h4 className="font-display font-bold text-xs uppercase tracking-wider text-[var(--ink-700)]">
-                    Active Clinical Reasons
-                  </h4>
-                  {simReasons.map((reason, idx) => (
-                    <div
+              {/* 4 Interactive Feature Pills */}
+              <div className="space-y-3 pt-2">
+                {features.map((feat, idx) => {
+                  const isActive = activeFeature === idx;
+                  return (
+                    <button
                       key={idx}
-                      className="p-3 rounded-[var(--r-md)] bg-[var(--surface-0)] border border-[var(--ink-200)] flex items-start gap-2.5 text-xs font-body text-[var(--ink-900)]"
+                      onClick={() => setActiveFeature(idx)}
+                      className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-ink-900 transition-all font-mono text-xs sm:text-sm leading-relaxed flex items-start gap-3.5 cursor-pointer ${
+                        isActive
+                          ? `${feat.color} shadow-[4px_4px_0px_#121214] -translate-y-0.5`
+                          : "bg-white hover:bg-[#FBF9F4] shadow-[2px_2px_0px_#121214]"
+                      }`}
                     >
-                      <span className="text-[var(--brand-indigo)] font-bold">●</span>
-                      <span>{reason}</span>
-                    </div>
-                  ))}
+                      <span className="w-6 h-6 rounded-full border-2 border-ink-900 bg-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                        {idx + 1}
+                      </span>
+                      <div className="flex-1">
+                        <span className="font-bold text-ink-900 block">{feat.title}</span>
+                        {isActive && (
+                          <p className="font-sans text-xs text-ink-700 mt-2 leading-normal">
+                            {feat.desc}
+                          </p>
+                        )}
+                      </div>
+                      {isActive && (
+                        <span className="font-mono text-[10px] uppercase font-bold bg-white px-2 py-0.5 rounded border border-ink-900 shrink-0">
+                          Active
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Right Column: Surrealist Medical Art Collage (Inspired by Mona Lisa + Claud) */}
+            <div className="lg:col-span-6 flex flex-col items-center justify-center relative">
+              <div className="relative w-full max-w-[440px] bg-[#FAF8F5] border-2 border-ink-900 rounded-3xl p-6 sm:p-8 shadow-[5px_5px_0px_#121214]">
+                {/* Floating Claud Cloud Mascot at top right */}
+                <div className="absolute -top-6 -right-4 z-20 transform rotate-6 animate-bounce" style={{ animationDuration: "3s" }}>
+                  <DoodleClaudCloud width={80} height={52} stroke="#121214" />
                 </div>
 
-                {/* Simulation Action Triggers */}
-                <div className="pt-4 border-t border-[var(--ink-200)] flex flex-wrap items-center gap-3">
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={triggerSimSpike}
-                    className="text-xs shadow-xs"
+                {/* Floating Pink Sphere / Pill Badge */}
+                <div className="absolute -top-3 left-6 z-20">
+                  <div className="w-8 h-8 rounded-full bg-[#FF5C98] border-2 border-ink-900 shadow-[2px_2px_0px_#121214] flex items-center justify-center font-bold text-xs text-white">
+                    ❤
+                  </div>
+                </div>
+
+                {/* Central Art Container: Anatomical Heart & Neural Brain Collage */}
+                <div className="w-full bg-white border-2 border-ink-900 rounded-2xl p-6 relative overflow-hidden text-center mb-6">
+                  {/* Subtle Graph lines inside card */}
+                  <div className="absolute inset-0 bg-grid-paper opacity-50 pointer-events-none" />
+
+                  {/* Collage Elements */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    {/* Classical Heart & Stethoscope Graphic */}
+                    <div className="w-24 h-24 rounded-full bg-[#FEE159]/30 border-2 border-ink-900 flex items-center justify-center shadow-[3px_3px_0px_#121214] mb-3">
+                      <Heart className="w-12 h-12 text-[#FF5C98] fill-[#FF5C98]" />
+                    </div>
+
+                    <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink-600 bg-[#EDE9FE] px-2.5 py-0.5 rounded-full border border-ink-900 mb-1">
+                      {features[activeFeature].tag}
+                    </span>
+
+                    <h4 className="font-serif font-black text-2xl text-ink-900">
+                      {features[activeFeature].stat}
+                    </h4>
+                    <p className="font-mono text-xs text-ink-500 font-bold">
+                      {features[activeFeature].statLabel}
+                    </p>
+                  </div>
+
+                  {/* Floating Hand-Drawn Scribble Stickers */}
+                  <div className="absolute bottom-2 left-3 transform -rotate-12">
+                    <span className="font-mono text-[10px] bg-[#D4F77C] px-2 py-0.5 rounded border border-ink-900 font-bold">
+                      Rule-Tested
+                    </span>
+                  </div>
+                  <div className="absolute bottom-2 right-3 transform rotate-12">
+                    <span className="font-mono text-[10px] bg-[#FEE159] px-2 py-0.5 rounded border border-ink-900 font-bold">
+                      No AI Slop
+                    </span>
+                  </div>
+                </div>
+
+                {/* Live Dynamic Context Panel based on selected feature */}
+                <div className="bg-[#FBF9F4] border-2 border-ink-900 rounded-xl p-4 text-left">
+                  <div className="flex items-center gap-2 mb-2 pb-2 border-b border-ink-300">
+                    <DoodleDaisy size={16} />
+                    <span className="font-mono text-xs font-bold text-ink-900">
+                      Live Telemetry Stream
+                    </span>
+                  </div>
+                  <p className="font-mono text-xs text-ink-700 leading-relaxed">
+                    {activeFeature === 0 &&
+                      "Synthesis Output: 'Ramesh K., 68. 2 missed Metformin doses in 72h + 14% systolic BP surge. Recommended check: antihypertensive compliance.'"}
+                    {activeFeature === 1 &&
+                      "Heuristic Fire: [RULE_BP_ELEVATION] triggered (+18 mmHg). Weight: 35 pts. [RULE_MED_ADHERENCE] triggered (-29%). Combined Score: 84 / 100 (RED)."}
+                    {activeFeature === 2 &&
+                      "Audio Transcript (Hindi): 'Maine subah ki dawai le li' -> Recognized: { medicine: 'Metformin 500mg', dose: 'Morning', status: 'TAKEN' }."}
+                    {activeFeature === 3 &&
+                      "Escalation Dispatch: Stage 1 (Voice alert) -> Unanswered after 4h -> Stage 2 (WhatsApp template sent to daughter Priya Sharma)."}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          4. SECTION 3: "TURN MIDNIGHT ALERTS INTO MORNING ACTION PLANS"
+             (DAISY'S 3RD SECTION + FULL INTERACTIVE LIVE SANDBOX WIDGET)
+      ───────────────────────────────────────────────────────────── */}
+      <section id="sandbox" className="max-w-[1240px] mx-auto w-full px-6 sm:px-12 py-16 text-center">
+        {/* Section Heading */}
+        <h2 className="font-serif font-black text-3xl sm:text-5xl text-ink-900 tracking-tight mb-3">
+          Turn midnight musings into morning action plans
+        </h2>
+        <p className="font-mono text-xs sm:text-sm text-ink-600 max-w-xl mx-auto mb-10">
+          Try the real-time simulation below. Tap an event trigger to watch the deterministic triage engine re-score risk and update clinical action pathways.
+        </p>
+
+        {/* Big Rounded Mockup Frame with Pistachio Lime Header (Daisy SS 4 clone) */}
+        <div className="bg-white border-2 border-ink-900 rounded-3xl overflow-hidden shadow-[6px_6px_0px_#121214] text-left">
+          {/* Top Pistachio Lime Banner: "Wide Open Spaces / Clinical Cockpit" */}
+          <div className="bg-[#D4F77C] border-b-2 border-ink-900 px-6 py-4 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="font-serif font-bold text-lg text-ink-900">
+                Wide open spaces
+              </span>
+              <span className="hidden sm:inline-block font-mono text-[10px] bg-white border border-ink-900 px-2 py-0.5 rounded-full font-bold uppercase">
+                Interactive Triage Sandbox
+              </span>
+            </div>
+            <div className="flex items-center gap-2 font-mono text-xs text-ink-900">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-ping" />
+              <span className="font-bold">LIVE TELEMETRY SANDBOX</span>
+            </div>
+          </div>
+
+          {/* Sandbox Body: Interactive Cockpit Controls & Real-Time Patient Card */}
+          <div className="p-6 sm:p-10 bg-[#FAF8F5]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Left Column: Interactive Scenario Trigger Buttons */}
+              <div className="lg:col-span-5 space-y-4">
+                <div className="flex items-center gap-2">
+                  <Sliders className="w-4 h-4 text-ink-700" />
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-700">
+                    Step 1 • Inject a Simulated Event
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  {/* Trigger 1: Red Spike */}
+                  <button
+                    onClick={handleSimSpike}
+                    className="w-full text-left p-4 rounded-xl border-2 border-ink-900 bg-[#FEE2E2] hover:bg-[#FECACA] shadow-[3px_3px_0px_#121214] hover:shadow-[4px_4px_0px_#121214] active:translate-y-0.5 transition-all font-mono cursor-pointer"
                   >
-                    ⚡ Inject BP Spike (155/95) → RED
-                  </Button>
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={triggerSimRecover}
-                    className="text-xs !bg-[var(--brand-teal)] hover:!bg-[var(--brand-teal-600)]"
+                    <div className="flex items-center justify-between font-bold text-xs text-red-900 mb-1">
+                      <span>⚡ TRIGGER BP SPIKE (155/95)</span>
+                      <span className="bg-red-700 text-white px-2 py-0.5 rounded text-[10px]">
+                        FLIP TO RED
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-red-800 font-sans leading-normal">
+                      Simulates acute hypertensive episode + 2 missed doses. Triggers doctor notification.
+                    </p>
+                  </button>
+
+                  {/* Trigger 2: Green Stabilize */}
+                  <button
+                    onClick={handleSimRecover}
+                    className="w-full text-left p-4 rounded-xl border-2 border-ink-900 bg-[#DCFCE7] hover:bg-[#BBF7D0] shadow-[3px_3px_0px_#121214] hover:shadow-[4px_4px_0px_#121214] active:translate-y-0.5 transition-all font-mono cursor-pointer"
                   >
-                    ✓ Log Meds & Stabilize → GREEN
-                  </Button>
-                  <Link href="/sim" className="sm:ml-auto">
-                    <Button variant="ghost" size="sm" className="text-xs border-[var(--ink-300)]">
-                      Full Control Panel →
-                    </Button>
+                    <div className="flex items-center justify-between font-bold text-xs text-emerald-900 mb-1">
+                      <span>✓ LOG MEDS & STABILIZE</span>
+                      <span className="bg-emerald-700 text-white px-2 py-0.5 rounded text-[10px]">
+                        FLIP TO GREEN
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-emerald-800 font-sans leading-normal">
+                      Simulates patient speaking in Hindi to confirm Metformin dose. BP returns to 118/78.
+                    </p>
+                  </button>
+
+                  {/* Trigger 3: Amber Mobility Drop */}
+                  <button
+                    onClick={handleSimWearableDrop}
+                    className="w-full text-left p-4 rounded-xl border-2 border-ink-900 bg-[#FEF3C7] hover:bg-[#FDE68A] shadow-[3px_3px_0px_#121214] hover:shadow-[4px_4px_0px_#121214] active:translate-y-0.5 transition-all font-mono cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between font-bold text-xs text-amber-900 mb-1">
+                      <span>🚶 WEARABLE MOBILITY DROP (-48%)</span>
+                      <span className="bg-amber-700 text-white px-2 py-0.5 rounded text-[10px]">
+                        SET TO AMBER
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-amber-800 font-sans leading-normal">
+                      Steps drop from 4,000 to 1,840. Flags early weakness / lethargy.
+                    </p>
+                  </button>
+                </div>
+
+                <div className="pt-2">
+                  <Link
+                    href="/sim"
+                    className="font-mono text-xs font-bold text-ink-700 hover:text-ink-900 inline-flex items-center gap-1.5 underline underline-offset-4 decoration-2"
+                  >
+                    <span>Launch Full Judge Control Simulator Panel</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
-              </Card>
+              </div>
+
+              {/* Right Column: Live Doctor Triage Widget Preview */}
+              <div className="lg:col-span-7">
+                <div className="bg-white border-2 border-ink-900 rounded-2xl p-6 sm:p-7 shadow-[4px_4px_0px_#121214]">
+                  {/* Action Fired Toast Banner */}
+                  {simActionFired && (
+                    <div className="mb-4 p-3 rounded-xl border-2 border-ink-900 bg-[#D4F77C] font-mono text-xs font-bold flex items-center justify-between animate-fade-in shadow-[2px_2px_0px_#121214]">
+                      <span>{simActionFired}</span>
+                      <span className="text-[10px] uppercase bg-white px-2 py-0.5 rounded border border-ink-900">
+                        Just Now
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Patient Header & Risk Score */}
+                  <div className="flex flex-wrap items-start justify-between gap-4 pb-4 border-b-2 border-ink-900">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-12 h-12 rounded-full border-2 border-ink-900 bg-[#FEE159] flex items-center justify-center font-serif font-black text-lg shadow-[2px_2px_0px_#121214]">
+                        RS
+                      </div>
+                      <div>
+                        <h3 className="font-serif font-black text-xl text-ink-900">
+                          {simPatientName}
+                        </h3>
+                        <p className="font-mono text-xs text-ink-500">
+                          Type-2 Diabetes & Hypertension • Dr. Meera Rao
+                        </p>
+                      </div>
+                    </div>
+
+                    <RiskBadge band={simRiskBand} score={simScore} size="lg" />
+                  </div>
+
+                  {/* System Status Message */}
+                  <div
+                    className={`my-4 p-3.5 rounded-xl border-2 border-ink-900 font-mono text-xs font-bold flex items-center gap-2.5 ${
+                      simRiskBand === "red"
+                        ? "bg-[#FEE2E2] text-red-900"
+                        : simRiskBand === "green"
+                        ? "bg-[#DCFCE7] text-emerald-900"
+                        : "bg-[#FEF3C7] text-amber-900"
+                    }`}
+                  >
+                    {simRiskBand === "red" ? (
+                      <AlertTriangle className="w-4 h-4 shrink-0 text-red-700" />
+                    ) : (
+                      <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-700" />
+                    )}
+                    <span>{simAlertMsg}</span>
+                  </div>
+
+                  {/* Active Clinical Reasons */}
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink-600">
+                        Active Deterministic Heuristics
+                      </span>
+                      <span className="font-mono text-[10px] text-ink-500 font-bold">
+                        Calculated in real-time
+                      </span>
+                    </div>
+
+                    {simReasons.map((reason, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3 rounded-xl bg-[#FAF8F5] border-2 border-ink-900 flex items-start gap-2.5 font-mono text-xs text-ink-900 shadow-[2px_2px_0px_#121214]"
+                      >
+                        <span className="font-bold text-[#FF5C98]">●</span>
+                        <span>{reason}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Action Shortcuts */}
+                  <div className="pt-4 border-t-2 border-ink-900 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-600" />
+                      <span className="text-ink-600">FHIR R4 Observation Ready</span>
+                    </div>
+                    <Link
+                      href="/doctor/p1"
+                      className="bg-ink-900 text-white font-bold px-4 py-2 rounded-full border-2 border-ink-900 shadow-[2px_2px_0px_#121214] hover:bg-ink-800 transition-all flex items-center gap-1.5"
+                    >
+                      <span>Open Full Patient Chart</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── 5. STORY & PHILOSOPHY SECTION ────────────────────── */}
-      <section id="story" className="max-w-[1200px] mx-auto w-full px-6 sm:px-12 py-20 text-center">
-        <div className="max-w-2xl mx-auto">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[var(--surface-0)] border border-[var(--ink-300)] mb-6 text-[var(--blob-coral)]">
-            <Heart className="w-6 h-6 fill-[var(--blob-coral)]" />
-          </div>
-          <h2 className="font-display font-black text-3xl sm:text-4xl text-[var(--ink-900)] mb-4 tracking-tight">
-            Designed with Human Warmth for Indian Healthcare
+      {/* ─────────────────────────────────────────────────────────────
+          5. SECTION 4: THE 4 PORTALS (CLAUD-INSPIRED PASTEL CARDS)
+      ───────────────────────────────────────────────────────────── */}
+      <section id="portals" className="max-w-[1240px] mx-auto w-full px-6 sm:px-12 py-16">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-500 bg-[#FEE159] px-3 py-1 rounded-full border-2 border-ink-900 shadow-[2px_2px_0px_#121214]">
+            Comprehensive Ecosystem
+          </span>
+          <h2 className="font-serif font-black text-3xl sm:text-5xl text-ink-900 tracking-tight mt-3">
+            Designed for every member of the care circle
           </h2>
-          <p className="font-body text-base text-[var(--ink-700)] leading-relaxed mb-8">
-            We believe chronic disease management should feel as gentle and natural as a conversation over chai, backed by the rigor of explainable clinical triage.
+          <p className="font-mono text-xs sm:text-sm text-ink-600 mt-2">
+            One shared chronic care loop with dedicated interfaces tailored to each stakeholder.
           </p>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left pt-6 border-t border-[var(--ink-300)]">
+        {/* 4 Claud-Inspired Cards with #1-#4 Badges and Pastel Backgrounds */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Card 1: Patient Voice App (#1) */}
+          <Link
+            href="/patient"
+            className="group block bg-[#FEE159] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
+          >
             <div>
-              <p className="font-data font-bold text-2xl text-[var(--ink-900)]">68%</p>
-              <p className="font-body text-xs text-[var(--ink-500)] mt-1">
-                of seniors struggle with digital health apps without voice interfaces.
+              <div className="flex items-center justify-between mb-4">
+                <span className="w-8 h-8 rounded-full bg-ink-900 text-white font-mono font-black text-xs flex items-center justify-center border border-white">
+                  #1
+                </span>
+                <span className="font-mono text-[10px] font-bold bg-white px-2 py-0.5 rounded-full border border-ink-900 text-ink-900">
+                  Mobile First
+                </span>
+              </div>
+
+              <div className="w-12 h-12 rounded-2xl bg-white border-2 border-ink-900 flex items-center justify-center mb-4 shadow-[2px_2px_0px_#121214]">
+                <Smartphone className="w-6 h-6 text-ink-900 stroke-[2.2]" />
+              </div>
+
+              <h3 className="font-serif font-black text-2xl text-ink-900 mb-2 leading-tight">
+                Senior Voice App
+              </h3>
+              <p className="font-sans text-xs text-ink-800 leading-relaxed mb-6">
+                One-tap voice logging in Hindi, Kannada, and English. No typing, big tactile buttons, and adherence streaks.
               </p>
             </div>
+
+            <div className="pt-4 border-t-2 border-ink-900 flex items-center justify-between font-mono text-xs font-bold text-ink-900">
+              <span>Launch Patient App</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+
+          {/* Card 2: Doctor Clinical Cockpit (#2) */}
+          <Link
+            href="/doctor"
+            className="group block bg-[#EDE9FE] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
+          >
             <div>
-              <p className="font-data font-bold text-2xl text-[var(--brand-teal-600)]">15 sec</p>
-              <p className="font-body text-xs text-[var(--ink-500)] mt-1">
-                for doctors to review 14 days of home history with our pre-consult brief.
+              <div className="flex items-center justify-between mb-4">
+                <span className="w-8 h-8 rounded-full bg-ink-900 text-white font-mono font-black text-xs flex items-center justify-center border border-white">
+                  #2
+                </span>
+                <span className="font-mono text-[10px] font-bold bg-white px-2 py-0.5 rounded-full border border-ink-900 text-ink-900">
+                  Desktop Web
+                </span>
+              </div>
+
+              <div className="w-12 h-12 rounded-2xl bg-white border-2 border-ink-900 flex items-center justify-center mb-4 shadow-[2px_2px_0px_#121214]">
+                <Stethoscope className="w-6 h-6 text-indigo-700 stroke-[2.2]" />
+              </div>
+
+              <h3 className="font-serif font-black text-2xl text-ink-900 mb-2 leading-tight">
+                Doctor Cockpit
+              </h3>
+              <p className="font-sans text-xs text-ink-800 leading-relaxed mb-6">
+                15-second pre-consult brief, 8-rule explainable triage list, interactive what-if simulator, and FHIR export.
               </p>
             </div>
+
+            <div className="pt-4 border-t-2 border-ink-900 flex items-center justify-between font-mono text-xs font-bold text-ink-900">
+              <span>Explore Cockpit</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+
+          {/* Card 3: Family Escalation Circle (#3) */}
+          <Link
+            href="/family"
+            className="group block bg-[#BAE6FD] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
+          >
             <div>
-              <p className="font-data font-bold text-2xl text-[var(--brand-indigo)]">100%</p>
-              <p className="font-body text-xs text-[var(--ink-500)] mt-1">
-                explainable rule-based clinical reasons. The doctor always decides.
+              <div className="flex items-center justify-between mb-4">
+                <span className="w-8 h-8 rounded-full bg-ink-900 text-white font-mono font-black text-xs flex items-center justify-center border border-white">
+                  #3
+                </span>
+                <span className="font-mono text-[10px] font-bold bg-white px-2 py-0.5 rounded-full border border-ink-900 text-ink-900">
+                  WhatsApp Loop
+                </span>
+              </div>
+
+              <div className="w-12 h-12 rounded-2xl bg-white border-2 border-ink-900 flex items-center justify-center mb-4 shadow-[2px_2px_0px_#121214]">
+                <Users className="w-6 h-6 text-sky-800 stroke-[2.2]" />
+              </div>
+
+              <h3 className="font-serif font-black text-2xl text-ink-900 mb-2 leading-tight">
+                Family Feed
+              </h3>
+              <p className="font-sans text-xs text-ink-800 leading-relaxed mb-6">
+                Multi-tier escalation ladder: keeps adult children reassured, alerts them when doses are missed, prevents emergencies.
               </p>
             </div>
-          </div>
+
+            <div className="pt-4 border-t-2 border-ink-900 flex items-center justify-between font-mono text-xs font-bold text-ink-900">
+              <span>View Family Feed</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+
+          {/* Card 4: Hospital Admin ROI (#4) */}
+          <Link
+            href="/admin"
+            className="group block bg-[#D4F77C] border-2 border-ink-900 rounded-3xl p-6 shadow-[5px_5px_0px_#121214] hover:shadow-[7px_7px_0px_#121214] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="w-8 h-8 rounded-full bg-ink-900 text-white font-mono font-black text-xs flex items-center justify-center border border-white">
+                  #4
+                </span>
+                <span className="font-mono text-[10px] font-bold bg-white px-2 py-0.5 rounded-full border border-ink-900 text-ink-900">
+                  Leadership
+                </span>
+              </div>
+
+              <div className="w-12 h-12 rounded-2xl bg-white border-2 border-ink-900 flex items-center justify-center mb-4 shadow-[2px_2px_0px_#121214]">
+                <BarChart3 className="w-6 h-6 text-emerald-900 stroke-[2.2]" />
+              </div>
+
+              <h3 className="font-serif font-black text-2xl text-ink-900 mb-2 leading-tight">
+                Hospital ROI
+              </h3>
+              <p className="font-sans text-xs text-ink-800 leading-relaxed mb-6">
+                Quantified metrics: 14 readmissions prevented, 87% alert response velocity, ₹4.2L clinical savings.
+              </p>
+            </div>
+
+            <div className="pt-4 border-t-2 border-ink-900 flex items-center justify-between font-mono text-xs font-bold text-ink-900">
+              <span>View Admin ROI</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
         </div>
       </section>
 
-      {/* ─── 6. BOUTIQUE FOOTER ───────────────────────────────── */}
-      <footer className="bg-[var(--surface-0)] border-t border-[var(--ink-300)] py-12 px-6 sm:px-12 text-center sm:text-left">
-        <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div>
-            <div className="flex items-center justify-center sm:justify-start gap-2 mb-1.5">
-              <span className="font-display font-black text-lg text-[var(--ink-900)] tracking-tight">
+      {/* ─────────────────────────────────────────────────────────────
+          6. SECTION 5: CLAUD CHALLENGE CALLOUT (FAST TAPS, LIVE WINS)
+      ───────────────────────────────────────────────────────────── */}
+      <section className="max-w-[1240px] mx-auto w-full px-6 sm:px-12 py-12">
+        <div className="bg-[#FAF8F5] border-2 border-ink-900 rounded-3xl p-8 sm:p-12 shadow-[6px_6px_0px_#121214] flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex items-center gap-6">
+            <div className="hidden sm:block shrink-0">
+              <DoodleHandPress width={72} height={72} />
+            </div>
+            <div>
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-500 bg-[#FEE159] px-2.5 py-0.5 rounded border border-ink-900">
+                CRCE Hackathon Judge Mode
+              </span>
+              <h3 className="font-serif font-black text-2xl sm:text-4xl text-ink-900 tracking-tight mt-1.5">
+                Fast Taps, Real Telemetry: Test the Simulator
+              </h3>
+              <p className="font-mono text-xs sm:text-sm text-ink-600 mt-1 max-w-xl">
+                Inject custom BP spikes, missed medication logs, and wearable step drops to watch the entire continuous care loop respond in real time.
+              </p>
+            </div>
+          </div>
+
+          <Link href="/sim" className="shrink-0">
+            <button className="bg-[#FEE159] text-ink-900 font-mono text-sm font-bold px-7 py-3.5 rounded-full border-2 border-ink-900 shadow-[3px_3px_0px_#121214] hover:shadow-[4px_4px_0px_#121214] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_#121214] transition-all flex items-center gap-2">
+              <Sliders className="w-4 h-4 stroke-[2.5]" />
+              <span>LAUNCH SIMULATOR PANEL →</span>
+            </button>
+          </Link>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          7. MINIMALIST EDITORIAL FOOTER
+      ───────────────────────────────────────────────────────────── */}
+      <footer className="bg-white border-t-2 border-ink-900 py-12 px-6 sm:px-12 mt-auto">
+        <div className="max-w-[1240px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <DoodleDaisy size={24} color="#121214" />
+            <div>
+              <span className="font-serif font-black text-lg text-ink-900 tracking-tight">
                 carebridge
               </span>
-              <span className="font-data text-[10px] bg-[var(--surface-paper)] border border-[var(--ink-300)] text-[var(--ink-700)] px-2 py-0.5 rounded-[var(--r-pill)]">
-                poweredbycaffine
-              </span>
+              <p className="font-mono text-[11px] text-ink-500">
+                Vedesh • Aman • Swapnil • Aryan • CRCE Hackathon
+              </p>
             </div>
-            <p className="font-body text-xs text-[var(--ink-500)]">
-              Vedesh • Aman • Swapin • Aryan • CRCE Hackathon Prototype
-            </p>
           </div>
 
           <div className="text-center sm:text-right">
-            <p className="font-body text-xs font-semibold text-[var(--ink-700)]">
-              Clinical decision support only. Not a diagnosis. Doctor decides.
+            <p className="font-mono text-xs font-bold text-ink-800">
+              Clinical decision support only. Doctor always decides.
             </p>
-            <p className="font-body text-[11px] text-[var(--ink-400)] mt-0.5">
-              All patient vitals and logs are simulated for demonstration.
+            <p className="font-mono text-[10px] text-ink-500 mt-0.5">
+              Simulated telemetry demonstrating deterministic clinical triage.
             </p>
           </div>
         </div>

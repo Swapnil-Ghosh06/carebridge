@@ -1,71 +1,69 @@
 /**
- * CareBridge Design Tokens (owner: Swapin)
- * ─────────────────────────────────────────
- * Source of truth for every CSS custom property.
- * Inspired by the "Where Work Happens" and editorial design agency aesthetics:
- * Warm organic paper canvas, deep navy ink, flat offset color shapes,
- * and high-character typography.
+ * CareBridge Design Tokens (Daisy × Claud Neo-Editorial Edition)
+ * ─────────────────────────────────────────────────────────────
+ * Source of truth for all CSS custom properties.
+ * Embracing warm tactile paper, 2px carbon ink strokes, hard drop-shadows,
+ * and pastel accents (lime, pink, butter yellow, lavender, mint).
  */
 
 :root {
-  /* ── Typography (Fallback fonts) ────────────────────────────── */
-  --font-display-name: "Montserrat", sans-serif;
-  --font-body-name:    "DM Sans", sans-serif;
-  --font-data-name:    "Sora", sans-serif;
+  /* ── Typography Fallbacks ───────────────────────────────────── */
+  --font-serif-name: "Playfair Display", Georgia, serif;
+  --font-mono-name:  "Space Mono", "Courier New", monospace;
+  --font-sans-name:  "Plus Jakarta Sans", -apple-system, sans-serif;
 
-  /* ── Ink (text + hand-drawn strokes) ────────────────────────── */
-  --ink-900: #0B1F4B; /* headlines, primary hand-drawn stroke (deep midnight navy) */
-  --ink-800: #1B2A56;
-  --ink-700: #2B3C66;
-  --ink-500: #5B6B8C; /* secondary text — min contrast on surface-0: WCAG AA OK */
-  --ink-300: #CBD5E1; /* delicate borders, dividers */
-  --ink-200: #E2E8F0;
+  /* ── Canvas & Ink ───────────────────────────────────────────── */
+  --canvas-paper:    #FBF9F4; /* warm ivory artist canvas */
+  --canvas-grid:     #E8E4D8; /* 28px grid lines */
+  --ink-900:         #121214; /* deep carbon black for text, 2px borders & shadows */
+  --ink-800:         #1F1F24;
+  --ink-700:         #32323A;
+  --ink-500:         #626270; /* secondary text */
+  --ink-300:         #D6D3C8; /* delicate hairline borders */
+  --ink-200:         #EAE7DC;
 
-  /* ── Surfaces (Warm Editorial Paper) ────────────────────────── */
-  --surface-0:     #FFFFFF;
-  --surface-paper: #FCFBF8; /* warm artist paper canvas */
-  --surface-50:    #F8F9FC; /* app background */
-  --surface-100:   #EEF2F8;
-  --surface-warm:  #F6F3ED; /* warm card contrast */
+  /* ── Surfaces ───────────────────────────────────────────────── */
+  --surface-0:       #FFFFFF;
+  --surface-paper:   #FBF9F4;
+  --surface-50:      #F6F4ED;
+  --surface-100:     #EEEAE0;
+  --surface-warm:    #F8F5EC;
 
-  /* ── Brand ──────────────────────────────────────────────────── */
-  --brand-teal:        #14B8A6; /* primary action, clinical links */
-  --brand-teal-600:    #0F9B8C; /* hover state for teal */
-  --brand-teal-50:     #E6F8F6;
-  --brand-mint:        #5EEAD4; /* highlights on dark backgrounds */
-  --brand-indigo:      #4B3FB8; /* signature CTA & clinical accent */
-  --brand-indigo-dark: #372E94;
-  --brand-indigo-50:   #F0EFFC;
+  /* ── Accent Highlights (Daisy & Claud Inspired) ─────────────── */
+  --accent-pink:     #FF5C98; /* fluorescent marker highlighter */
+  --accent-lime:     #D4F77C; /* Daisy pistachio green CTA */
+  --accent-lime-dark:#BBE856;
+  --accent-yellow:   #FEE159; /* sticky butter yellow */
+  --accent-lavender: #EDE9FE; /* Claud cloud lilac */
+  --accent-lavender-dark: #DDD6FE;
+  --accent-mint:     #6EE7B7; /* safe / verified status */
+  --accent-sky:      #BAE6FD;
+  --accent-orange:   #FDBA74;
 
-  /* ── Editorial Illustration Blobs (Flat offset color shapes) ── */
-  --blob-coral:    #FF6B35;
-  --blob-sun:      #F5B726;
-  --blob-leaf:     #489838;
-  --blob-sky:      #56CCF2;
-  --blob-indigo:   #4B3FB8;
-  --blob-teal:     #14B8A6;
+  /* ── Clinical Risk Colors ───────────────────────────────────── */
+  --risk-red:        #DC2626;
+  --risk-red-bg:     #FEE2E2;
+  --risk-amber:      #D97706;
+  --risk-amber-bg:   #FEF3C7;
+  --risk-green:      #15803D;
+  --risk-green-bg:   #DCFCE7;
 
-  /* ── Risk (Reserved for RiskBadge ONLY) ─────────────────────── */
-  --risk-red:       #EF4444;
-  --risk-red-bg:    #FEF2F2;
-  --risk-amber:     #F59E0B;
-  --risk-amber-bg:  #FFFBEB;
-  --risk-green:     #10B981;
-  --risk-green-bg:  #ECFDF5;
+  /* ── Tactile Borders & Radii ────────────────────────────────── */
+  --border-width:    2px;
+  --r-sm:            8px;
+  --r-md:            12px;
+  --r-lg:            20px;
+  --r-xl:            28px;
+  --r-pill:          9999px;
 
-  /* ── Radius ─────────────────────────────────────────────────── */
-  --r-sm:   6px;
-  --r-md:   10px;
-  --r-lg:   16px;
-  --r-xl:   24px;
-  --r-pill: 9999px;
-
-  /* ── Shadows ────────────────────────────────────────────────── */
-  --shadow-card:  0 4px 20px -2px rgba(11, 31, 75, 0.06), 0 2px 6px -1px rgba(11, 31, 75, 0.04);
-  --shadow-hover: 0 12px 32px -4px rgba(11, 31, 75, 0.12), 0 4px 12px -2px rgba(11, 31, 75, 0.06);
-  --shadow-float: 0 20px 48px -8px rgba(11, 31, 75, 0.16);
+  /* ── Hard Tactile Shadows (Neo-Brutalist Depth) ─────────────── */
+  --shadow-brutal-sm: 2px 2px 0px #121214;
+  --shadow-brutal:    4px 4px 0px #121214;
+  --shadow-brutal-lg: 6px 6px 0px #121214;
+  --shadow-card:      4px 4px 0px #121214;
+  --shadow-hover:     6px 6px 0px #121214;
 
   /* ── Layout ─────────────────────────────────────────────────── */
-  --max-portal:  1280px;
-  --max-patient: 480px;
+  --max-portal:       1280px;
+  --max-patient:      480px;
 }

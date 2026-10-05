@@ -1,13 +1,9 @@
 /**
- * CareBridge global styles
- * ─────────────────────────────────────────
- * 1. Google Fonts direct import (Montserrat, DM Sans, Sora)
- * 2. Import design tokens (source of truth)
- * 3. Tailwind directives
- * 4. Base typography & element resets
+ * CareBridge Global Styles (Daisy × Claud Neo-Editorial Edition)
+ * ─────────────────────────────────────────────────────────────
  */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "../design/tokens.css";
 
 @tailwind base;
@@ -16,98 +12,148 @@
 
 /* ── Base resets & explicit font rules ───────────────────────── */
 html {
-  font-family: var(--font-body), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink-900);
-  background-color: var(--surface-paper);
+  background-color: var(--canvas-paper);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   min-height: 100vh;
-  font-family: var(--font-body), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background-color: var(--surface-paper);
-}
-
-/* Headings use Montserrat display font */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display), "Montserrat", sans-serif;
-}
-
-/* Explicit Utility Classes for Fonts */
-.font-display {
-  font-family: var(--font-display), "Montserrat", sans-serif !important;
-}
-
-.font-body {
-  font-family: var(--font-body), "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif !important;
-}
-
-.font-data,
-[class*="stat"],
-[class*="badge-text"],
-[class*="score"] {
-  font-family: var(--font-data), "Sora", sans-serif !important;
-}
-
-/* Focus ring — accessible, uses brand teal */
-*:focus-visible {
-  outline: 2px solid var(--brand-teal);
-  outline-offset: 2px;
-}
-
-/* Micro-animations for artistic feel */
-@keyframes floatGentle {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-5px) rotate(1deg);
-  }
-}
-
-@keyframes pulseDoodle {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.06);
-    opacity: 1;
-  }
-}
-
-.animate-float-gentle {
-  animation: floatGentle 4s ease-in-out infinite;
-}
-
-.animate-pulse-doodle {
-  animation: pulseDoodle 3s ease-in-out infinite;
-}
-
-/* Custom highlight flourish */
-.highlight-brush {
-  position: relative;
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.highlight-brush::after {
-  content: "";
-  position: absolute;
-  left: -4px;
-  right: -4px;
-  bottom: 4px;
-  height: 14px;
-  background: var(--blob-sun);
-  opacity: 0.45;
-  z-index: -1;
-  border-radius: 4px;
-  transform: rotate(-1.2deg);
-}
-
-/* Custom selection */
-::selection {
-  background-color: var(--brand-mint);
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: var(--canvas-paper);
   color: var(--ink-900);
+}
+
+/* Ensure links NEVER show default browser unstyled blue underlines */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Headings use Playfair Display serif */
+h1, h2, h3, h4, h5, h6, .font-serif, .font-display {
+  font-family: "Playfair Display", Georgia, serif !important;
+}
+
+.font-mono, .font-data {
+  font-family: "Space Mono", "Courier New", monospace !important;
+}
+
+.font-sans, .font-body {
+  font-family: "Plus Jakarta Sans", -apple-system, sans-serif !important;
+}
+
+/* ── Daisy Graph Paper Grid ─────────────────────────────────── */
+.bg-grid-paper {
+  background-color: var(--canvas-paper);
+  background-image: 
+    linear-gradient(to right, rgba(18, 18, 20, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(18, 18, 20, 0.055) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ── High-Impact Markers & Highlighters ─────────────────────── */
+.highlight-pink {
+  background-color: #ff5c98;
+  color: #121214;
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  display: inline-block;
+  transform: rotate(-0.8deg);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  font-weight: 700;
+}
+
+.highlight-yellow {
+  background-color: #fee159;
+  color: #121214;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  display: inline-block;
+  transform: rotate(0.6deg);
+  font-weight: 700;
+}
+
+.highlight-lime {
+  background-color: #d4f77c;
+  color: #121214;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 700;
+}
+
+/* ── Tactile Neo-Brutalist Classes ───────────────────────────── */
+.border-ink {
+  border: 2px solid var(--ink-900);
+}
+
+.shadow-brutal {
+  box-shadow: 4px 4px 0px var(--ink-900);
+}
+
+.shadow-brutal-sm {
+  box-shadow: 2px 2px 0px var(--ink-900);
+}
+
+.shadow-brutal-lg {
+  box-shadow: 6px 6px 0px var(--ink-900);
+}
+
+.btn-tactile {
+  border: 2px solid var(--ink-900);
+  box-shadow: 3px 3px 0px var(--ink-900);
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.btn-tactile:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px var(--ink-900);
+}
+
+.btn-tactile:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--ink-900);
+}
+
+.sticky-tag {
+  border: 2px solid var(--ink-900);
+  box-shadow: 2px 2px 0px var(--ink-900);
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.15s ease;
+}
+
+.sticky-tag:hover {
+  transform: scale(1.04) rotate(0deg);
+}
+
+/* ── Cloud Badge (Claud inspired) ────────────────────────────── */
+.cloud-badge {
+  border: 2px solid var(--ink-900);
+  border-radius: 9999px;
+  background-color: var(--accent-lavender);
+  box-shadow: 2px 2px 0px var(--ink-900);
+}
+
+/* ── Custom selection ────────────────────────────────────────── */
+::selection {
+  background-color: #fee159;
+  color: #121214;
+}
+
+/* Accessible focus ring */
+*:focus-visible {
+  outline: 2px solid var(--ink-900);
+  outline-offset: 2px;
 }

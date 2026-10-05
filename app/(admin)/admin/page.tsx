@@ -49,30 +49,30 @@ export default function AdminROIPage() {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="bg-surface-0 rounded-lg p-6 border border-ink-300/30 shadow-card flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-ink-900 shadow-[5px_5px_0px_#121214] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-data text-xs font-semibold px-2.5 py-0.5 rounded-pill bg-brand-teal/10 text-brand-teal">
+            <span className="font-mono text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#D4F77C] border border-ink-900 text-ink-900">
               Monthly Value Realization
             </span>
-            <span className="font-data text-xs text-ink-500">
+            <span className="font-mono text-xs text-ink-500 font-bold">
               Q4 FY26 Snapshot
             </span>
           </div>
-          <h2 className="font-display font-extrabold text-2xl text-ink-900 mt-1">
-            Clinic Clinical Impact &amp; ROI Analytics
+          <h2 className="font-serif font-black text-2xl sm:text-3xl text-ink-900 mt-2">
+            Clinical Impact &amp; ROI Analytics
           </h2>
-          <p className="font-body text-sm text-ink-700 mt-0.5">
+          <p className="font-mono text-xs text-ink-600 mt-1">
             Realized hospital cost savings, doctor efficiency metrics, and readmission prevention statistics.
           </p>
         </div>
 
-        <div className="p-4 rounded-md bg-brand-teal/5 border border-brand-teal/20 text-right shrink-0">
-          <div className="font-body text-xs text-ink-500">Estimated Total Cost Avoidance</div>
-          <div className="font-data font-bold text-2xl text-brand-teal">
+        <div className="p-4 rounded-2xl bg-[#EDE9FE] border-2 border-ink-900 shadow-[3px_3px_0px_#121214] text-right shrink-0">
+          <div className="font-mono text-[11px] font-bold text-ink-600">Estimated Total Cost Avoidance</div>
+          <div className="font-serif font-black text-2xl sm:text-3xl text-indigo-900">
             ₹6,30,000
           </div>
-          <div className="font-data text-[11px] text-ink-500">
+          <div className="font-mono text-[10px] text-ink-500 font-bold">
             Across 14 prevented readmissions
           </div>
         </div>
@@ -113,17 +113,17 @@ export default function AdminROIPage() {
       {/* Telemetry Charts & Clinic Utilization */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Alerts per day chart */}
-        <div className="lg:col-span-2 bg-surface-0 rounded-lg p-6 border border-ink-300/30 shadow-card">
-          <div className="flex items-center justify-between mb-4">
+        <div className="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 border-2 border-ink-900 shadow-[5px_5px_0px_#121214]">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-ink-900">
             <div>
-              <h3 className="font-display font-bold text-ink-900 text-base">
+              <h3 className="font-serif font-black text-ink-900 text-lg">
                 Clinical Alerts Resolved Daily (Last 5 Days)
               </h3>
-              <p className="font-body text-xs text-ink-500">
+              <p className="font-mono text-xs text-ink-500 mt-0.5">
                 Volume of high and moderate risk alerts actioned via doctor one-tap interventions
               </p>
             </div>
-            <span className="font-data text-xs text-ink-500 font-semibold px-2 py-1 rounded bg-surface-50 border border-ink-300/30">
+            <span className="font-mono text-xs text-ink-700 font-bold px-2.5 py-1 rounded-full bg-[#FAF8F5] border-2 border-ink-900">
               Avg: 20 alerts/day
             </span>
           </div>

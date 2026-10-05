@@ -1,16 +1,7 @@
 /**
- * PatientRow component (owner: Swapin)
- * ─────────────────────────────────────────────────────────
- * Doctor portal patient list row.
- * Props typed to match GET /api/patients → list item shape.
- *
- * Rules:
- *  - Avatar: initials, no photo (privacy)
- *  - Name + age: Montserrat (font-display)
- *  - Top reason, last seen: DM Sans (font-body)
- *  - Risk badge: always from <RiskBadge> — never inline colour
- *  - No data fetching inside
- *  - Supports both nested `patient` object and flattened props
+ * PatientRow component (Daisy × Claud Tactile Neo-Brutalist Edition)
+ * ─────────────────────────────────────────────────────────────────
+ * Doctor portal patient list row styled as tactile physical cards.
  */
 
 import * as React from "react";
@@ -26,7 +17,7 @@ export interface PatientRowData {
   band?: RiskBand;
   riskBand?: RiskBand;
   topReason?: string;
-  lastSeen?: string; // ISO date string or relative text
+  lastSeen?: string;
 }
 
 export type PatientRowProps =
@@ -82,13 +73,6 @@ function formatLastSeen(val?: string): string {
   return `${Math.floor(hours / 24)}d ago`;
 }
 
-const avatarBg: Record<string, string> = {
-  red: "bg-[var(--surface-100)] text-[var(--ink-700)]",
-  amber: "bg-[var(--surface-100)] text-[var(--ink-700)]",
-  yellow: "bg-[var(--surface-100)] text-[var(--ink-700)]",
-  green: "bg-[var(--surface-100)] text-[var(--ink-700)]",
-};
-
 export const PatientRow: React.FC<PatientRowProps> = (props) => {
   const patientData = props.patient || {
     id: props.id!,
@@ -127,27 +111,19 @@ export const PatientRow: React.FC<PatientRowProps> = (props) => {
       onClick={handleClick}
       onKeyDown={handleKey}
       className={[
-        "flex items-center gap-4 px-5 py-4",
-        "border-b border-[var(--ink-300)] last:border-b-0",
-        "cursor-pointer select-none",
-        "transition-colors duration-[180ms] ease-out",
+        "flex items-center gap-3.5 p-3.5 rounded-2xl border-2 border-ink-900",
+        "cursor-pointer select-none transition-all duration-150 ease-out",
         isSelected
-          ? "bg-[var(--surface-100)]"
-          : "bg-[var(--surface-0)] hover:bg-[var(--surface-50)]",
-        "focus-visible:outline-2 focus-visible:outline-[var(--brand-teal)] focus-visible:outline-offset-[-2px]",
+          ? "bg-[#D4F77C] shadow-[3px_3px_0px_#121214] -translate-y-0.5"
+          : "bg-white hover:bg-[#FAF8F5] shadow-[2px_2px_0px_#121214] hover:shadow-[3px_3px_0px_#121214]",
         props.className || "",
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      {/* Avatar */}
+      {/* Avatar with 2px border */}
       <div
-        className={[
-          "w-10 h-10 rounded-[var(--r-pill)] shrink-0",
-          "flex items-center justify-center",
-          "font-display font-bold text-sm",
-          avatarBg[band] || avatarBg.green,
-        ].join(" ")}
+        className="w-10 h-10 rounded-full border-2 border-ink-900 bg-white flex items-center justify-center font-serif font-black text-xs shrink-0 shadow-[1.5px_1.5px_0px_#121214]"
         aria-hidden="true"
       >
         {initials(name)}
@@ -156,26 +132,24 @@ export const PatientRow: React.FC<PatientRowProps> = (props) => {
       {/* Name + reason */}
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-2">
-          <span className="font-display font-semibold text-sm text-[var(--ink-900)] truncate">
+          <span className="font-serif font-black text-sm text-ink-900 truncate">
             {name}
           </span>
-          <span className="font-body text-xs text-[var(--ink-500)] shrink-0">
+          <span className="font-mono text-[11px] text-ink-500 font-bold shrink-0">
             {age}y
           </span>
         </div>
-        <p className="font-body text-xs text-[var(--ink-500)] truncate mt-0.5">
+        <p className="font-sans text-xs text-ink-700 truncate mt-0.5">
           {topReason}
         </p>
       </div>
 
       {/* Badge + last seen */}
-      <div className="flex flex-col items-end gap-1.5 shrink-0">
+      <div className="flex flex-col items-end gap-1 shrink-0">
         <RiskBadge band={band} score={score} size="sm" />
-        <div className="flex items-center gap-1 text-[var(--ink-300)]">
+        <div className="flex items-center gap-1 text-ink-500 font-mono text-[10px]">
           <Clock size={10} aria-hidden="true" />
-          <span className="font-body text-[10px]">
-            {formatLastSeen(lastSeen)}
-          </span>
+          <span>{formatLastSeen(lastSeen)}</span>
         </div>
       </div>
     </div>

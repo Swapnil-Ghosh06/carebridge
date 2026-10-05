@@ -26,14 +26,12 @@ export const PatientListPane: React.FC = () => {
         setPatients(data);
       }
     } catch {
-      // Use mock data fallback
       setPatients(MOCK_PATIENT_LIST);
     }
   };
 
   useEffect(() => {
     fetchPatients();
-    // 3s polling interval per ARCHITECTURE.md Section 8
     const interval = setInterval(fetchPatients, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -61,23 +59,23 @@ export const PatientListPane: React.FC = () => {
     .sort((a, b) => b.score - a.score);
 
   return (
-    <div className="w-full md:w-[380px] shrink-0 border-r border-ink-300/30 bg-surface-0 flex flex-col h-full">
+    <div className="w-full md:w-[380px] shrink-0 border-r-2 border-ink-900 bg-white flex flex-col h-full shadow-[2px_0px_0px_#121214]">
       {/* Top Controls: Search & Refresh */}
-      <div className="p-4 border-b border-ink-300/30 space-y-3 bg-surface-50/50">
+      <div className="p-4 border-b-2 border-ink-900 space-y-3 bg-[#FAF8F5]">
         <div className="flex items-center justify-between">
-          <h3 className="font-display font-bold text-ink-900 text-sm flex items-center gap-1.5">
+          <h3 className="font-serif font-black text-ink-900 text-sm flex items-center gap-1.5">
             <span>Risk-Ranked Action List</span>
-            <span className="font-data text-xs px-2 py-0.5 rounded-pill bg-brand-indigo/10 text-brand-indigo">
+            <span className="font-mono text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#EDE9FE] border border-ink-900 text-ink-900">
               {filteredPatients.length}
             </span>
           </h3>
           <button
             onClick={handleManualRefresh}
-            className="p-1.5 rounded-pill hover:bg-surface-100 text-ink-500 hover:text-ink-900 transition-colors"
+            className="p-1.5 rounded-full border border-ink-900 bg-white hover:bg-[#FBF9F4] text-ink-900 shadow-[1.5px_1.5px_0px_#121214] active:translate-y-0.5 transition cursor-pointer"
             title="Refresh patient risk scores"
           >
             <RefreshCw
-              className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-brand-teal" : ""}`}
+              className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-emerald-600" : ""}`}
             />
           </button>
         </div>
@@ -90,21 +88,21 @@ export const PatientListPane: React.FC = () => {
             placeholder="Search patient, condition, flag..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 bg-surface-0 border border-ink-300/40 rounded-md text-xs font-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-brand-teal"
+            className="w-full pl-9 pr-3 py-2 bg-white border-2 border-ink-900 rounded-xl text-xs font-mono text-ink-900 placeholder:text-ink-400 focus:outline-none focus:bg-[#FAF8F5] shadow-[2px_2px_0px_#121214]"
           />
         </div>
 
         {/* Filters */}
-        <div className="flex items-center gap-1.5 text-xs font-display">
-          <Filter className="w-3 h-3 text-ink-500 mr-1 shrink-0" />
+        <div className="flex items-center gap-1.5 text-xs font-mono">
+          <Filter className="w-3 h-3 text-ink-500 mr-0.5 shrink-0" />
           {(["all", "red", "yellow", "green"] as const).map((b) => (
             <button
               key={b}
               onClick={() => setFilter(b)}
-              className={`px-2.5 py-1 rounded-pill text-xs font-semibold capitalize transition-colors ${
+              className={`px-2.5 py-1 rounded-full text-[11px] font-bold capitalize transition border-2 border-ink-900 cursor-pointer ${
                 filter === b
-                  ? "bg-ink-900 text-white"
-                  : "bg-surface-0 border border-ink-300/30 text-ink-700 hover:bg-surface-100"
+                  ? "bg-ink-900 text-white shadow-[1.5px_1.5px_0px_#121214]"
+                  : "bg-white text-ink-700 hover:bg-[#FAF8F5]"
               }`}
             >
               {b}
@@ -113,10 +111,10 @@ export const PatientListPane: React.FC = () => {
         </div>
       </div>
 
-      {/* Patient Rows List with Framer Motion Layout Reordering */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-2.5">
+      {/* Patient Rows List */}
+      <div className="flex-1 overflow-y-auto p-3 space-y-2 bg-[#FBF9F4]">
         {filteredPatients.length === 0 ? (
-          <div className="p-8 text-center text-xs font-body text-ink-500">
+          <div className="p-8 text-center text-xs font-mono text-ink-500">
             No patients match current filter
           </div>
         ) : (
