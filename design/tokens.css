@@ -8,10 +8,10 @@
  */
 
 :root {
-  /* ── Typography ─────────────────────────────────────────────── */
-  --font-display: var(--font-display); /* Montserrat — headings, hero, buttons */
-  --font-body: var(--font-body);       /* DM Sans — body text, forms, labels   */
-  --font-data: var(--font-data);       /* Sora — numbers, stats, badges, charts */
+  /* ── Typography (Fallback fonts) ────────────────────────────── */
+  --font-display-name: "Montserrat", sans-serif;
+  --font-body-name:    "DM Sans", sans-serif;
+  --font-data-name:    "Sora", sans-serif;
 
   /* ── Ink (text + hand-drawn strokes) ────────────────────────── */
   --ink-900: #0B1F4B; /* headlines, primary hand-drawn stroke (deep midnight navy) */
@@ -22,11 +22,11 @@
   --ink-200: #E2E8F0;
 
   /* ── Surfaces (Warm Editorial Paper) ────────────────────────── */
-  --surface-0:    #FFFFFF;
+  --surface-0:     #FFFFFF;
   --surface-paper: #FCFBF8; /* warm artist paper canvas */
-  --surface-50:   #F8F9FC; /* app background */
-  --surface-100:  #EEF2F8;
-  --surface-warm: #F6F3ED; /* warm card contrast */
+  --surface-50:    #F8F9FC; /* app background */
+  --surface-100:   #EEF2F8;
+  --surface-warm:  #F6F3ED; /* warm card contrast */
 
   /* ── Brand ──────────────────────────────────────────────────── */
   --brand-teal:        #14B8A6; /* primary action, clinical links */
@@ -43,46 +43,29 @@
   --blob-leaf:     #489838;
   --blob-sky:      #56CCF2;
   --blob-indigo:   #4B3FB8;
-  --blob-teal:     #2CC3A8;
-  --blob-berry:    #E01E5A;
-  --blob-lavender: #8A7CF8;
+  --blob-teal:     #14B8A6;
 
-  /* ── Risk (RESERVED — RiskBadge use only, never decoration) ─── */
-  --risk-red:       #E5484D;
-  --risk-red-bg:    #FDECEC;
-  --risk-amber:     #F5A524;
-  --risk-amber-bg:  #FEF3DC;
-  --risk-green:     #30A46C;
-  --risk-green-bg:  #E6F6EE;
+  /* ── Risk (Reserved for RiskBadge ONLY) ─────────────────────── */
+  --risk-red:       #EF4444;
+  --risk-red-bg:    #FEF2F2;
+  --risk-amber:     #F59E0B;
+  --risk-amber-bg:  #FFFBEB;
+  --risk-green:     #10B981;
+  --risk-green-bg:  #ECFDF5;
 
-  /* ── Border radius ──────────────────────────────────────────── */
-  --r-sm:   8px;
-  --r-md:   14px;
-  --r-lg:   22px;
-  --r-xl:   32px;
-  --r-pill: 999px;
+  /* ── Radius ─────────────────────────────────────────────────── */
+  --r-sm:   6px;
+  --r-md:   10px;
+  --r-lg:   16px;
+  --r-xl:   24px;
+  --r-pill: 9999px;
 
-  /* ── Shadow ─────────────────────────────────────────────────── */
-  --shadow-card:
-    0 1px 3px rgba(11, 31, 75, 0.04),
-    0 10px 30px -5px rgba(11, 31, 75, 0.06);
-  --shadow-hover:
-    0 4px 6px -1px rgba(11, 31, 75, 0.06),
-    0 20px 40px -10px rgba(11, 31, 75, 0.12);
-  --shadow-float:
-    0 25px 50px -12px rgba(11, 31, 75, 0.15);
+  /* ── Shadows ────────────────────────────────────────────────── */
+  --shadow-card:  0 4px 20px -2px rgba(11, 31, 75, 0.06), 0 2px 6px -1px rgba(11, 31, 75, 0.04);
+  --shadow-hover: 0 12px 32px -4px rgba(11, 31, 75, 0.12), 0 4px 12px -2px rgba(11, 31, 75, 0.06);
+  --shadow-float: 0 20px 48px -8px rgba(11, 31, 75, 0.16);
 
-  /* ── Spacing scale (4px base grid) ─────────────────────────── */
-  --space-1:  4px;
-  --space-2:  8px;
-  --space-3:  12px;
-  --space-4:  16px;
-  --space-6:  24px;
-  --space-8:  32px;
-  --space-12: 48px;
-  --space-18: 72px;
-
-  /* ── Layout widths ──────────────────────────────────────────── */
-  --max-portal:  1200px;
-  --max-patient: 440px;
+  /* ── Layout ─────────────────────────────────────────────────── */
+  --max-portal:  1280px;
+  --max-patient: 480px;
 }

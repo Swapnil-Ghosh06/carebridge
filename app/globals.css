@@ -1,24 +1,26 @@
 /**
  * CareBridge global styles
  * ─────────────────────────────────────────
- * 1. Import design tokens (source of truth)
- * 2. Tailwind v4 @theme — maps tokens into utility classes
- * 3. Base resets & editorial styling
+ * 1. Google Fonts direct import (Montserrat, DM Sans, Sora)
+ * 2. Import design tokens (source of truth)
+ * 3. Tailwind v4 @theme — maps tokens into utility classes
+ * 4. Base typography & element resets
  */
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap');
 @import "tailwindcss";
 @import "../design/tokens.css";
 
 @theme inline {
   /* ── Font families ──────────────────────────────────────────── */
-  --font-display: var(--font-display);
-  --font-body:    var(--font-body);
-  --font-data:    var(--font-data);
+  --font-display: var(--font-display), "Montserrat", sans-serif;
+  --font-body:    var(--font-body), "DM Sans", sans-serif;
+  --font-data:    var(--font-data), "Sora", sans-serif;
 
   /* Tailwind utility aliases */
-  --font-family-display: var(--font-display);
-  --font-family-body:    var(--font-body);
-  --font-family-data:    var(--font-data);
+  --font-family-display: var(--font-display), "Montserrat", sans-serif;
+  --font-family-body:    var(--font-body), "DM Sans", sans-serif;
+  --font-family-data:    var(--font-data), "Sora", sans-serif;
 
   /* ── Colors ─────────────────────────────────────────────────── */
   --color-ink-900:    var(--ink-900);
@@ -63,9 +65,9 @@
   --shadow-float: var(--shadow-float);
 }
 
-/* ── Base resets ─────────────────────────────────────────────── */
+/* ── Base resets & explicit font rules ───────────────────────── */
 html {
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-body), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink-900);
   background-color: var(--surface-paper);
   -webkit-font-smoothing: antialiased;
@@ -74,20 +76,29 @@ html {
 
 body {
   min-height: 100vh;
+  font-family: var(--font-body), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background-color: var(--surface-paper);
 }
 
-/* Headings use display font */
+/* Headings use Montserrat display font */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), "Montserrat", sans-serif;
 }
 
-/* Stats / data elements use data font */
+/* Explicit Utility Classes for Fonts */
+.font-display {
+  font-family: var(--font-display), "Montserrat", sans-serif !important;
+}
+
+.font-body {
+  font-family: var(--font-body), "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
 .font-data,
 [class*="stat"],
 [class*="badge-text"],
 [class*="score"] {
-  font-family: var(--font-data), sans-serif;
+  font-family: var(--font-data), "Sora", sans-serif !important;
 }
 
 /* Focus ring — accessible, uses brand teal */
