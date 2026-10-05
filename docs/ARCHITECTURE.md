@@ -9,7 +9,7 @@ Principle: one repo, one deploy, folder ownership per person so merges never col
 | Styling | Tailwind CSS + CSS variables from DESIGN.md | Fast, token-driven |
 | DB + Realtime | Supabase (Postgres + Realtime) | Live doctor list without writing sockets |
 | Server logic | Next.js route handlers in `/app/api` | No separate backend to deploy |
-| AI | LLM API behind `/lib/ai` with canned fallback | Demo never dies |
+| AI | Ollama (local, llama3.2) behind `/lib/ai` with canned fallback | No API key, works offline, demo-safe |
 | Voice | Web Speech API (`hi-IN`, `kn-IN`, `en-IN`) | No cost, works in Chrome |
 | Charts | Recharts | Quick trend lines |
 | Icons | lucide-react | Consistent stroke icons |
@@ -124,8 +124,8 @@ No real auth. A role switcher on the landing page (Patient / Doctor / Family / A
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
-LLM_API_KEY=
-LLM_PROVIDER=gemini|anthropic
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llama3.2
 NEXT_PUBLIC_DEMO_MODE=true
 ```
 

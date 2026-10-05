@@ -8,6 +8,7 @@ import {
   ArrowRight,
   ShieldCheck,
   Sparkles,
+  Sliders,
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -21,8 +22,28 @@ export default function LandingPage() {
         "Risk-ranked patient list, trend telemetry, transparent 'Why flagged' triggers, and AI pre-consult briefs.",
       icon: Stethoscope,
       href: "/doctor",
-      badge: "Primary Demo Path",
+      badge: "Clinical Triage",
       badgeColor: "bg-brand-teal/10 text-brand-teal border-brand-teal/30",
+    },
+    {
+      title: "Patient Companion",
+      subtitle: "Ramesh ji • Hindi / Kannada UI",
+      description:
+        "Large-touch daily routine, simplified medication logs, voice entry in regional languages, and DPDP consent controls.",
+      icon: Heart,
+      href: "/patient",
+      badge: "Elderly-Friendly",
+      badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    },
+    {
+      title: "Family Caregiver Feed",
+      subtitle: "Karan (Son) • Bengaluru",
+      description:
+        "Peace of mind with proactive alerts, 3-stage escalation ladder, and one-tap nudge reminders.",
+      icon: Users,
+      href: "/family",
+      badge: "Proactive Loop",
+      badgeColor: "bg-amber-50 text-amber-700 border-amber-200",
     },
     {
       title: "Hospital Admin ROI",
@@ -33,26 +54,6 @@ export default function LandingPage() {
       href: "/admin",
       badge: "Commercial Value",
       badgeColor: "bg-brand-indigo/10 text-brand-indigo border-brand-indigo/30",
-    },
-    {
-      title: "Patient Companion",
-      subtitle: "Ramesh ji • Hindi / Kannada UI",
-      description:
-        "Large-touch daily routine, simplified medication logs, voice entry in regional languages, and DPDP consent controls.",
-      icon: Heart,
-      href: "/doctor/p1", // Links into Ramesh ji's profile for seamless presentation
-      badge: "Elderly-Friendly",
-      badgeColor: "bg-surface-100 text-ink-700 border-ink-300/30",
-    },
-    {
-      title: "Family Caregiver Feed",
-      subtitle: "Karan (Son) • Bengaluru",
-      description:
-        "Peace of mind with proactive alerts only when routine doses are missed or escalation triggers fire.",
-      icon: Users,
-      href: "/doctor/p1",
-      badge: "Proactive Loop",
-      badgeColor: "bg-surface-100 text-ink-700 border-ink-300/30",
     },
   ];
 
@@ -70,6 +71,12 @@ export default function LandingPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <Link href="/sim">
+            <Button size="sm" variant="outline" className="shadow-sm gap-1.5">
+              <Sliders className="w-4 h-4" />
+              <span>Simulator</span>
+            </Button>
+          </Link>
           <Link href="/doctor">
             <Button size="sm" variant="primary" className="shadow-sm">
               Launch Doctor Portal
@@ -79,8 +86,8 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <main className="max-w-6xl w-full mx-auto px-6 py-12 flex-1 flex flex-col justify-center">
-        <div className="max-w-3xl mb-12">
+      <main className="max-w-6xl w-full mx-auto px-6 py-10 flex-1 flex flex-col justify-center">
+        <div className="max-w-3xl mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-pill bg-brand-indigo/10 text-brand-indigo font-data text-xs font-semibold uppercase tracking-wider mb-6">
             <Sparkles className="w-3.5 h-3.5 text-brand-indigo" />
             <span>Healthcare Hackathon Pitch Prototype</span>
@@ -99,18 +106,25 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Link href="/doctor">
+            <Link href="/patient">
               <Button size="lg" variant="primary" className="gap-2 shadow-md">
-                <Stethoscope className="w-5 h-5" />
-                <span>Enter Doctor Dashboard</span>
+                <Heart className="w-5 h-5" />
+                <span>Patient Companion</span>
                 <ArrowRight className="w-4 h-4 ml-1" />
               </Button>
             </Link>
 
-            <Link href="/admin">
+            <Link href="/doctor">
               <Button size="lg" variant="secondary" className="gap-2 shadow-md">
-                <BarChart3 className="w-5 h-5" />
-                <span>View Hospital ROI</span>
+                <Stethoscope className="w-5 h-5" />
+                <span>Doctor Dashboard</span>
+              </Button>
+            </Link>
+
+            <Link href="/family">
+              <Button size="lg" variant="outline" className="gap-2 shadow-sm">
+                <Users className="w-5 h-5" />
+                <span>Family View</span>
               </Button>
             </Link>
           </div>
@@ -172,7 +186,7 @@ export default function LandingPage() {
       <footer className="h-14 max-w-6xl w-full mx-auto px-6 flex flex-col sm:flex-row items-center justify-between border-t border-ink-300/30 text-xs font-data text-ink-500">
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-brand-teal" />
-          <span>Decision support only. Doctor decides. • DPDP Act Compliant Intent</span>
+          <span>Decision support only. Doctor decides. • DPDP Act Compliant</span>
         </div>
         <div>
           <span>Simulated patient data • Team poweredbycaffine</span>

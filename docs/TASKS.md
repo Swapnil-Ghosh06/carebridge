@@ -16,11 +16,11 @@ Time boxes assume you start about 22:30 tonight. Shift to match your real submis
 
 ## Phase 1: Core build (23:15-01:30, ~2h15)
 V (patient + family):
-- [ ] Patient home: greeting, steps/medicines/BP tiles, next medicine card
-- [ ] Medicine list and "Taken" action wired to `POST /med-log`
-- [ ] BP entry form wired to `POST /vitals`
-- [ ] Family feed screen wired to `GET /family/:id/feed`
-- [ ] i18n scaffold with en/hi/kn for ~30 key strings
+- [x] Patient home: greeting, steps/medicines/BP tiles, next medicine card
+- [x] Medicine list and "Taken" action wired to `POST /med-log`
+- [x] BP entry form wired to `POST /vitals`
+- [x] Family feed screen wired to `GET /family/:id/feed`
+- [x] i18n scaffold with en/hi/kn for ~30 key strings
 
 A (doctor):
 - [x] A: Patient list with `PatientRow` + `RiskBadge`, sorted by score
@@ -47,9 +47,9 @@ R:
 - [ ] `lib/ai` brief generator with fallback + `POST /brief`
 - [ ] `/api/admin/roi` computed from seeded counters plus live alerts actioned
 V:
-- [ ] Voice logging hook (`lib/voice`) with hi-IN/kn-IN/en-IN + intent parser + typed fallback
-- [ ] Voice screen UI (listening, recognised text, confirm)
-- [ ] Family alert feed shows escalation messages live
+- [x] Voice logging hook (`lib/voice`) with hi-IN/kn-IN/en-IN + intent parser + typed fallback
+- [x] Voice screen UI (listening, recognised text, confirm)
+- [x] Family alert feed shows escalation messages live
 A:
 - [x] A: Brief drawer (`BriefPanel`) with loading and fallback states
 - [x] A: One-tap actions (call, message, teleconsult) with toast + alert record
@@ -63,7 +63,7 @@ S:
 ## Phase 3: P1 extras + polish (03:30-05:00, optional if tired)
 - [x] A: Consent dashboard + audit log UI (needs R's `/consents`, `/audit`)
 - [ ] R: Audit writes on every doctor view; consent filtering in `GET /patients/:id`
-- [ ] V: Consent settings screen for patient (P5)
+- [x] V: Consent settings screen for patient (P5)
 - [ ] S: Empty/loading/error states across all screens; mobile responsiveness pass
 - [ ] R (stretch): Prescription scan with a vision model
 - Hard stop on new features at 05:00. Then sleep 3-4 hours in shifts if possible.
@@ -75,15 +75,15 @@ S:
 - [ ] A: Test on the presentation laptop and projector resolution
 - [ ] S: Final visual QA, check fonts are only the three allowed
 - [ ] V: Record a 2-minute backup video of the full scenario
-- [ ] V: Write the submission text: problem, solution, what's built vs roadmap, simulated-data disclosure
-- [ ] ALL: Final deploy on Vercel, copy the URL, open it in a fresh browser to verify
+- [x] V: Write the submission text: problem, solution, what's built vs roadmap, simulated-data disclosure
+- [x] ALL: Final deploy on Vercel, copy the URL, open it in a fresh browser to verify
 
 ## Phase 5: Submission kit
-- [ ] Live URL + GitHub link
+- [x] Live URL + GitHub link
 - [ ] Demo video (backup)
-- [ ] 1-page "what's real vs simulated" note
-- [ ] Roadmap slide (Tier 3 items)
-- [ ] Who built what: V patient/family + lead, A doctor/admin, S design, R backend/AI
+- [x] 1-page "what's real vs simulated" note
+- [x] Roadmap slide (Tier 3 items)
+- [x] Who built what: V patient/family + lead, A doctor/admin, S design, R backend/AI
 
 ## Demo script (practice until boring)
 1. Landing -> pick Patient. Show Hindi greeting. Say "maine dawai le li" -> logged.

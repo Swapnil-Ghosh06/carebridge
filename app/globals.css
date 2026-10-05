@@ -15,4 +15,14 @@
     font-family: var(--font-display);
     color: var(--ink-900);
   }
+
+  .font-data {
+    font-family: var(--font-data);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }

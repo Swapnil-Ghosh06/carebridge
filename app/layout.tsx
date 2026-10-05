@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { montserrat, dmSans, sora } from "./fonts";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { montserrat, dmSans, sora } from './fonts';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "CareBridge | Remote Patient Risk Decision Support",
-  description: "Your phone's health data, now in your doctor's hands. Continuous risk ranking and decision support.",
+  title: "CareBridge — Your health data, in your doctor's hands",
+  description: 'CareBridge turns daily patient health data into a risk-ranked action list for doctors, with family kept in the loop.',
 };
 
 export default function RootLayout({
