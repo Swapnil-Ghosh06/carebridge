@@ -53,7 +53,7 @@ export async function generateBrief(patientId: string): Promise<BriefResult> {
   if (risk.band === "red" || patientId === "p1") {
     fallbackSections = {
       sinceLastVisit: `Adherence dropped to 65% over the past 4 days, with 2 consecutive missed morning doses of Metformin 500mg [Log: m1, m4].`,
-      concerns: `Systolic BP trended up +14% to ${latestBp?.value_a || 154}/${latestBp?.value_b || 94} mmHg [Obs: v7]. Average daily physical activity fell from 5,200 to 2,800 steps [Obs: v14].`,
+      concerns: `Systolic BP trended up +14% to ${latestBp?.value_a ?? latestBp?.valueA ?? 154}/${latestBp?.value_b ?? latestBp?.valueB ?? 94} mmHg [Obs: v7]. Average daily physical activity fell from 5,200 to 2,800 steps [Obs: v14].`,
       suggestedChecks: `Verify patient morning medication routine, evaluate potential GI or orthostatic side effects, assess ankle edema, and verify cuff placement accuracy. Doctor decides.`,
     };
     citations = [
@@ -61,7 +61,7 @@ export async function generateBrief(patientId: string): Promise<BriefResult> {
         id: "v7",
         type: "Blood Pressure",
         label: "BP Reading #v7",
-        value: `${latestBp?.value_a || 154}/${latestBp?.value_b || 94} mmHg`,
+        value: `${latestBp?.value_a ?? latestBp?.valueA ?? 154}/${latestBp?.value_b ?? latestBp?.valueB ?? 94} mmHg`,
         timestamp: "Today, 08:30 AM",
         flag: "HIGH (+14%)",
       },
@@ -101,7 +101,7 @@ export async function generateBrief(patientId: string): Promise<BriefResult> {
         id: "v24",
         type: "Blood Pressure",
         label: "BP Reading #v24",
-        value: `${latestBp?.value_a || 139}/${latestBp?.value_b || 89} mmHg`,
+        value: `${latestBp?.value_a ?? latestBp?.valueA ?? 139}/${latestBp?.value_b ?? latestBp?.valueB ?? 89} mmHg`,
         timestamp: "Today, 09:15 AM",
         flag: "ELEVATED",
       },
@@ -168,7 +168,7 @@ Strict rules:
           {
             role: "user",
             content: `Patient: ${profile.name}, Age ${profile.age}, Conditions: ${profile.conditions.join(", ")}.
-Telemetry (14 days): Adherence ${adherencePct}%, Latest BP: ${latestBp ? `${latestBp.value_a}/${latestBp.value_b}` : "None"}, Avg Steps: ${avgRecentSteps}.
+Telemetry (14 days): Adherence ${adherencePct}%, Latest BP: ${latestBp ? `${latestBp.value_a ?? latestBp.valueA}/${latestBp.value_b ?? latestBp.valueB}` : "None"}, Avg Steps: ${avgRecentSteps}.
 Active Flags: ${topReasons.join("; ")}.`,
           },
         ],

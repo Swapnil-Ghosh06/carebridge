@@ -25,6 +25,7 @@ export interface FamilyMember {
   name: string;
   relation: string;
   patient_id: string;
+  patientId?: string;
   phone: string;
 }
 
@@ -107,6 +108,7 @@ export interface Consent {
 export interface AuditLog {
   id: string;
   patient_id: string;
+  patientId?: string;
   actor_type: string;
   actor_id: string;
   actor?: string;

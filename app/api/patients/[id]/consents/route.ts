@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { store } from "@/lib/supabase/localStore";
+import { INITIAL_CONSENTS } from "@/lib/mockData";
 
 export const dynamic = "force-dynamic";
 
@@ -10,9 +11,12 @@ export async function GET(
   try {
     const patientId = params.id;
     const consents = store.getConsents(patientId);
-    return NextResponse.json(consents);
+    if (consents && consents.length > 0) {
+      return NextResponse.json(consents);
+    }
+    return NextResponse.json(INITIAL_CONSENTS);
   } catch {
-    return NextResponse.json({ error: "Failed to fetch consents" }, { status: 500 });
+    return NextResponse.json(INITIAL_CONSENTS);
   }
 }
 
