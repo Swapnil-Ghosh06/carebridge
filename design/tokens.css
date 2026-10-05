@@ -1,0 +1,44 @@
+:root {
+  /* Fonts */
+  --font-display: var(--font-montserrat, 'Montserrat', sans-serif);
+  --font-body: var(--font-dm-sans, 'DM Sans', sans-serif);
+  --font-data: var(--font-sora, 'Sora', sans-serif);
+
+  /* Ink and surface */
+  --ink-900: #0B1F4B;     /* headlines, primary text (deep navy) */
+  --ink-700: #2B3C66;
+  --ink-500: #5B6B8C;     /* secondary text */
+  --ink-300: #B7C0D4;     /* borders */
+  --surface-0: #FFFFFF;
+  --surface-50: #F7F9FC;  /* app background */
+  --surface-100: #EEF2F8;
+
+  /* Brand */
+  --brand-teal: #14B8A6;      /* primary action, links */
+  --brand-teal-600: #0F9B8C;  /* hover */
+  --brand-mint: #5EEAD4;      /* highlights on dark */
+  --brand-indigo: #4B3FB8;    /* secondary action, CTA */
+
+  /* Illustration blocks (decorative only) */
+  --blob-coral: #FF6B35;
+  --blob-sun: #F2B01E;
+  --blob-leaf: #5B8C2A;
+  --blob-sky: #7FD6E8;
+  --blob-indigo: #4B3FB8;
+  --blob-teal: #2CC3A8;
+
+  /* Risk (reserved) */
+  --risk-red: #E5484D;   
+  --risk-red-bg: #FDECEC;
+  --risk-amber: #F5A524; 
+  --risk-amber-bg: #FEF3DC;
+  --risk-green: #30A46C; 
+  --risk-green-bg: #E6F6EE;
+
+  /* Radius, shadow */
+  --r-sm: 8px; 
+  --r-md: 14px; 
+  --r-lg: 22px; 
+  --r-pill: 999px;
+  --shadow-card: 0 1px 2px rgba(11,31,75,.06), 0 8px 24px rgba(11,31,75,.06);
+}

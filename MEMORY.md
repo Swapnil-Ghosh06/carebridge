@@ -42,6 +42,7 @@ Family: Ramesh's son Karan (Bengaluru). Doctor: Dr. Meera Rao, Sunrise Clinic (f
 
 ## Status log
 (Newest first. One line each: time, who, done/blocked.)
+- 2026-10-05 22:45, Aman, built Doctor Portal (list, details, trends, why-flagged, brief, actions, audit) & Admin ROI; lint and build clean.
 - (empty)
 
 ## Known issues / blockers
