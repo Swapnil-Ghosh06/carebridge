@@ -96,13 +96,15 @@ export const StatTile: React.FC<StatTileProps> = ({
       ? "text-[var(--ink-700)]"
       : "text-[var(--brand-teal)]";
 
-  // Dynamic font sizing: values like "142/88" (6+ chars) need compact sizing so they never overflow on mobile
+  // Dynamic font sizing: values like "142/88" (6+ chars) need compact sizing so they fit cleanly without ellipsis
   const valString = String(value);
   const responsiveValueSize =
-    valString.length >= 6
-      ? "text-[15px] sm:text-lg"
+    valString.length >= 7
+      ? "text-xs sm:text-sm tracking-tight"
+      : valString.length >= 6
+      ? "text-[13px] sm:text-[15px] tracking-tight"
       : valString.length >= 5
-      ? "text-lg sm:text-xl"
+      ? "text-base sm:text-lg tracking-tight"
       : valueSize[size];
 
   return (
@@ -129,15 +131,15 @@ export const StatTile: React.FC<StatTileProps> = ({
         </div>
 
         {/* Big Value Row */}
-        <div className="flex items-baseline gap-1 mt-1 min-w-0 max-w-full overflow-hidden">
+        <div className="flex items-baseline gap-0.5 mt-1 min-w-0 max-w-full">
           <span
-            className={["font-data font-bold text-[var(--ink-900)] tracking-tight leading-none truncate", responsiveValueSize].join(" ")}
+            className={["font-data font-bold text-[var(--ink-900)] leading-none whitespace-nowrap", responsiveValueSize].join(" ")}
             aria-label={`${label}: ${value}`}
           >
             {value}
           </span>
           {displayUnit && displayUnit.toLowerCase() !== label.toLowerCase() && (
-            <span className="font-data text-[var(--ink-500)] text-[10px] sm:text-[11px] font-semibold shrink-0">{displayUnit}</span>
+            <span className="font-data text-[var(--ink-500)] text-[9px] sm:text-[10px] font-semibold shrink-0">{displayUnit}</span>
           )}
         </div>
       </div>

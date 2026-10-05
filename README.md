@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="docs/screenshots/01-hero-landing.png" alt="CareBridge Platform Hero" width="920" style="border-radius: 16px; border: 2px solid #121214; box-shadow: 6px 6px 0px #121214;" />
+<img src="docs/screenshots/01-hero-landing.png" alt="CareBridge Platform Hero" width="940" style="border-radius: 16px; border: 2px solid #121214; box-shadow: 6px 6px 0px #121214;" />
 
 <br/><br/>
 
@@ -32,10 +32,11 @@
 ## Table of Contents
 1. [Executive Summary & Core USP](#executive-summary--core-usp)
 2. [Visual Walkthrough & Core Interfaces](#visual-walkthrough--core-interfaces)
-   - [1. Continuous Telemetry & Doctor Cockpit](#1-continuous-telemetry--doctor-cockpit)
-   - [2. Interactive Triage Sandbox](#2-interactive-triage-sandbox)
-   - [3. Clinical Clarity Pillars](#3-clinical-clarity-pillars)
-   - [4. Elderly-First Patient Mobile App](#4-elderly-first-patient-mobile-app)
+   - [1. Comprehensive Care Circle Ecosystem](#1-comprehensive-care-circle-ecosystem)
+   - [2. Continuous Telemetry & Doctor Cockpit](#2-continuous-telemetry--doctor-cockpit)
+   - [3. Interactive Triage Sandbox & Hackathon Judge Panel](#3-interactive-triage-sandbox--hackathon-judge-panel)
+   - [4. Clinical Clarity Pillars](#4-clinical-clarity-pillars)
+   - [5. Elderly-First Patient Mobile App (Home, Meds & Vitals)](#5-elderly-first-patient-mobile-app-home-meds--vitals)
 3. [The Problem vs The CareBridge Paradigm](#the-problem-vs-the-carebridge-paradigm)
 4. [Validated Market Need & Clinical Evidence](#validated-market-need--clinical-evidence)
 5. [System Architecture & Data Flow](#system-architecture--data-flow)
@@ -86,9 +87,22 @@ Smartwatch Raw Telemetry  ──▶  Deterministic Anomaly & LLM Interpretation
 
 ## Visual Walkthrough & Core Interfaces
 
-### 1. Continuous Telemetry & Doctor Cockpit
+### 1. Comprehensive Care Circle Ecosystem
 <div align="center">
-<img src="docs/screenshots/05-doctor-telemetry-streams.png" alt="Clinical Telemetry & Sensor Streams" width="880" style="border-radius: 14px; border: 2px solid #121214; box-shadow: 4px 4px 0px #121214;" />
+<img src="docs/screenshots/08-care-circle-ecosystem.png" alt="Designed for every member of the care circle" width="940" style="border-radius: 14px; border: 2px solid #121214; box-shadow: 4px 4px 0px #121214;" />
+</div>
+
+> **One Shared Chronic Care Loop Across 4 Specialized Stakeholder Portals:**
+> - **#1 Senior Voice App (Mobile First):** One-tap speech logging in Hindi, Kannada, and English. No typing, oversized tactile buttons, and adherence streak celebration.
+> - **#2 Doctor Cockpit (Desktop Web):** 15-second pre-consult brief, 8-rule explainable triage list, interactive What-If medication simulator, and ABDM FHIR R4 export.
+> - **#3 Family Feed (WhatsApp Loop):** Multi-tier escalation ladder: keeps adult children reassured, alerts them when doses are missed, and prevents avoidable readmissions.
+> - **#4 Hospital ROI (Executive Leadership):** Quantified metrics: 14 readmissions prevented per 100 monitored chronic patients, 87% alert response velocity, ₹6.3L direct clinical savings.
+
+---
+
+### 2. Continuous Telemetry & Doctor Cockpit
+<div align="center">
+<img src="docs/screenshots/05-doctor-telemetry-streams.png" alt="Clinical Telemetry & Sensor Streams" width="940" style="border-radius: 14px; border: 2px solid #121214; box-shadow: 4px 4px 0px #121214;" />
 </div>
 
 > **Smartwatch Biometric Anomalies & 7-Day Sensor Streams:**  
@@ -96,43 +110,74 @@ Smartwatch Raw Telemetry  ──▶  Deterministic Anomaly & LLM Interpretation
 
 ---
 
-### 2. Interactive Triage Sandbox
+### 3. Interactive Triage Sandbox & Hackathon Judge Panel
 <div align="center">
-<img src="docs/screenshots/02-interactive-triage-sandbox.png" alt="Interactive Triage Sandbox" width="880" style="border-radius: 14px; border: 2px solid #121214; box-shadow: 4px 4px 0px #121214;" />
+<table>
+<tr>
+<td width="50%" align="center">
+<img src="docs/screenshots/02-interactive-triage-sandbox.png" alt="Interactive Triage Sandbox" width="100%" style="border-radius: 12px; border: 2px solid #121214; box-shadow: 3px 3px 0px #121214;" />
+<br/><b>Live Telemetry Sandbox</b><br/>
+<sub>Inject acute hypertensive spikes, missed doses, and mobility drops in real-time.</sub>
+</td>
+<td width="50%" align="center">
+<img src="docs/screenshots/09-simulator-judge-panel.png" alt="Simulator Control Panel" width="100%" style="border-radius: 12px; border: 2px solid #121214; box-shadow: 3px 3px 0px #121214;" />
+<br/><b>Judge Demo Acceleration Panel</b><br/>
+<sub>Fast-forward the 3-stage escalation ladder and inspect live calculated risk scores (0–100).</sub>
+</td>
+</tr>
+</table>
 </div>
 
 > **Turn Midnight Musings into Morning Action Plans:**  
-> An interactive testing sandbox allowing judges, clinicians, and engineers to inject live telemetry events:
-> - **Trigger BP Spike (155/95 mmHg):** Simulates acute hypertensive episodes + missed doses, instantly flipping the patient into the **RED High-Risk Queue**.
-> - **Log Meds & Stabilize:** Simulates patient speaking in Hindi to confirm Metformin dose, returning vitals to baseline (118/78 mmHg).
-> - **Wearable Mobility Drop (-48%):** Flags frailty / lethargy as daily steps drop from 4,000 to 1,840.
-> - **FHIR R4 Ready:** Automatically updates standard FHIR Observation and RiskAssessment bundles.
+> Designed specifically for clinical evaluators and hackathon judges to verify the determinism of CareBridge:
+> - **1. Miss Dose:** Skips Metformin dose, triggers Stage 1 patient voice ping and Stage 2 family WhatsApp nudge.
+> - **2. BP Spike (156/98 mmHg Critical):** Pushes calculated risk score to 50+ (Moderate/High), instantly escalating to clinic.
+> - **3. Steps Drop (-52%):** Flags passive wearable frailty as daily steps fall drastically.
+> - **4. Recover:** Patient logs medication by voice, returning telemetry to green baseline (118/78 mmHg).
 
 ---
 
-### 3. Clinical Clarity Pillars
+### 4. Clinical Clarity Pillars
 <div align="center">
-<img src="docs/screenshots/03-clinical-clarity-pillars.png" alt="Transform Chaos into Clinical Clarity" width="880" style="border-radius: 14px; border: 2px solid #121214; box-shadow: 4px 4px 0px #121214;" />
+<img src="docs/screenshots/03-clinical-clarity-pillars.png" alt="Transform Chaos into Clinical Clarity" width="940" style="border-radius: 14px; border: 2px solid #121214; box-shadow: 4px 4px 0px #121214;" />
 </div>
 
 > **Transform Chaos into Clinical Clarity (The 4 Engine Pillars):**
-> 1. **15-Second Pre-Consult Brief:** Synthesizes 14 days of glucose, BP, and missed doses into an actionable longitudinal clinical brief with verifiable citations.
+> 1. **15-Second Pre-Consult Brief:** Synthesizes 14 days of glucose, BP, and missed doses into an actionable longitudinal clinical brief with verifiable citations (`[Obs: v7]`).
 > 2. **Deterministic Risk Scoring (0–100):** Objective risk categorization across 8 explainable medical heuristics—never a black box.
 > 3. **Multilingual Voice Logging:** Frictionless speech logging in **Hindi, Kannada, or English** without typing.
-> 4. **Multi-Tier WhatsApp Family Escalation:** Progressive nudges prevent emergency readmissions before symptoms become critical.
+> 4. **Multi-Tier WhatsApp Family Escalation:** Progressive nudges prevent emergency readmissions before symptoms turn critical.
 
 ---
 
-### 4. Elderly-First Patient Mobile App
+### 5. Elderly-First Patient Mobile App (Home, Meds & Vitals)
+
 <div align="center">
-<img src="docs/screenshots/04-patient-mobile-meds.png" alt="Patient Mobile Medication Schedule" width="460" style="border-radius: 20px; border: 2px solid #121214; box-shadow: 5px 5px 0px #121214;" />
+<table>
+<tr>
+<td width="33%" align="center">
+<img src="docs/screenshots/06-patient-home-fixed.png" alt="Patient Home Dashboard" width="100%" style="border-radius: 16px; border: 2px solid #121214; box-shadow: 4px 4px 0px #121214;" />
+<br/><b>Patient Home Dashboard</b><br/>
+<sub>High-contrast `#121214` hero card, voice prompt pill, and equalized summary tiles.</sub>
+</td>
+<td width="33%" align="center">
+<img src="docs/screenshots/04-patient-mobile-meds.png" alt="Patient Medication Schedule" width="100%" style="border-radius: 16px; border: 2px solid #121214; box-shadow: 4px 4px 0px #121214;" />
+<br/><b>Daily Medication Schedule</b><br/>
+<sub>Adherence tracker (`2 of 3 Taken`), voice logging hint, and high-contrast check buttons.</sub>
+</td>
+<td width="33%" align="center">
+<img src="docs/screenshots/07-patient-vitals-bp.png" alt="Record Blood Pressure" width="100%" style="border-radius: 16px; border: 2px solid #121214; box-shadow: 4px 4px 0px #121214;" />
+<br/><b>Blood Pressure Logging</b><br/>
+<sub>Automatic classification (Stage 1 Hypertension Moderate) and recent historical trends.</sub>
+</td>
+</tr>
+</table>
 </div>
 
-> **Senior-Friendly Tactile Interface:**
-> - **Today's Adherence Bar:** Real-time visual progress counter (`2 of 3 Taken`).
-> - **Voice Logging Pill:** One-tap speech entry (`"Maine dawai le li"` or `"BP 130 by 85"`).
-> - **High-Contrast Medicine Cards:** Clear timing (`08:00 AM`), dosage instructions (`Take after breakfast and dinner`), and oversized tactile check buttons with senior-legible typography.
-> - **Multi-Language Switcher:** Instant toggle between English (`EN`), Hindi (`हिंदी`), and Kannada (`ಕನ್ನಡ`).
+> **Tactile Senior-First Design:**
+> - **High-Contrast Dark Greeting Hero Card:** Solid `#121214` ink background, `#D4F77C` fluorescent lime greeting, pure white heading, and integrated voice prompt pill with `#FF5C98` mic icon.
+> - **3 Perfectly Aligned Metric Boxes:** Equalized height with non-overlapping responsive typography for Steps (`3,420`), Meds (`2/3`), and Blood Pressure (`142/88 mmHg`).
+> - **Multilingual Localization:** Instant real-time language toggling across English (`EN`), Hindi (`हिंदी`), and Kannada (`ಕನ್ನಡ`).
 
 ---
 
