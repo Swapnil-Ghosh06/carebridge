@@ -66,7 +66,7 @@ S:
 - [ ] A: Consent dashboard + audit log UI (needs R's `/consents`, `/audit`)
 - [ ] R: Audit writes on every doctor view; consent filtering in `GET /patients/:id`
 - [ ] V: Consent settings screen for patient (P5)
-- [ ] S: Empty/loading/error states across all screens; mobile responsiveness pass
+- [x] S: Empty/loading/error states across all screens (`Skeleton`, `EmptyState`); font audit (0 banned fonts); mobile responsiveness pass
 - [ ] R (stretch): Prescription scan with a vision model
 - Hard stop on new features at 05:00. Then sleep 3-4 hours in shifts if possible.
 
