@@ -21,7 +21,7 @@ export { StatTile } from "./StatTile";
 export type { StatTileProps, TrendDirection } from "./StatTile";
 
 export { PatientRow } from "./PatientRow";
-export type { PatientRowProps } from "./PatientRow";
+export type { PatientRowProps, PatientRowData } from "./PatientRow";
 
 export { ReasonList } from "./ReasonList";
 export type { ReasonListProps, RiskReason } from "./ReasonList";
@@ -42,5 +42,22 @@ export {
   Illustration,
   ElderlyPhoneArt,
   DoctorTabletArt,
+  FamilyCallArt,
+  HeroSceneArt,
 } from "./Illustration";
 export type { IllustrationProps, IllustrationName } from "./Illustration";
+
+export { VoiceButton } from "./VoiceButton";
+export type { VoiceButtonProps, VoiceState, VoiceLanguage } from "./VoiceButton";
+
+export { BriefPanel } from "./BriefPanel";
+export type { BriefPanelProps, BriefData } from "./BriefPanel";
+
+export { ConsentToggle } from "./ConsentToggle";
+export type { ConsentToggleProps, ConsentCategory } from "./ConsentToggle";
+
+export { AuditRow } from "./AuditRow";
+export type { AuditRowProps } from "./AuditRow";
+
+export { EmptyState } from "./EmptyState";
+export type { EmptyStateProps } from "./EmptyState";

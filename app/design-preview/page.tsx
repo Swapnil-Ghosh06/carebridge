@@ -26,6 +26,11 @@ import { AlertItem } from "@/components/ui/AlertItem";
 import { TrendChart } from "@/components/ui/TrendChart";
 import { Toast } from "@/components/ui/Toast";
 import { Illustration } from "@/components/ui/Illustration";
+import { VoiceButton } from "@/components/ui/VoiceButton";
+import { BriefPanel } from "@/components/ui/BriefPanel";
+import { ConsentToggle } from "@/components/ui/ConsentToggle";
+import { AuditRow } from "@/components/ui/AuditRow";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 /* ── Small section wrapper ──────────────────────────────────── */
 function Section({
@@ -660,7 +665,7 @@ export default function DesignPreviewPage() {
 
       {/* ── 14. Original Illustrations ──────────────────────── */}
       <Section title="14. Original Illustrations (Offset Color Blobs + Navy Line Art)">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <Card className="p-6 flex flex-col items-center text-center">
             <h4 className="font-display font-bold text-lg text-[var(--ink-900)] mb-2">
               (a) Patient & Companion
@@ -685,11 +690,192 @@ export default function DesignPreviewPage() {
             </div>
           </Card>
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Card className="p-6 flex flex-col items-center text-center">
+            <h4 className="font-display font-bold text-lg text-[var(--ink-900)] mb-2">
+              (c) Family Video Check-in
+            </h4>
+            <p className="font-body text-xs text-[var(--ink-500)] mb-4">
+              Family member staying connected with daily video check-in
+            </p>
+            <div className="w-full max-w-[340px]">
+              <Illustration name="family-call" />
+            </div>
+          </Card>
+
+          <Card className="p-6 flex flex-col items-center text-center">
+            <h4 className="font-display font-bold text-lg text-[var(--ink-900)] mb-2">
+              (d) Community Hero Scene
+            </h4>
+            <p className="font-body text-xs text-[var(--ink-500)] mb-4">
+              Connected healthcare team: patient, companion, daughter, and clinician
+            </p>
+            <div className="w-full max-w-[340px]">
+              <Illustration name="hero-scene" />
+            </div>
+          </Card>
+        </div>
+      </Section>
+
+      {/* ── 15. VoiceButton ──────────────────────────────────── */}
+      <Section title="15. VoiceButton (Multilingual Voice Logging)">
+        <Card className="p-8 flex flex-col items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 items-center justify-items-center w-full max-w-2xl">
+            <div className="flex flex-col items-center">
+              <span className="font-data text-xs text-[var(--ink-500)] uppercase tracking-wider mb-3">
+                Idle State (Hindi)
+              </span>
+              <VoiceButton state="idle" language="hi-IN" />
+            </div>
+
+            <div className="flex flex-col items-center">
+              <span className="font-data text-xs text-[var(--brand-teal)] uppercase tracking-wider font-bold mb-3">
+                Listening (Pulsing)
+              </span>
+              <VoiceButton state="listening" language="kn-IN" />
+            </div>
+
+            <div className="flex flex-col items-center">
+              <span className="font-data text-xs text-[var(--ink-500)] uppercase tracking-wider mb-3">
+                Processing (English)
+              </span>
+              <VoiceButton state="processing" language="en-IN" />
+            </div>
+          </div>
+        </Card>
+      </Section>
+
+      {/* ── 16. BriefPanel ───────────────────────────────────── */}
+      <Section title="16. BriefPanel (AI Pre-Consult Brief)">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <BriefPanel
+            patientName="Ramesh Sharma"
+            data={{
+              source: "llm",
+              sinceLastVisit:
+                "Ramesh reported stable morning BP for 10 days until Oct 4, when 3 consecutive evening doses of Metformin were missed. Systolic BP then climbed to 155 mmHg.",
+              concerns: [
+                "3 missed Metformin doses in 48 hours",
+                "Systolic BP spike to 155/95 mmHg (+12%)",
+                "Daily steps dropped by 45% over the past 3 days",
+              ],
+              suggestedChecks: [
+                "Review gastrointestinal tolerance or pill burden",
+                "Perform in-clinic BP confirmation",
+                "Consider setting automated daughter SMS escalation",
+              ],
+            }}
+          />
+
+          <BriefPanel
+            patientName="Anita S."
+            data={{
+              source: "fallback",
+              sinceLastVisit:
+                "Adherence rate 85% over 14 days. 1 missed dose logged on Oct 3. Vitals remained within baseline parameters.",
+              concerns: [
+                "Intermittent adherence on weekends",
+              ],
+              suggestedChecks: [
+                "Reconfirm morning medication timing",
+              ],
+            }}
+          />
+        </div>
+      </Section>
+
+      {/* ── 17. ConsentToggle ────────────────────────────────── */}
+      <Section title="17. ConsentToggle (Patient Privacy Controls)">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ConsentToggle
+            category="vitals"
+            label="Blood Pressure & Heart Rate"
+            description="Share daily blood pressure monitor logs with Dr. Meera Rao"
+            enabled={true}
+            onChange={() => {}}
+          />
+          <ConsentToggle
+            category="medicines"
+            label="Medicine Logs & Adherence"
+            description="Allow your care team to see scheduled vs taken dose history"
+            enabled={true}
+            onChange={() => {}}
+          />
+          <ConsentToggle
+            category="steps"
+            label="Physical Activity & Steps"
+            description="Share daily step counts and mobility trends"
+            enabled={false}
+            onChange={() => {}}
+          />
+          <ConsentToggle
+            category="glucose"
+            label="Blood Glucose Readings"
+            description="Share fasting and post-prandial blood sugar measurements"
+            enabled={true}
+            onChange={() => {}}
+          />
+        </div>
+      </Section>
+
+      {/* ── 18. AuditRow ─────────────────────────────────────── */}
+      <Section title="18. AuditRow (Access Transparency Log)">
+        <Card className="overflow-hidden">
+          <div className="p-4 bg-[var(--surface-50)] border-b border-[var(--ink-300)] flex items-center justify-between">
+            <h4 className="font-display font-bold text-sm text-[var(--ink-900)]">
+              Recent Clinical Access History
+            </h4>
+            <span className="font-body text-xs text-[var(--ink-500)]">
+              Logged automatically on doctor view
+            </span>
+          </div>
+          <div>
+            <AuditRow
+              actor="Dr. Meera Rao"
+              role="Primary Physician"
+              category="Blood Pressure & Vitals"
+              action="Reviewed longitudinal trend chart"
+              timestamp="Today, 10:45 AM"
+            />
+            <AuditRow
+              actor="Dr. Meera Rao"
+              role="Primary Physician"
+              category="Pre-Consult AI Brief"
+              action="Generated 14-day consultation summary"
+              timestamp="Today, 10:44 AM"
+            />
+            <AuditRow
+              actor="Sunrise Clinic Escalation"
+              role="Automated System"
+              category="Medication Adherence"
+              action="Dispatched Level 3 clinical notification"
+              timestamp="Yesterday, 04:30 PM"
+            />
+          </div>
+        </Card>
+      </Section>
+
+      {/* ── 19. EmptyState ───────────────────────────────────── */}
+      <Section title="19. EmptyState Component">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <EmptyState
+            title="No Active Clinical Alerts"
+            description="All monitored patients are currently within baseline parameters and adhering to prescriptions."
+            actionLabel="Refresh Monitor"
+            onAction={() => {}}
+          />
+
+          <EmptyState
+            title="No Unread Family Notifications"
+            description="Ramesh ji is caught up on all scheduled doses for today."
+          />
+        </div>
       </Section>
 
       {/* ── Footer ───────────────────────────────────────────── */}
       <footer className="text-center font-body text-xs text-[var(--ink-300)] py-8">
-        CareBridge Design Preview · Swapin · Phase 1 · Simulated data
+        CareBridge Design Preview · Swapin · Phase 2 Complete · Simulated data
       </footer>
     </main>
   );

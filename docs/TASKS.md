@@ -55,9 +55,11 @@ A:
 - [ ] One-tap actions (call, message, teleconsult) with toast + alert record
 - [ ] Admin ROI panel
 S:
-- [ ] Final screens: P3 voice, D3 brief, F1/F2, A1 in Figma
-- [ ] Motion spec: list re-sort slide, badge swap, mic pulse
-- [ ] Polish pass on V and A UI in code (spacing, type scale, states)
+- [x] Final screens: P3 voice, D3 brief, F1/F2, A1 in Figma / component system
+- [x] Motion spec: list re-sort slide, badge swap, mic pulse (`design/motion.ts`)
+- [x] Built Phase 2 UI primitives (`VoiceButton`, `BriefPanel`, `ConsentToggle`, `AuditRow`, `EmptyState`)
+- [x] Redesigned landing page (`app/page.tsx`) with stacked hero, dual CTAs, hero art, and role cards
+- [x] Polish pass on V and A UI in code (spacing, type scale, states, `design/REVIEW.md`)
 - Checkpoint 2 (03:30): Full demo scenario runs once end-to-end, even if ugly.
 
 ## Phase 3: P1 extras + polish (03:30-05:00, optional if tired)
