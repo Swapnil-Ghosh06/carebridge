@@ -10,12 +10,17 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ["var(--font-serif)", "Playfair Display", "Georgia", "serif"],
-        display: ["var(--font-serif)", "Playfair Display", "Georgia", "serif"],
-        mono: ["var(--font-mono)", "Space Mono", "Courier New", "monospace"],
-        data: ["var(--font-mono)", "Space Mono", "monospace"],
-        sans: ["var(--font-sans)", "Plus Jakarta Sans", "DM Sans", "sans-serif"],
-        body: ["var(--font-sans)", "Plus Jakarta Sans", "DM Sans", "sans-serif"],
+        primary: ["Montserrat", "sans-serif"],
+        display: ["Montserrat", "sans-serif"],
+        serif: ["Montserrat", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
+        secondary: ["DM Sans", "sans-serif"],
+        sans: ["DM Sans", "sans-serif"],
+        body: ["DM Sans", "sans-serif"],
+        dmsans: ["DM Sans", "sans-serif"],
+        mono: ["Sora", "sans-serif"],
+        data: ["Sora", "sans-serif"],
+        sora: ["Sora", "sans-serif"],
       },
       colors: {
         paper: "var(--canvas-paper)",
