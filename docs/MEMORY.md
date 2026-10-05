@@ -36,6 +36,7 @@ Family: Ramesh's son Karan (Bengaluru). Doctor: Dr. Meera Rao, Sunrise Clinic (f
 (Format: date time, who, decision, why)
 - 2026-10-05 22:45, team, one Next.js monorepo, role-switcher instead of real auth, to save time.
 - 2026-10-05 22:45, team, rule-based risk engine, LLM only for the brief, so the score is explainable.
+- 2026-10-05 22:42, Vedesh, switched AI layer from Gemini/Anthropic to Ollama (llama3.2, local). No API key needed, works offline, fallback template if Ollama is down. OLLAMA_BASE_URL=http://localhost:11434.
 
 ## Dependencies added
 (next, react, tailwindcss, @supabase/supabase-js, recharts, lucide-react, framer-motion by default. Add others here.)
